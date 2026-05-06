@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --bg:      #060810;
+  --bg2:     #0c0f1a;
+  --bg3:     #111827;
+  --bg4:     #1a2035;
+  --border:  #1e2a40;
+  --border2: #2a3a5a;
+  --accent:  #00d4ff;
+  --accent2: #7c3aed;
+  --success: #22c55e;
+  --danger:  #ef4444;
+  --warn:    #f59e0b;
+  --text:    #e8edf8;
+  --text2:   #7a8aaa;
+  --text3:   #3a4a6a;
+  --mono:    'Share Tech Mono', monospace;
+  --sans:    'Rajdhani', sans-serif;
+  --display: 'Rajdhani', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); overflow: hidden; }
+
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,212,255,0.012) 2px, rgba(0,212,255,0.012) 4px);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+@keyframes fadeIn   { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:0.4} }
+@keyframes spinCW   { to{transform:rotate(360deg)} }
+@keyframes spinCCW  { to{transform:rotate(-360deg)} }
+@keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes shake    { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+@keyframes glowPulse{ 0%,100%{opacity:0.6} 50%{opacity:1} }
