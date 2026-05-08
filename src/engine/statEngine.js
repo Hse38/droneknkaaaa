@@ -1,5 +1,5 @@
 export const STAT_KEYS = ['hiz','ceviklik','kontrol','stabilite','ucusSuresi','verimlilik','dayaniklilik','sistemRiski']
-export const STAT_LABELS = { hiz:'HIZ', ceviklik:'ÇEVİKLİK', kontrol:'STABİLİTE', stabilite:'STABİLİTE', ucusSuresi:'UÇUŞ SÜRESİ', verimlilik:'VERİMLİLİK', dayaniklilik:'DAYANIKLILIK', sistemRiski:'SİSTEM RİSKİ' }
+export const STAT_LABELS = { hiz:'HIZ', ceviklik:'ÇEVİKLİK', kontrol:'KONTROL', stabilite:'STABİLİTE', ucusSuresi:'UÇUŞ SÜRESİ', verimlilik:'VERİMLİLİK', dayaniklilik:'DAYANIKLILIK', sistemRiski:'SİSTEM RİSKİ' }
 export const STAT_DISPLAY = { hiz:'Hız', ceviklik:'Çeviklik', kontrol:'Kontrol', stabilite:'Stabilite', ucusSuresi:'Uçuş Süresi', verimlilik:'Verimlilik', dayaniklilik:'Dayanıklılık', sistemRiski:'Sistem Riski' }
 export const STAT_ICONS = { hiz:'⚡', ceviklik:'🔄', kontrol:'🎮', stabilite:'🎯', ucusSuresi:'⏱️', verimlilik:'♻️', dayaniklilik:'🛡️', sistemRiski:'⚠️' }
 export const STAT_COLORS = { hiz:'#ef4444', ceviklik:'#f59e0b', kontrol:'#22c55e', stabilite:'#3b82f6', ucusSuresi:'#a855f7', verimlilik:'#06b6d4', dayaniklilik:'#84cc16', sistemRiski:'#f97316' }

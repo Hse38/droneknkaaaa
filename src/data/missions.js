@@ -1,114 +1,110 @@
 export const MISSIONS = [
   {
-    id: 'freestyle', title: 'Freestyle Parkur Yarışı', icon: '⚡', color: '#ef4444',
-    bgGradient: 'linear-gradient(135deg, #1f0505 0%, #060810 100%)',
-    senaryo: 'Şehir dışındaki terk edilmiş bir fabrikada gizli bir FPV yarış turnuvası düzenleniyor. Dar koridorlar, keskin virajlar ve yüksek hız gerektiren bir parkur seni bekliyor. Rakipler en iyi ekipmanlarıyla geliyor, sen de drone’unu buna göre hazırlamalısın.',
-    amac: 'Yüksek çeviklik ve hız odaklı freestyle drone tasarla.',
-    desc: 'Keskin virajlı, hızlı ve agresif yarış parkuru için maksimum manevra kabiliyetine sahip drone üret.',
-    hedefler: ['Çeviklik en az 75 olmalı', 'Hız en az 70 olmalı', 'Sistem riski 65 altında kalmalı'],
-    targets: { ceviklik: 75, hiz: 70, sistemRiski: { max: 65 } },
-    ipucu: 'Freestyle frame + yüksek KV motor + yüksek pitch pervane + agresif yazılım profili, parkur süresini belirgin şekilde düşürür.',
+    id: 'challenge_control',
+    title: 'Güvenli Başlangıç Platformu',
+    icon: '🧠',
+    color: '#22c55e',
+    bgGradient: 'linear-gradient(135deg, #032211 0%, #060810 100%)',
+    senaryo: 'Yeni başlayan pilotların ilk uçuş dersleri için bir eğitim buildi hazırlanıyor. Eğitmenler, hata toleransı yüksek ve sakin tepki veren bir platform istiyor. Amaç güvenli kalkış, sakin manevra ve kontrollü iniş.',
+    amac: 'Yeni başlayanlar için güvenli ve kolay kontrollü drone tasarla.',
+    desc: 'Kontrol, stabilite ve düşük risk odaklı eğitim dostu bir sistem üret.',
+    hedefler: ['Yüksek kontrol', 'Yüksek stabilite', 'Düşük sistem riski'],
+    targets: { kontrol: 72, stabilite: 72, sistemRiski: { max: 35 } },
+    ipucu: 'Stabil veya cinematic yazılım, düşük/orta KV motor ve kontrollü pervane setleri başlangıç için daha güvenlidir.',
     uyarilar: {
-      dusukCeviklik: 'Drone dar virajlarda gecikmeli tepki veriyor. Daha çevik bir kombinasyon için frame ve motor seçimini agresifleştir.',
-      yuksekRisk: 'Sistem riski yarış temposu için kritik seviyede. Bu değerle motor ısınması ve kontrol kaybı yaşanabilir.',
-      dusukStabilite: 'Manevra geçişlerinde gövde savruluyor. Kontrollü dönüş için pervane pitch ve yazılım profilini dengele.',
-      dusukUcusSuresi: 'Batarya parkuru bitirmeden tükenebilir. Güç ve süre dengesini yeniden kurman gerekiyor.'
+      dusukCeviklik: 'Çeviklik düşük olabilir; bu görevde kritik değil, öncelik güvenli kontrol.',
+      yuksekRisk: 'Sistem riski yüksek. Eğitim uçuşlarında güvenlik marjı düşmemeli.',
+      dusukStabilite: 'Stabilite yetersiz. Yeni başlayanlar hover sırasında zorlanır.',
+      dusukUcusSuresi: 'Uçuş süresi kısa kalırsa eğitim tekrarları verimsiz olur.'
     },
     degerlendirme: {
-      mukemmel: 'Muhteşem bir yarış kurulumu! Drone parkurda agresif ama kontrol edilebilir karakter sergiliyor.',
-      iyi: 'Rekabetçi bir tasarım ortaya çıktı, ancak birkaç ince ayarla dönüş performansı daha da iyileşebilir.',
-      orta: 'Parkur için temel gereksinimleri kısmen karşılıyor; hız veya çeviklik tarafında belirgin eksikler var.',
-      kotu: 'Bu kurulum yarış parkuru için zayıf kalıyor. Daha hızlı ve çevik bir konfigürasyon denemelisin.'
+      mukemmel: 'Eğitim için örnek bir platform oluşturdun. Güvenlik ve kontrol dengesi çok güçlü.',
+      iyi: 'Sistem kullanılabilir, birkaç ayarla daha stabil hale gelebilir.',
+      orta: 'Temel seviyede uygun, ama başlangıç eğitiminde riskler hâlâ mevcut.',
+      kotu: 'Bu build yeni başlayanlar için fazla zorlayıcı ve riskli kalıyor.'
     },
-    ogrenmeNotlari: [
-      'Freestyle görevlerinde yüksek çeviklik değeri, hızdan bile daha kritik olabilir.',
-      'Yüksek KV motor performans getirir ama sistem riskini de artırır.',
-      'Pervane ve yazılım profili birlikte ayarlanmadığında kontrol kaybı oluşabilir.'
-    ],
-    odul: { puan: 500, xp: 250 },
+    ogrenmeNotlari: ['Eğitim buildlerinde ilk öncelik güvenliktir.', 'Stabilite arttıkça pilot hataları daha kolay toparlanır.', 'Düşük sistem riski, daha öngörülebilir uçuş davranışı sağlar.'],
+    odul: { puan: 500, xp: 260 },
   },
   {
-    id: 'rescue', title: 'Arama Kurtarma Operasyonu', icon: '🧭', color: '#a855f7',
-    bgGradient: 'linear-gradient(135deg, #0f0520 0%, #060810 100%)',
-    senaryo: 'Dağlık arazide kaybolan bir yürüyüşçü grubu için arama kurtarma operasyonu başlatıldı. Ekip senden geniş alanda uzun süre tarama yapabilecek, stabil görüntü alabilen bir drone istiyor. Batarya ömrü kritik seviyede önem taşıyor.',
-    amac: 'Uzun uçuş süreli, stabil ve verimli drone tasarla.',
-    desc: 'Geniş alanda güvenli tarama yapacak, uzun süre havada kalacak keşif drone’u hazırla.',
-    hedefler: ['Uçuş süresi en az 75 olmalı', 'Stabilite en az 65 olmalı', 'Verimlilik en az 70 olmalı'],
-    targets: { ucusSuresi: 75, stabilite: 65, verimlilik: 70 },
-    ipucu: 'Long range frame + düşük KV motor + yüksek kapasite batarya, arama görevlerinde en güvenilir uçuş süresini sağlar.',
+    id: 'challenge_agile',
+    title: 'Agresif Manevra Testi',
+    icon: '⚡',
+    color: '#ef4444',
+    bgGradient: 'linear-gradient(135deg, #250607 0%, #060810 100%)',
+    senaryo: 'Kısıtlı bir parkurda hızlı yön değişimleri ve sert throttle geçişleriyle bir manevra testi yapılacak. Pilot senden refleksi yüksek bir build istiyor. Dar kapılar ve keskin dönüşler performansın sınırını belirleyecek.',
+    amac: 'Yüksek manevra kabiliyetli agresif bir build oluştur.',
+    desc: 'Çeviklik, hız ve throttle tepkisi odaklı yüksek tempolu konfigürasyon geliştir.',
+    hedefler: ['Yüksek çeviklik', 'Yüksek hız', 'Agresif tepki karakteri'],
+    targets: { ceviklik: 75, hiz: 70, sistemRiski: { max: 70 } },
+    ipucu: 'Daha yüksek KV motor, agresif/freestyle yazılım ve performans odaklı pervane kombinasyonu manevra hızını artırır.',
     uyarilar: {
-      dusukCeviklik: 'Çeviklik düşük olsa da görev başarısı için kritik değil; önce stabilite ve süreyi hedeflemelisin.',
-      yuksekRisk: 'Arama-kurtarma görevinde yüksek sistem riski kabul edilemez. Uzun uçuşta arıza ihtimali artar.',
-      dusukStabilite: 'Görüntü akışı dalgalanıyor; bu durumda kayıp hedefleri tespit etmek zorlaşır.',
-      dusukUcusSuresi: 'Batarya kapasitesi yetersiz. Görev alanı tamamlanmadan iniş yapmak zorunda kalabilirsin.'
+      dusukCeviklik: 'Manevra tepkisi yetersiz. Daha çevik bir frame/prop ikilisine geç.',
+      yuksekRisk: 'Risk seviyesi kritik eşiği aştı. Bu tempoda kontrol kaybı yaşanabilir.',
+      dusukStabilite: 'Sert dönüş sonrası toparlama süresi uzuyor. Kontrol karakterini iyileştir.',
+      dusukUcusSuresi: 'Performans iyi ama uçuş süresi yarış akışını tamamlamaya yetmeyebilir.'
     },
     degerlendirme: {
-      mukemmel: 'Mükemmel bir kurtarma platformu! Drone uzun süre stabil tarama yapabilecek seviyede.',
-      iyi: 'Görev için iyi bir temel var, ancak uçuş süresi veya stabilite biraz daha artırılabilir.',
-      orta: 'Operasyona çıkabilir ama kapsamlı arama için performans sınırda kalıyor.',
-      kotu: 'Bu kombinasyon arama-kurtarma için riskli. Önceliği süre, stabilite ve verimliliğe ver.'
+      mukemmel: 'Build parkur saldırısı için çok güçlü. Yüksek çeviklik ve hız dengesi yakalandı.',
+      iyi: 'Agresif profile yakınsın, ufak tuning ile daha keskin hale gelir.',
+      orta: 'Temel hız var ama manevra karakteri henüz tam agresif değil.',
+      kotu: 'Bu konfigürasyon agresif uçuş için fazla yumuşak veya dengesiz kalıyor.'
     },
-    ogrenmeNotlari: [
-      'Arama kurtarma görevlerinde uçuş süresi ve stabil görüntü, hızdan daha değerlidir.',
-      'Yüksek kapasite batarya süreyi artırırken ağırlık dengesini de etkiler.',
-      'Uzun uçuş senaryolarında sistem riski mutlaka düşük tutulmalıdır.'
-    ],
-    odul: { puan: 700, xp: 350 },
+    ogrenmeNotlari: ['Yüksek çeviklik için yalnızca motor değil frame/prop geometri de belirleyicidir.', 'Agresif tuning sistem riskini artırır; sınırı korumak gerekir.', 'Throttle cevabı ve kontrol dengesi birlikte optimize edilmelidir.'],
+    odul: { puan: 620, xp: 320 },
   },
   {
-    id: 'cinematic', title: 'Sinematik Belgesel Çekimi', icon: '🎬', color: '#3b82f6',
+    id: 'challenge_cinematic',
+    title: 'Akıcı Çekim Operasyonu',
+    icon: '🎬',
+    color: '#3b82f6',
     bgGradient: 'linear-gradient(135deg, #030d1f 0%, #060810 100%)',
-    senaryo: 'Ünlü bir belgesel yapımcısı, doğa rezervindeki yaban hayatını FPV drone ile kaydetmek istiyor. Hayvanları ürkütmemek için sessiz, titreşimsiz ve akıcı uçuş şart. Yapımcı en yüksek görüntü kalitesini bekliyor.',
-    amac: 'Titreşimsiz, stabil sinematik drone tasarla.',
-    desc: 'Yaban hayatını rahatsız etmeden akıcı ve temiz görüntü alacak sinematik drone oluştur.',
-    hedefler: ['Stabilite en az 75 olmalı', 'Kontrol en az 65 olmalı', 'Sistem riski 40 altında kalmalı'],
+    senaryo: 'Profesyonel bir çekim ekibi, tek geçişte pürüzsüz FPV görüntü almak istiyor. Sahne içinde ani yön değişimleri yerine kontrollü ve akıcı uçuş gerekiyor. Titreşim ve sarsıntı en düşük seviyede tutulmalı.',
+    amac: 'Akıcı görüntü çekimine uygun stabil sistem tasarla.',
+    desc: 'Stabilite, düşük titreşim ve kontrollü hareket odağında sinematik bir yapı kur.',
+    hedefler: ['Yüksek stabilite', 'Düşük titreşim karakteri', 'Kontrollü hareket'],
     targets: { stabilite: 75, kontrol: 65, sistemRiski: { max: 40 } },
-    ipucu: 'Cinewhoop frame + düşük pitch pervane + stabil yazılım, titreşimi azaltıp görüntü akıcılığını artırır.',
+    ipucu: 'Ducted/cinematic odaklı frame, düşük-orta pitch pervane ve cinematic/stabil yazılım profilleri çekim kalitesini artırır.',
     uyarilar: {
-      dusukCeviklik: 'Bu görevde aşırı çeviklik şart değil; ani tepkiler yerine yumuşak kontrol önceliklidir.',
-      yuksekRisk: 'Yüksek risk, çekim sırasında ani düşüş veya titreşim artışı anlamına gelir.',
-      dusukStabilite: 'Görüntüde sarsıntı oluşuyor. Belgesel çekim kalitesi için stabiliteyi yükseltmelisin.',
-      dusukUcusSuresi: 'Çekim penceresi kısa kalıyor. Uzun sekanslar için uçuş süresini artır.'
+      dusukCeviklik: 'Aşırı çeviklik gerekmez; bu görevde akıcılık çeviklikten daha önemlidir.',
+      yuksekRisk: 'Risk yüksekse çekim sırasında ani dengesizlik ve sahne kaybı yaşanabilir.',
+      dusukStabilite: 'Görüntüde mikro sarsıntılar oluşuyor. Stabiliteyi artırmadan profesyonel sonuç zor.',
+      dusukUcusSuresi: 'Çekim penceresi kısa kalıyor; tekrar uçuş gerektirir ve prodüksiyon süresini uzatır.'
     },
     degerlendirme: {
-      mukemmel: 'Belgesel standartlarında bir kurulum! Akıcı ve temiz çekim için ideal bir drone tasarladın.',
-      iyi: 'Görüntü kalitesi tatmin edici, ancak uzun planlarda daha stabil bir profil faydalı olur.',
-      orta: 'Temel çekim yapılabilir; titreşim ve kontrol dengesinde geliştirme gerekiyor.',
-      kotu: 'Bu kombinasyon sinematik çekim için uygun değil. Daha stabil ve düşük riskli yapı kurmalısın.'
+      mukemmel: 'Çekim odaklı çok güçlü bir platform kurdun. Akıcı hareket ve stabil görüntü hedefi karşılandı.',
+      iyi: 'Sinematik profile yakın bir sonuç var, ufak filtre/tune iyileştirmeleriyle kalite artar.',
+      orta: 'Kullanılabilir ama görüntü tutarlılığı profesyonel çekim için sınırlı.',
+      kotu: 'Bu build sinematik görev için fazla agresif veya kararsız.'
     },
-    ogrenmeNotlari: [
-      'Sinematik uçuşta ani hızlanma yerine akıcı kontrol daha değerlidir.',
-      'Düşük pitch pervaneler titreşim kontrolüne önemli katkı sağlar.',
-      'Sistem riski düşük olduğunda çekim güvenilirliği belirgin şekilde artar.'
-    ],
-    odul: { puan: 600, xp: 300 },
+    ogrenmeNotlari: ['Sinematik uçuşta kontrol eğrileri performanstan daha kritiktir.', 'Titreşim azaltımı için pervane + filtre + frame birlikte değerlendirilmelidir.', 'Düşük sistem riski, çekim güvenilirliğinin temelidir.'],
+    odul: { puan: 650, xp: 330 },
   },
   {
-    id: 'egitim', title: 'Eğitim Kampı', icon: '🎓', color: '#22c55e',
-    bgGradient: 'linear-gradient(135deg, #052e16 0%, #060810 100%)',
-    senaryo: 'Bir FPV drone eğitim merkezinde yeni başlayan öğrenciler için güvenli ve kontrol edilebilir bir drone hazırlamalısın. Öğrenciler ilk kez uçuracak, drone çarpmalara dayanıklı ve kolay kontrol edilebilir olmalı. Eğitmenler düşük riskli sistem kararlılığı bekliyor.',
-    amac: 'Güvenli, dayanıklı ve kolay kontrollü eğitim drone’u tasarla.',
-    desc: 'Başlangıç seviyesine uygun, güvenli ve dayanıklı eğitim drone’u geliştir.',
-    hedefler: ['Kontrol en az 70 olmalı', 'Stabilite en az 70 olmalı', 'Dayanıklılık en az 70 olmalı'],
-    targets: { kontrol: 70, stabilite: 70, dayaniklilik: 70, sistemRiski: { max: 30 } },
-    ipucu: 'Eğitim frame + düşük KV motor + stabil yazılım profili, öğrenciler için güvenli bir öğrenme ortamı oluşturur.',
+    id: 'challenge_efficiency',
+    title: 'Verimli Seyir Görevi',
+    icon: '🛰️',
+    color: '#22c55e',
+    bgGradient: 'linear-gradient(135deg, #063218 0%, #060810 100%)',
+    senaryo: 'Uzun görev süresi gerektiren bir keşif hattında drone’un daha az enerji harcayarak daha fazla alan taraması bekleniyor. Ani hızdan çok verimli seyir ve dengeli enerji tüketimi önemli. Sistem uzun süre stabil kalmalı.',
+    amac: 'En yüksek uçuş süresini sağlayan verimli sistem oluştur.',
+    desc: 'Verimlilik, düşük tüketim ve stabil seyir odaklı uzun uçuş karakteri üret.',
+    hedefler: ['Yüksek verimlilik', 'Düşük tüketim karakteri', 'Stabil seyir'],
+    targets: { verimlilik: 70, ucusSuresi: 75, stabilite: 62 },
+    ipucu: 'Büyük verimli pervane + düşük KV motor + yüksek kapasite batarya kombinasyonu uzun seyirde avantaj sağlar.',
     uyarilar: {
-      dusukCeviklik: 'Düşük çeviklik eğitim görevi için kritik değildir; önemli olan öngörülebilir kontrol tepkisidir.',
-      yuksekRisk: 'Eğitim modunda yüksek sistem riski güvenlik protokolünü ihlal eder.',
-      dusukStabilite: 'Öğrenciler drone’u sabit tutmakta zorlanır. Stabiliteyi mutlaka yükseltmelisin.',
-      dusukUcusSuresi: 'Kısa uçuş süresi eğitim tekrarlarını kısıtlar, verimi düşürür.'
+      dusukCeviklik: 'Çeviklik düşük olabilir; verimli seyir görevinde bu kabul edilebilir.',
+      yuksekRisk: 'Risk seviyesi yükseldikçe uzun uçuşta arıza olasılığı artar.',
+      dusukStabilite: 'Seyir hattında dalgalanma oluşuyor. Stabil uçuş karakterini güçlendir.',
+      dusukUcusSuresi: 'Uçuş süresi hedefin altında. Enerji tüketimini azaltan parça seçimi yapman gerekir.'
     },
     degerlendirme: {
-      mukemmel: 'Harika bir eğitim platformu! Güvenlik, kontrol ve dayanıklılık dengesi örnek seviyede.',
-      iyi: 'Eğitim uçuşları için uygun, ancak bazı güvenlik metrikleri daha da güçlendirilebilir.',
-      orta: 'Başlangıç için kullanılabilir ama istikrarlı eğitim süreci için ek iyileştirme gerekli.',
-      kotu: 'Bu kurulum yeni başlayanlar için riskli. Önce güvenlik ve kontrol odaklı seçim yapmalısın.'
+      mukemmel: 'Uzun seyir için son derece verimli bir sistem kurdun. Enerji ve stabilite dengesi çok iyi.',
+      iyi: 'Görev hedefi büyük ölçüde karşılandı, birkaç optimizasyonla süre daha da uzayabilir.',
+      orta: 'Kısmi başarı var ama enerji tüketimi hâlâ yüksek kalıyor.',
+      kotu: 'Build, verimli seyir görevinde beklenen süre/denge hedefini karşılayamıyor.'
     },
-    ogrenmeNotlari: [
-      'Eğitim drone’larında düşük risk, yüksek performanstan daha önceliklidir.',
-      'Dayanıklılık, öğrenme sürecindeki çarpışmalarda maliyeti düşürür.',
-      'Kontrol ve stabilite arttıkça öğrencinin özgüveni hızla gelişir.'
-    ],
-    odul: { puan: 500, xp: 250 },
+    ogrenmeNotlari: ['Uzun uçuşta verimlilik ve uçuş süresi birlikte optimize edilmelidir.', 'Yüksek kapasite her zaman yeterli değildir; ağırlık etkisi de hesaba katılır.', 'Stabil seyir, enerji yönetimini doğrudan iyileştirir.'],
+    odul: { puan: 700, xp: 360 },
   }
 ]

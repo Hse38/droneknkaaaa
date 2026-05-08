@@ -1,7 +1,7 @@
 import React from 'react'
 import { MISSIONS } from '../data/missions'
 
-export default function MissionSelect({ onSelect, scores }) {
+export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
   return (
     <div style={{
       height:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
@@ -19,12 +19,15 @@ export default function MissionSelect({ onSelect, scores }) {
             <div style={{fontFamily:'var(--mono)',fontSize:12,letterSpacing:3,color:'var(--text2)',textTransform:'uppercase',marginTop:4}}>PARAMETRİK TASARIM</div>
           </div>
         </div>
-        <h1 style={{fontFamily:'var(--display)',fontSize:52,fontWeight:700,letterSpacing:2,color:'var(--text)',lineHeight:1}}>GÖREV SEÇİMİ</h1>
-        <p style={{color:'var(--text2)',fontSize:15,marginTop:8}}>Göreve uygun drone tasarla, test et ve ödülleri topla.</p>
+        <h1 style={{fontFamily:'var(--display)',fontSize:52,fontWeight:700,letterSpacing:2,color:'var(--text)',lineHeight:1}}>V2 OPERASYON MENÜSÜ</h1>
+        <p style={{color:'var(--text2)',fontSize:15,marginTop:8}}>Challenge görevleri veya özgür tasarım modu arasında seçim yap.</p>
       </div>
 
-      {/* Mission grid */}
-      <div style={{display:'grid',gridTemplateColumns:'repeat(2, minmax(300px, 420px))',gap:18,width:'100%',maxWidth:900,justifyContent:'center',zIndex:1}}>
+      <div style={{display:'grid',gridTemplateColumns:'1.3fr 1fr',gap:18,width:'100%',maxWidth:1200,justifyContent:'center',zIndex:1}}>
+        <div>
+          <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'var(--accent)'}}>CHALLENGE MODE</div>
+          <div style={{fontSize:13,color:'var(--text2)',marginBottom:10}}>Göreve uygun drone tasarla, karakterini keşfet</div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(2, minmax(280px, 1fr))',gap:12}}>
         {MISSIONS.map((m,i) => {
           const prev = scores?.[m.id]
           return (
@@ -67,6 +70,22 @@ export default function MissionSelect({ onSelect, scores }) {
             </div>
           )
         })}
+          </div>
+        </div>
+        <div>
+          <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'#a855f7'}}>FREE BUILD MODE</div>
+          <div style={{fontSize:13,color:'var(--text2)',marginBottom:10}}>Tüm parçaları özgürce dene, build karakterini keşfet</div>
+          <div style={{border:'1px solid rgba(168,85,247,0.4)',borderRadius:16,background:'linear-gradient(135deg, rgba(99,102,241,0.22), rgba(168,85,247,0.12))',padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+            <div>
+              <div style={{fontSize:42,marginBottom:8}}>🔓</div>
+              <div style={{fontFamily:'var(--display)',fontSize:30,fontWeight:700,lineHeight:1.05}}>FREE BUILD</div>
+              <div style={{marginTop:8,color:'var(--text2)',lineHeight:1.5,fontSize:14}}>Görev baskısı olmadan parçaları birleştir, sistem karakterini canlı analiz et ve en iyi hibrit kombinasyonu keşfet.</div>
+            </div>
+            <button onClick={onFreeBuild} style={{marginTop:20,padding:'12px 16px',borderRadius:10,border:'none',background:'#a855f7',color:'#fff',fontFamily:'var(--display)',fontSize:16,fontWeight:700,cursor:'pointer',boxShadow:'0 0 22px rgba(168,85,247,0.35)'}}>
+              BAŞLA
+            </button>
+          </div>
+        </div>
       </div>
       <div style={{zIndex:1,fontFamily:'var(--mono)',fontSize:10,color:'var(--text3)',letterSpacing:2,marginTop:6}}>DRONEFORGE EDU v2.0</div>
     </div>

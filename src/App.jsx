@@ -14,6 +14,7 @@ const TABS = ['TASARIM','GÖREVLER','TEST UÇUŞU','RAPOR']
 export default function App() {
   const [screen, setScreen]   = useState('mission')
   const [mission, setMission] = useState(null)
+  const [mode, setMode] = useState('challenge')
   const [selected, setSelected] = useState(DEFAULT_BUILD)
   const [scores, setScores]   = useState({})
   const [tab, setTab]         = useState('TASARIM')
@@ -39,11 +40,35 @@ export default function App() {
   const allSelected = !!(selected.frame && selected.motor && selected.prop && selected.battery && selected.software)
 
   const handleSelect = useCallback((group, id) => {
-    setSelected(s => ({ ...s, [group]: id }))
+    setSelected((prev) => {
+      const next = { ...prev, [group]: id }
+      const nextBuild = {
+        frame: getPart('frames', next.frame),
+        motor: getPart('motors', next.motor),
+        prop: getPart('props', next.prop),
+        battery: getPart('batteries', next.battery),
+        software: getPart('software', next.software),
+      }
+      const nextStats = calculateStats(nextBuild.frame, nextBuild.motor, nextBuild.prop, nextBuild.battery, nextBuild.software)
+      const nextAlerts = getCompatAlerts(nextBuild.frame, nextBuild.motor, nextBuild.prop, nextBuild.battery, nextBuild.software, nextStats)
+      const hasCritical = nextAlerts.some((a) => a.type === 'critical')
+      return hasCritical ? prev : next
+    })
   }, [])
 
   const handleMissionSelect = (m) => {
-    setMission(m); setSelected(DEFAULT_BUILD); setScreen('design'); setTab('TASARIM')
+    setMode('challenge')
+    setMission(m)
+    setSelected(DEFAULT_BUILD)
+    setScreen('design')
+    setTab('TASARIM')
+  }
+  const handleFreeBuild = () => {
+    setMode('free')
+    setMission(null)
+    setSelected(DEFAULT_BUILD)
+    setScreen('design')
+    setTab('TASARIM')
   }
 
   const handleTestFlight = () => setScreen('flight')
@@ -51,8 +76,8 @@ export default function App() {
   const handleMissions = () => setScreen('mission')
   const handleReset = () => setSelected(DEFAULT_BUILD)
 
-  if (screen === 'mission') return <MissionSelect onSelect={handleMissionSelect} scores={scores}/>
-  if (screen === 'flight')  return <TestFlight mission={mission} stats={stats} selected={selected} compatAlerts={compatAlerts} onRetry={handleRetry} onMissions={handleMissions}/>
+  if (screen === 'mission') return <MissionSelect onSelect={handleMissionSelect} onFreeBuild={handleFreeBuild} scores={scores}/>
+  if (screen === 'flight')  return <TestFlight mission={mission} mode={mode} stats={stats} selected={selected} compatAlerts={compatAlerts} onRetry={handleRetry} onMissions={handleMissions} onNewMission={handleMissions}/>
 
   return (
     <div style={{display:'grid',gridTemplateColumns:'320px 1fr 340px',gridTemplateRows:'64px 1fr auto',height:'100vh',background:'radial-gradient(circle at 50% -20%, #101e34 0%, #060810 60%)'}}>
@@ -93,6 +118,9 @@ export default function App() {
 
         {/* Right: user + score */}
         <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:12}}>
+          <div style={{padding:'6px 10px',borderRadius:999,border:'1px solid var(--border2)',background:mode==='challenge'?'rgba(239,68,68,0.15)':'rgba(168,85,247,0.15)',fontFamily:'var(--mono)',fontSize:10,color:mode==='challenge'?'#ef4444':'#a855f7'}}>
+            {mode === 'challenge' ? `⚡ CHALLENGE — ${mission?.title || 'Görev'}` : '🔓 FREE BUILD'}
+          </div>
           <div style={{background:'var(--bg3)',border:'1px solid var(--border)',borderRadius:8,padding:'4px 12px',display:'flex',alignItems:'center',gap:8}}>
             <div style={{width:24,height:24,borderRadius:'50%',background:'rgba(0,212,255,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12}}>👤</div>
             <div>
@@ -113,7 +141,7 @@ export default function App() {
       <PartSelector selected={selected} onSelect={handleSelect}/>
 
       {/* CENTER */}
-      <DroneCenter selected={selected} mission={mission}/>
+      <DroneCenter selected={selected} mission={mode === 'challenge' ? mission : null}/>
 
       {/* RIGHT */}
       <StatPanel

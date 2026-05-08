@@ -1,174 +1,53 @@
 export const PARTS = {
   frames: [
-    {
-      id: 'freestyle', name: 'Freestyle Frame', subtitle: 'Agresif uçuş ve manevra',
-      icon: '⚡', color: '#ef4444',
-      image: '/images/frames/freestyle.png',
-      fallbackEmoji: '🛸',
-      avantaj: 'Çeviklik', dezavantaj: 'Stabilite',
-      bullets: ['Hafif ve dayanıklı', 'Yüksek manevra kabiliyeti', 'Agresif uçuşa uygun'],
-      stats: { hiz:+15, ceviklik:+20, kontrol:-10, stabilite:-5, ucusSuresi:-5, verimlilik:0, dayaniklilik:+10, sistemRiski:+5 }
-    },
-    {
-      id: 'cinewhoop', name: 'Cinewhoop Frame', subtitle: 'Pervane koruyuculu stabil gövde',
-      icon: '🎬', color: '#3b82f6',
-      image: '/images/frames/cinewhoop.png',
-      fallbackEmoji: '🚁',
-      avantaj: 'Stabilite, Güvenlik', dezavantaj: 'Hız',
-      bullets: ['Pervane koruyuculu', 'Kamera stabilitesi yüksek', 'Güvenli iç mekan uçuşu'],
-      stats: { hiz:-15, ceviklik:-10, kontrol:+15, stabilite:+20, ucusSuresi:-5, verimlilik:0, dayaniklilik:+15, sistemRiski:-10 }
-    },
-    {
-      id: 'longrange', name: 'Long Range Frame', subtitle: 'Uzun menzil ve verimli seyir',
-      icon: '🗺️', color: '#22c55e',
-      image: '/images/frames/longrange.png',
-      fallbackEmoji: '✈️',
-      avantaj: 'Verimlilik, Uçuş süresi', dezavantaj: 'Çeviklik',
-      bullets: ['Uzun menzil optimizasyonu', 'Düşük drag profili', 'Yüksek verimlilik'],
-      stats: { hiz:-5, ceviklik:-10, kontrol:+5, stabilite:+10, ucusSuresi:+25, verimlilik:+25, dayaniklilik:+5, sistemRiski:-5 }
-    },
-    {
-      id: 'egitim', name: 'Eğitim Frame', subtitle: 'Yeni başlayanlar için güvenli',
-      icon: '🎓', color: '#f59e0b',
-      image: '/images/frames/egitim.png',
-      fallbackEmoji: '🔰',
-      avantaj: 'Kontrol, Güvenlik', dezavantaj: 'Performans',
-      bullets: ['Dayanıklı yapı', 'Stabil uçuş profili', 'Kolay kontrol'],
-      stats: { hiz:-10, ceviklik:-15, kontrol:+20, stabilite:+15, ucusSuresi:+5, verimlilik:+5, dayaniklilik:+20, sistemRiski:-15 }
-    },
+    { id:'tinywhoop', name:'Tinywhoop Frame', subtitle:'65mm | çok hafif, indoor', icon:'🪶', color:'#00d4ff', image:'/images/frames/tinywhoop.png', fallbackEmoji:'🛸', sizeInch:1.3, frameType:'tinywhoop', bullets:['65mm mikro gövde', 'Kapalı alan optimizasyonu', 'Çok düşük ağırlık'], avantaj:'Kontrol, güvenlik', dezavantaj:'Maks hız', stats:{ hiz:-18, ceviklik:+8, kontrol:+20, stabilite:+16, ucusSuresi:+6, verimlilik:+12, dayaniklilik:-8, sistemRiski:-18 } },
+    { id:'toothpick', name:'Toothpick Frame', subtitle:'2.5" | ultra hafif, çevik', icon:'🧩', color:'#a855f7', image:'/images/frames/toothpick.png', fallbackEmoji:'🛸', sizeInch:2.5, frameType:'toothpick', bullets:['Düşük kütle', 'Hızlı yön değişimi', 'Açık pervane yapısı'], avantaj:'Çeviklik', dezavantaj:'Dayanıklılık', stats:{ hiz:+4, ceviklik:+18, kontrol:+6, stabilite:-4, ucusSuresi:+6, verimlilik:+10, dayaniklilik:-12, sistemRiski:+2 } },
+    { id:'ducted', name:'Ducted Frame', subtitle:'3.5" | cinewhoop, güvenli', icon:'🛡️', color:'#3b82f6', image:'/images/frames/ducted.png', fallbackEmoji:'🚁', sizeInch:3.5, frameType:'ducted', bullets:['Pervane korumalı', 'Sinematik uçuşa uygun', 'Yüksek çarpışma toleransı'], avantaj:'Stabilite', dezavantaj:'Hız', stats:{ hiz:-10, ceviklik:-2, kontrol:+14, stabilite:+20, ucusSuresi:+2, verimlilik:+4, dayaniklilik:+16, sistemRiski:-12 } },
+    { id:'xframe', name:'X Frame', subtitle:'5" | klasik freestyle', icon:'❌', color:'#ef4444', image:'/images/frames/xframe.png', fallbackEmoji:'🛸', sizeInch:5, frameType:'x', bullets:['Klasik 5 inç geometri', 'Freestyle denge noktası', 'Yüksek parça uyumluluğu'], avantaj:'Çok yönlülük', dezavantaj:'Ağırlık', stats:{ hiz:+10, ceviklik:+12, kontrol:+2, stabilite:+2, ucusSuresi:-4, verimlilik:-2, dayaniklilik:+6, sistemRiski:+6 } },
+    { id:'stretched', name:'Stretched Frame', subtitle:'5" | race odaklı', icon:'🏁', color:'#f97316', image:'/images/frames/stretched.png', fallbackEmoji:'🛸', sizeInch:5, frameType:'stretched', bullets:['Uzun aks açıklığı', 'Yüksek hız stabilitesi', 'Yarış odaklı geometri'], avantaj:'Hız', dezavantaj:'Düşük tolerans', stats:{ hiz:+18, ceviklik:+14, kontrol:-2, stabilite:+2, ucusSuresi:-10, verimlilik:-6, dayaniklilik:-4, sistemRiski:+14 } },
+    { id:'lr', name:'LR Frame', subtitle:'7" | long range', icon:'🗺️', color:'#22c55e', image:'/images/frames/lr.png', fallbackEmoji:'✈️', sizeInch:7, frameType:'lr', bullets:['7 inç uzun menzil', 'Düşük cruise tüketimi', 'Büyük batarya desteği'], avantaj:'Süre, verim', dezavantaj:'Çeviklik', stats:{ hiz:-4, ceviklik:-16, kontrol:+8, stabilite:+10, ucusSuresi:+20, verimlilik:+18, dayaniklilik:+8, sistemRiski:-6 } },
   ],
   motors: [
-    {
-      id: 'yuksek_kv', name: 'Yüksek KV Motor', subtitle: 'Hızlı tepki ve yüksek güç',
-      icon: '🚀', color: '#ef4444',
-      image: '/images/motors/yuksek_kv.png',
-      fallbackEmoji: '⚙️',
-      avantaj: 'Hız, İtiş Gücü', dezavantaj: 'Uçuş Süresi',
-      bullets: ['Hızlı tepki', 'Yüksek güç', 'Daha fazla enerji tüketimi'],
-      stats: { hiz:+20, ceviklik:+20, kontrol:-10, stabilite:-5, ucusSuresi:-20, verimlilik:-10, dayaniklilik:0, sistemRiski:+10 }
-    },
-    {
-      id: 'orta_kv', name: 'Orta KV Motor', subtitle: 'Dengeli performans',
-      icon: '⚖️', color: '#f59e0b',
-      image: '/images/motors/orta_kv.png',
-      fallbackEmoji: '⚙️',
-      avantaj: 'Denge', dezavantaj: 'Uzmanlaşmamış',
-      bullets: ['Dengeli performans', 'Çok yönlü kullanım', 'Orta enerji tüketimi'],
-      stats: { hiz:+5, ceviklik:+5, kontrol:0, stabilite:0, ucusSuresi:0, verimlilik:+5, dayaniklilik:0, sistemRiski:0 }
-    },
-    {
-      id: 'dusuk_kv', name: 'Düşük KV Motor', subtitle: 'Verimli ve uzun uçuş',
-      icon: '🔋', color: '#22c55e',
-      image: '/images/motors/dusuk_kv.png',
-      fallbackEmoji: '⚙️',
-      avantaj: 'Uçuş Süresi, Kontrol', dezavantaj: 'Hız',
-      bullets: ['Düşük enerji tüketimi', 'Uzun uçuş süresi', 'Kolay kontrol'],
-      stats: { hiz:-10, ceviklik:-5, kontrol:+10, stabilite:+5, ucusSuresi:+15, verimlilik:+15, dayaniklilik:+5, sistemRiski:-5 }
-    },
+    { id:'1106_6000', name:'1106 – 6000KV', subtitle:'ultra hafif, tinywhoop', icon:'⚙️', color:'#00d4ff', image:'/images/motors/1106_6000.png', fallbackEmoji:'⚙️', kv:6000, motorClass:'1106', bullets:['Mikro sınıf', 'Ani throttle tepkisi', 'Düşük kütle'], avantaj:'Mikro çeviklik', dezavantaj:'Isınma eğilimi', stats:{ hiz:+2, ceviklik:+14, kontrol:+8, stabilite:+4, ucusSuresi:-2, verimlilik:+2, dayaniklilik:-6, sistemRiski:+8 } },
+    { id:'1404_4600', name:'1404 – 4600KV', subtitle:'toothpick motor', icon:'⚙️', color:'#a855f7', image:'/images/motors/1404_4600.png', fallbackEmoji:'⚙️', kv:4600, motorClass:'1404', bullets:['Toothpick dengesi', 'Hafif çekiş', 'Yüksek verim'], avantaj:'Hafif güç', dezavantaj:'Sınırlı thrust', stats:{ hiz:+6, ceviklik:+12, kontrol:+4, stabilite:+2, ucusSuresi:+2, verimlilik:+8, dayaniklilik:-2, sistemRiski:+4 } },
+    { id:'2004_3000', name:'2004 – 3000KV', subtitle:'orta boy, dengeli', icon:'⚙️', color:'#22c55e', image:'/images/motors/2004_3000.png', fallbackEmoji:'⚙️', kv:3000, motorClass:'2004', bullets:['Dengeli sınıf', 'Orta thrust profili', 'Sürdürülebilir tüketim'], avantaj:'Denge', dezavantaj:'Maks performans', stats:{ hiz:+8, ceviklik:+6, kontrol:+8, stabilite:+6, ucusSuresi:+4, verimlilik:+8, dayaniklilik:+2, sistemRiski:0 } },
+    { id:'2207_1950', name:'2207 – 1950KV', subtitle:'freestyle/LR motor', icon:'⚙️', color:'#3b82f6', image:'/images/motors/2207_1950.png', fallbackEmoji:'⚙️', kv:1950, motorClass:'2207', bullets:['6S uyumlu', 'Yüksek tork', 'Cruise verimi iyi'], avantaj:'Tork + verim', dezavantaj:'Ağırlık', stats:{ hiz:+10, ceviklik:+4, kontrol:+6, stabilite:+8, ucusSuresi:+2, verimlilik:+6, dayaniklilik:+6, sistemRiski:+4 } },
+    { id:'2207_2450', name:'2207 – 2450KV', subtitle:'freestyle/race motor', icon:'⚙️', color:'#f59e0b', image:'/images/motors/2207_2450.png', fallbackEmoji:'⚙️', kv:2450, motorClass:'2207', bullets:['Yüksek throttle', 'Yarış karakteri', 'Ani hızlanma'], avantaj:'Maks hız', dezavantaj:'Tüketim', stats:{ hiz:+18, ceviklik:+10, kontrol:-2, stabilite:-2, ucusSuresi:-10, verimlilik:-8, dayaniklilik:0, sistemRiski:+12 } },
+    { id:'2806_1300', name:'2806.5 – 1300KV', subtitle:'heavy lift, LR', icon:'⚙️', color:'#ef4444', image:'/images/motors/2806_1300.png', fallbackEmoji:'⚙️', kv:1300, motorClass:'2806', bullets:['Büyük stator', 'Ağır yük taşıma', 'Uzun menzil odaklı'], avantaj:'Dayanım', dezavantaj:'Çeviklik', stats:{ hiz:+6, ceviklik:-10, kontrol:+6, stabilite:+10, ucusSuresi:+6, verimlilik:+10, dayaniklilik:+12, sistemRiski:+2 } },
   ],
   props: [
-    {
-      id: 'yuksek_pitch', name: 'Yüksek Pitch Pervane', subtitle: 'Agresif thrust',
-      icon: '💨', color: '#ef4444',
-      image: '/images/props/yuksek_pitch.png',
-      fallbackEmoji: '🌀',
-      avantaj: 'Hız, Çeviklik', dezavantaj: 'Motor zorlanması',
-      bullets: ['Yüksek thrust', 'Agresif uçuş', 'Motor yükü artar'],
-      stats: { hiz:+20, ceviklik:+10, kontrol:-10, stabilite:-5, ucusSuresi:-15, verimlilik:-10, dayaniklilik:0, sistemRiski:+10 }
-    },
-    {
-      id: 'orta_pitch', name: 'Orta Pitch Pervane', subtitle: 'Dengeli thrust ve kontrol',
-      icon: '🔄', color: '#f59e0b',
-      image: '/images/props/orta_pitch.png',
-      fallbackEmoji: '🌀',
-      avantaj: 'Denge', dezavantaj: 'Uzmanlaşmamış',
-      bullets: ['Dengeli performans', 'Kontrollü güç çıkışı', 'Hız kazanımı daha düşük'],
-      stats: { hiz:+5, ceviklik:+5, kontrol:+5, stabilite:0, ucusSuresi:0, verimlilik:0, dayaniklilik:0, sistemRiski:0 }
-    },
-    {
-      id: 'dusuk_pitch', name: 'Düşük Pitch Pervane', subtitle: 'Yumuşak ve stabil uçuş',
-      icon: '🌿', color: '#22c55e',
-      image: '/images/props/dusuk_pitch.png',
-      fallbackEmoji: '🌀',
-      avantaj: 'Stabilite', dezavantaj: 'Hız',
-      bullets: ['Daha stabil uçuş', 'Kontrollü güç çıkışı', 'Hız kazanımı daha düşük'],
-      stats: { hiz:-10, ceviklik:0, kontrol:+15, stabilite:+10, ucusSuresi:+10, verimlilik:+10, dayaniklilik:0, sistemRiski:-5 }
-    },
+    { id:'prop_31mm_3blade', name:'31mm 3-Blade', subtitle:'tinywhoop', icon:'🌀', color:'#00d4ff', image:'/images/props/31mm_3blade.png', fallbackEmoji:'🌀', propSizeInch:1.2, blades:3, bullets:['Mikro thrust', 'Düşük atalet', 'İç mekan kontrol'], avantaj:'Kontrol', dezavantaj:'Hız', stats:{ hiz:-10, ceviklik:+10, kontrol:+12, stabilite:+8, ucusSuresi:+8, verimlilik:+8, dayaniklilik:-2, sistemRiski:-10 } },
+    { id:'prop_2521', name:'2.5" 2521', subtitle:'toothpick', icon:'🌀', color:'#a855f7', image:'/images/props/2521.png', fallbackEmoji:'🌀', propSizeInch:2.5, blades:3, bullets:['Hızlı spool', 'Toothpick uyumu', 'Düşük titreşim'], avantaj:'Çeviklik', dezavantaj:'Top speed', stats:{ hiz:+2, ceviklik:+14, kontrol:+8, stabilite:+4, ucusSuresi:+4, verimlilik:+6, dayaniklilik:0, sistemRiski:+2 } },
+    { id:'prop_3520', name:'3.5" 3520', subtitle:'cinewhoop/ducted', icon:'🌀', color:'#3b82f6', image:'/images/props/3520.png', fallbackEmoji:'🌀', propSizeInch:3.5, blades:3, bullets:['Orta disk alanı', 'Ducted sinematik', 'Yumuşak throttle'], avantaj:'Stabilite', dezavantaj:'Agresif hız', stats:{ hiz:+2, ceviklik:+2, kontrol:+10, stabilite:+12, ucusSuresi:+2, verimlilik:+6, dayaniklilik:+2, sistemRiski:-4 } },
+    { id:'prop_5143', name:'5" 5143', subtitle:'freestyle agresif', icon:'🌀', color:'#ef4444', image:'/images/props/5143.png', fallbackEmoji:'🌀', propSizeInch:5, blades:3, bullets:['Yüksek pitch', 'Agresif ivmelenme', 'Freestyle punch'], avantaj:'Patlayıcı güç', dezavantaj:'Tüketim', stats:{ hiz:+16, ceviklik:+12, kontrol:-6, stabilite:-4, ucusSuresi:-12, verimlilik:-10, dayaniklilik:0, sistemRiski:+12 } },
+    { id:'prop_5052', name:'5" 5052', subtitle:'freestyle dengeli', icon:'🌀', color:'#f59e0b', image:'/images/props/5052.png', fallbackEmoji:'🌀', propSizeInch:5, blades:3, bullets:['Dengeli 5 inç', 'Kontrollü thrust', 'Geniş kullanım'], avantaj:'Denge', dezavantaj:'Aşırı hız', stats:{ hiz:+10, ceviklik:+8, kontrol:+6, stabilite:+4, ucusSuresi:-4, verimlilik:-2, dayaniklilik:+2, sistemRiski:+4 } },
+    { id:'prop_7035', name:'7" 7035', subtitle:'long range', icon:'🌀', color:'#22c55e', image:'/images/props/7035.png', fallbackEmoji:'🌀', propSizeInch:7, blades:2, bullets:['Yüksek verim cruise', 'Düşük RPM uçuş', 'Long-range profili'], avantaj:'Süre', dezavantaj:'Çeviklik', stats:{ hiz:-6, ceviklik:-12, kontrol:+8, stabilite:+10, ucusSuresi:+14, verimlilik:+14, dayaniklilik:+4, sistemRiski:-6 } },
   ],
   batteries: [
-    {
-      id: '3s', name: '3S LiPo Batarya', subtitle: 'Hafif ve kontrol odaklı',
-      icon: '🔋', color: '#22c55e',
-      image: '/images/batteries/3s.png',
-      fallbackEmoji: '🔋',
-      avantaj: 'Kontrol, Hafif', dezavantaj: 'Düşük güç',
-      bullets: ['Hafif yapı', 'Kolay kontrol', 'Orta kapasite'],
-      stats: { hiz:-10, ceviklik:-5, kontrol:+10, stabilite:+5, ucusSuresi:+5, verimlilik:+10, dayaniklilik:0, sistemRiski:-10 }
-    },
-    {
-      id: '4s', name: '4S LiPo Batarya', subtitle: 'Standart FPV bataryası',
-      icon: '⚡', color: '#f59e0b',
-      image: '/images/batteries/4s.png',
-      fallbackEmoji: '🔋',
-      avantaj: 'Denge', dezavantaj: 'Yok',
-      bullets: ['Dengeli performans', 'Orta ağırlık', 'Uygun uçuş süresi'],
-      stats: { hiz:+10, ceviklik:+10, kontrol:0, stabilite:0, ucusSuresi:0, verimlilik:0, dayaniklilik:0, sistemRiski:0 }
-    },
-    {
-      id: '6s', name: '6S LiPo Batarya', subtitle: 'Yüksek voltaj maksimum güç',
-      icon: '💥', color: '#ef4444',
-      image: '/images/batteries/6s.png',
-      fallbackEmoji: '🔋',
-      avantaj: 'Hız, Güç', dezavantaj: 'Sistem riski',
-      bullets: ['Yüksek voltaj', 'Maksimum performans', 'Risk artar'],
-      stats: { hiz:+20, ceviklik:+15, kontrol:-5, stabilite:-5, ucusSuresi:-5, verimlilik:-5, dayaniklilik:0, sistemRiski:+10 }
-    },
-    {
-      id: 'yuksek_kapasite', name: 'Yüksek Kapasite Batarya', subtitle: 'Uzun uçuş süresi',
-      icon: '🏋️', color: '#3b82f6',
-      image: '/images/batteries/yuksek_kapasite.png',
-      fallbackEmoji: '🔋',
-      avantaj: 'Uçuş Süresi', dezavantaj: 'Ağırlık',
-      bullets: ['Uzun uçuş süresi', 'Ağır yapı', 'Çeviklik azalır'],
-      stats: { hiz:-5, ceviklik:-10, kontrol:-5, stabilite:+5, ucusSuresi:+20, verimlilik:+10, dayaniklilik:0, sistemRiski:0 }
-    },
+    { id:'1s_450', name:'1S 450mAh', subtitle:'3.7V, ~25g, 30C | tinywhoop', icon:'🔋', color:'#00d4ff', image:'/images/batteries/1s_450.png', fallbackEmoji:'🔋', cells:1, capacity:450, weight:25, cRating:30, bullets:['Mikro hücre', 'Çok hafif paket', 'Düşük anlık akım'], avantaj:'Ağırlık', dezavantaj:'Güç', stats:{ hiz:-18, ceviklik:+6, kontrol:+8, stabilite:+8, ucusSuresi:+2, verimlilik:+8, dayaniklilik:0, sistemRiski:-16 } },
+    { id:'2s_650', name:'2S 650mAh', subtitle:'7.4V, ~45g, 50C | toothpick', icon:'🔋', color:'#a855f7', image:'/images/batteries/2s_650.png', fallbackEmoji:'🔋', cells:2, capacity:650, weight:45, cRating:50, bullets:['Toothpick uyum', 'Orta akım kabiliyeti', 'Düşük kütle'], avantaj:'Hafif güç', dezavantaj:'Sınırlı süre', stats:{ hiz:-6, ceviklik:+8, kontrol:+6, stabilite:+4, ucusSuresi:+2, verimlilik:+6, dayaniklilik:0, sistemRiski:-8 } },
+    { id:'4s_1500', name:'4S 1500mAh', subtitle:'14.8V, ~175g, 100C | freestyle', icon:'🔋', color:'#3b82f6', image:'/images/batteries/4s_1500.png', fallbackEmoji:'🔋', cells:4, capacity:1500, weight:175, cRating:100, bullets:['Freestyle standardı', 'Yüksek çıkış', 'Dengeli süre'], avantaj:'Denge', dezavantaj:'Ağırlık', stats:{ hiz:+10, ceviklik:+8, kontrol:+2, stabilite:0, ucusSuresi:+2, verimlilik:0, dayaniklilik:0, sistemRiski:+4 } },
+    { id:'6s_1300', name:'6S 1300mAh', subtitle:'22.2V, ~200g, 120C | race/freestyle', icon:'🔋', color:'#ef4444', image:'/images/batteries/6s_1300.png', fallbackEmoji:'🔋', cells:6, capacity:1300, weight:200, cRating:120, bullets:['Yarış tepkisi', 'Çok yüksek voltaj', 'Kısa ama güçlü uçuş'], avantaj:'Performans', dezavantaj:'Risk', stats:{ hiz:+18, ceviklik:+10, kontrol:-4, stabilite:-2, ucusSuresi:-6, verimlilik:-6, dayaniklilik:0, sistemRiski:+14 } },
+    { id:'6s_2200', name:'6S 2200mAh', subtitle:'22.2V, ~320g, 60C | long range', icon:'🔋', color:'#22c55e', image:'/images/batteries/6s_2200.png', fallbackEmoji:'🔋', cells:6, capacity:2200, weight:320, cRating:60, bullets:['Uzun menzil kapasite', 'Yüksek kütle', 'Uzun cruise uçuşu'], avantaj:'Süre', dezavantaj:'Çeviklik', stats:{ hiz:+2, ceviklik:-12, kontrol:+4, stabilite:+8, ucusSuresi:+18, verimlilik:+12, dayaniklilik:+2, sistemRiski:+2 } },
   ],
   software: [
-    {
-      id: 'agresif', name: 'Agresif Profil', subtitle: 'Freestyle (Betaflight)',
-      icon: '🔥', color: '#ef4444',
-      image: '/images/software/agresif.png',
-      fallbackEmoji: '💻',
-      avantaj: 'Kontrol', dezavantaj: 'Yok',
-      bullets: ['Hızlı tepki', 'Akıcı kontrol', 'Freestyle odaklı ayarlar'],
-      stats: { hiz:+10, ceviklik:+20, kontrol:-15, stabilite:-10, ucusSuresi:-5, verimlilik:-5, dayaniklilik:0, sistemRiski:+10 }
-    },
-    {
-      id: 'dengeli', name: 'Dengeli Profil', subtitle: 'Genel Kullanım',
-      icon: '⚖️', color: '#f59e0b',
-      image: '/images/software/dengeli.png',
-      fallbackEmoji: '💻',
-      avantaj: 'Çok yönlülük', dezavantaj: 'Uzmanlaşmamış',
-      bullets: ['Dengeli ayarlar', 'Çok yönlü kullanım', 'Orta tepki süresi'],
-      stats: { hiz:0, ceviklik:0, kontrol:0, stabilite:0, ucusSuresi:0, verimlilik:0, dayaniklilik:0, sistemRiski:0 }
-    },
-    {
-      id: 'stabil', name: 'Stabil Profil', subtitle: 'Cinematic / Eğitim',
-      icon: '🕊️', color: '#22c55e',
-      image: '/images/software/stabil.png',
-      fallbackEmoji: '💻',
-      avantaj: 'Kontrol, Stabilite', dezavantaj: 'Çeviklik',
-      bullets: ['Yumuşak tepki', 'Yüksek stabilite', 'Eğitim dostu ayarlar'],
-      stats: { hiz:-5, ceviklik:-10, kontrol:+20, stabilite:+20, ucusSuresi:+5, verimlilik:+5, dayaniklilik:0, sistemRiski:-10 }
-    },
-  ]
+    { id:'stabil', name:'Stabil', subtitle:'yumuşak, kontrollü', icon:'🕊️', color:'#22c55e', image:'/images/software/stabil.png', fallbackEmoji:'💻', bullets:['Yumuşak PID tepkisi', 'Yeni başlayan dostu', 'Titreşim toleranslı'], avantaj:'Kontrol', dezavantaj:'Düşük agresiflik', stats:{ hiz:-6, ceviklik:-6, kontrol:+18, stabilite:+18, ucusSuresi:+4, verimlilik:+4, dayaniklilik:+2, sistemRiski:-12 } },
+    { id:'dengeli', name:'Dengeli', subtitle:'genel kullanım', icon:'⚖️', color:'#f59e0b', image:'/images/software/dengeli.png', fallbackEmoji:'💻', bullets:['Orta ayar profili', 'Geniş görev uyumu', 'Tahmin edilebilir tepkiler'], avantaj:'Esneklik', dezavantaj:'Özelleşme yok', stats:{ hiz:+2, ceviklik:+2, kontrol:+6, stabilite:+6, ucusSuresi:+2, verimlilik:+2, dayaniklilik:0, sistemRiski:-2 } },
+    { id:'agresif', name:'Agresif', subtitle:'hızlı tepki', icon:'🔥', color:'#ef4444', image:'/images/software/agresif.png', fallbackEmoji:'💻', bullets:['Düşük gecikme hissi', 'Yüksek stick hassasiyeti', 'Ani thrust değişimi'], avantaj:'Reaksiyon', dezavantaj:'Risk', stats:{ hiz:+10, ceviklik:+14, kontrol:-10, stabilite:-10, ucusSuresi:-4, verimlilik:-4, dayaniklilik:0, sistemRiski:+12 } },
+    { id:'freestyle_bf', name:'Freestyle (Betaflight)', subtitle:'freestyle odaklı', icon:'🎮', color:'#f97316', image:'/images/software/freestyle_bf.png', fallbackEmoji:'💻', bullets:['Air mode karakteri', 'Keskin angle geçişi', 'Freestyle tune'], avantaj:'Manevra', dezavantaj:'Enerji', stats:{ hiz:+8, ceviklik:+16, kontrol:-4, stabilite:-4, ucusSuresi:-6, verimlilik:-6, dayaniklilik:0, sistemRiski:+8 } },
+    { id:'cinematic', name:'Cinematic', subtitle:'minimum titreşim', icon:'🎬', color:'#3b82f6', image:'/images/software/cinematic.png', fallbackEmoji:'💻', bullets:['Yumuşak expo', 'Titreşim filtreleme', 'Akıcı görüntü geçişi'], avantaj:'Stabil video', dezavantaj:'Ani hız', stats:{ hiz:-4, ceviklik:-2, kontrol:+14, stabilite:+20, ucusSuresi:+2, verimlilik:+4, dayaniklilik:+2, sistemRiski:-8 } },
+    { id:'racing', name:'Racing', subtitle:'maksimum performans', icon:'🏁', color:'#a855f7', image:'/images/software/racing.png', fallbackEmoji:'💻', bullets:['Maksimum throttle hissi', 'Yüksek giriş oranı', 'Yarışa özel tune'], avantaj:'Hız', dezavantaj:'Kararlılık', stats:{ hiz:+16, ceviklik:+12, kontrol:-12, stabilite:-12, ucusSuresi:-10, verimlilik:-8, dayaniklilik:0, sistemRiski:+14 } },
+  ],
 }
 
 export const DEFAULT_BUILD = {
-  frame: 'freestyle', motor: 'yuksek_kv', prop: 'dusuk_pitch',
-  battery: '4s', software: 'agresif'
+  frame: 'xframe',
+  motor: '2207_2450',
+  prop: 'prop_5052',
+  battery: '4s_1500',
+  software: 'dengeli',
 }
 
 export function getPart(group, id) {
-  return PARTS[group]?.find(p => p.id === id)
+  return PARTS[group]?.find((p) => p.id === id)
 }
