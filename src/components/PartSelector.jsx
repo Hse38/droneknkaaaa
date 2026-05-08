@@ -1,5 +1,6 @@
 import React from 'react'
 import { PARTS } from '../data/parts'
+import { FrameSVGByID, MotorSVGByID, PropSVGByID, BatterySVGByID, SoftwareSVGByID } from './svg/DroneSVGs'
 
 const SECTIONS = [
   { key:'frame',   label:'Frame',          num:1, items: PARTS.frames },
@@ -9,24 +10,37 @@ const SECTIONS = [
   { key:'software',label:'Yazılım Profili',num:5, items: PARTS.software },
 ]
 
-function PartImage({ part, size = 48 }) {
-  const [err, setErr] = React.useState(false)
-  React.useEffect(() => {
-    setErr(false)
-  }, [part?.image])
-
-  if (!part.image || err) {
-    return (
-      <div style={{width:size,height:size,borderRadius:6,background:'var(--bg4)',border:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:size*0.45,flexShrink:0}}>
-        {part.fallbackEmoji || '⚙️'}
-      </div>
-    )
+function PartImage({ sectionKey, part, size = 48 }) {
+  const boxStyle = {
+    width: size,
+    height: size,
+    borderRadius: 6,
+    background: 'var(--bg4)',
+    border: '1px solid var(--border)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    overflow: 'hidden',
   }
-  return (
-    <img src={part.image} alt={part.name} onError={()=>setErr(true)}
-      style={{width:size,height:size,objectFit:'contain',borderRadius:6,background:'var(--bg4)',flexShrink:0}}
-    />
-  )
+
+  if (sectionKey === 'frame') {
+    return <div style={boxStyle}><FrameSVGByID frameId={part.id} color={part.color} size={44} /></div>
+  }
+  if (sectionKey === 'motor') {
+    return <div style={boxStyle}><MotorSVGByID motorId={part.id} color={part.color} size={44} /></div>
+  }
+  if (sectionKey === 'prop') {
+    return <div style={boxStyle}><PropSVGByID propId={part.id} color={part.color} size={44} /></div>
+  }
+  if (sectionKey === 'battery') {
+    return <div style={boxStyle}><BatterySVGByID batteryId={part.id} color={part.color} size={44} /></div>
+  }
+  if (sectionKey === 'software') {
+    return <div style={boxStyle}><SoftwareSVGByID softwareId={part.id} color={part.color} size={44} /></div>
+  }
+
+  return <div style={boxStyle} />
 }
 
 export default function PartSelector({ selected, onSelect }) {
@@ -92,7 +106,7 @@ export default function PartSelector({ selected, onSelect }) {
                     onMouseEnter={e => { if(!isSel) e.currentTarget.style.background='var(--bg3)' }}
                     onMouseLeave={e => { if(!isSel) e.currentTarget.style.background='transparent' }}
                   >
-                    <PartImage part={part} size={60} />
+                    <PartImage sectionKey={section.key} part={part} size={60} />
                     <div style={{flex:1,minWidth:0}}>
                       <div style={{fontFamily:'var(--display)',fontSize:14,fontWeight:isSel?700:500,color:isSel?'var(--text)':'var(--text2)',marginBottom:1,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
                         {part.name}

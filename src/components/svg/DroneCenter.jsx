@@ -287,20 +287,6 @@ export default function DroneCenter({ selected, mission }) {
           )}
         </div>
 
-        {/* Hint text */}
-        <div style={{
-          position: 'absolute', bottom: 12,
-          fontFamily: 'var(--mono)', fontSize: 9,
-          color: 'var(--text3)', letterSpacing: 1,
-          border: '1px solid var(--border)',
-          borderRadius: 4, padding: '3px 10px',
-          display: 'flex', gap: 10,
-        }}>
-          <span>↩ Modeli döndürmek için sürükle</span>
-          <span>•</span>
-          <span>Yakınlaştır/Uzaklaştır: Kaydır</span>
-        </div>
-
         <style>{`
           @keyframes glowPulse { from{opacity:0.3} to{opacity:0.8} }
           @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
