@@ -4,7 +4,6 @@ import { useViewport } from '../hooks/useViewport'
 
 export default function MissionSelect({ view = 'mode', onSelect, onFreeBuild, onChallengeMode, onBack, scores }) {
   const { isMobile, isTablet } = useViewport()
-  const cardMinWidth = isMobile ? 280 : isTablet ? 320 : 340
   const modeCardMin = isMobile ? 280 : 360
   const isModeView = view === 'mode'
 
@@ -85,7 +84,15 @@ export default function MissionSelect({ view = 'mode', onSelect, onFreeBuild, on
                 ← MODLARA DÖN
               </button>
             </div>
-            <div style={{display:'flex',gap:12,overflowX:'auto',paddingBottom:10,scrollSnapType:'x mandatory',WebkitOverflowScrolling:'touch'}}>
+            <div
+              style={{
+                display:'grid',
+                gridTemplateColumns:isMobile ? '1fr' : isTablet ? 'repeat(2, minmax(0, 1fr))' : 'repeat(4, minmax(0, 1fr))',
+                gap:12,
+                width:'100%',
+                overflowX:'hidden',
+              }}
+            >
         {MISSIONS.map((m,i) => {
           const prev = scores?.[m.id]
           return (
@@ -93,14 +100,14 @@ export default function MissionSelect({ view = 'mode', onSelect, onFreeBuild, on
               style={{
                 background:'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))',
                 border:`1px solid ${m.color}3d`, borderRadius:16, backdropFilter:'blur(11px)',
-                padding:0, cursor:'pointer', position:'relative', overflow:'hidden', minWidth:cardMinWidth, flex:'0 0 auto', scrollSnapAlign:'start',
+                padding:0, cursor:'pointer', position:'relative', overflow:'hidden', width:'100%', height:'100%', display:'flex', flexDirection:'column',
                 transition:'all 0.22s', animation:`fadeIn 0.45s ease ${i*0.09}s both`,
               }}
               onMouseEnter={e => { e.currentTarget.style.border=`1px solid ${m.color}85`; e.currentTarget.style.transform='translateY(-8px)'; e.currentTarget.style.boxShadow=`0 20px 44px ${m.color}33` }}
               onMouseLeave={e => { e.currentTarget.style.border=`1px solid ${m.color}33`; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}
             >
               <div style={{height:7,background:`linear-gradient(90deg, ${m.color}, transparent)`}} />
-              <div style={{padding:'18px 18px 16px'}}>
+              <div style={{padding:'18px 18px 16px',display:'flex',flexDirection:'column',flex:1}}>
                 <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
                   <div style={{fontSize:32}}>{m.icon}</div>
                   <div style={{fontFamily:'var(--mono)',fontSize:12,color:m.color,letterSpacing:2}}>GÖREV {i+1}</div>
@@ -114,7 +121,7 @@ export default function MissionSelect({ view = 'mode', onSelect, onFreeBuild, on
                   </div>
                 ))}
                 </div>
-                <div style={{display:'flex',gap:12,alignItems:'center'}}>
+                <div style={{display:'flex',gap:12,alignItems:'center',marginTop:'auto'}}>
                   <span style={{fontFamily:'var(--mono)',fontSize:12,color:'#f59e0b'}}>⭐ {m.odul.puan}</span>
                   <span style={{fontFamily:'var(--mono)',fontSize:12,color:'var(--accent)'}}>XP {m.odul.xp}</span>
                   <span style={{marginLeft:'auto',fontSize:12,padding:'3px 9px',borderRadius:999,border:`1px solid ${m.color}66`,color:m.color,background:`${m.color}1a`}}>ÖDÜL</span>
