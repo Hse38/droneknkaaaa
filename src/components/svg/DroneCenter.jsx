@@ -27,6 +27,9 @@ export default function DroneCenter({ selected, mission }) {
   const [isDragging, setIsDragging] = useState(false)
   const dragRef = useRef({ x: 0, y: 0, rotX: 0, rotY: 0 })
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+  const hasAnySelection = Boolean(
+    safeSelected.frame || safeSelected.motor || safeSelected.prop || safeSelected.battery || safeSelected.software,
+  )
 
   const detail = useMemo(() => {
     if (selectedPartType === 'frame') return frame
@@ -93,27 +96,33 @@ export default function DroneCenter({ selected, mission }) {
       <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: isMobile ? 'column' : 'row', overflow: 'hidden' }}>
         <div style={{ flex: 1, minHeight: isMobile ? 320 : 0, position: 'relative', overflow: 'hidden' }} onWheel={handleWheel}>
           <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none' }} />
-          <div
-            onMouseDown={handleMouseDown}
-            style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: isDragging ? 'grabbing' : 'grab', userSelect: 'none', perspective: 900 }}
-          >
-            <div style={{ transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${zoom})`, transformStyle: 'preserve-3d', transition: isDragging ? 'none' : 'transform 0.15s ease' }}>
-              <UnifiedDroneSVG
-                frameId={safeSelected.frame || 'x_frame'}
-                motorId={safeSelected.motor}
-                propId={safeSelected.prop}
-                frameColor={frame?.color || '#ef4444'}
-                propColor={prop?.color || '#00d4ff'}
-                size={isTablet ? 280 : 305}
-                onClickFrame={() => setSelectedPartType((p) => (p === 'frame' ? null : 'frame'))}
-                onClickMotor={() => setSelectedPartType((p) => (p === 'motor' ? null : 'motor'))}
-                onClickProp={() => setSelectedPartType((p) => (p === 'prop' ? null : 'prop'))}
-                onClickFC={() => setSelectedPartType((p) => (p === 'fc' ? null : 'fc'))}
-                onClickBattery={() => setSelectedPartType((p) => (p === 'battery' ? null : 'battery'))}
-                selectedPart={selectedPartType}
-              />
+          {hasAnySelection ? (
+            <div
+              onMouseDown={handleMouseDown}
+              style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: isDragging ? 'grabbing' : 'grab', userSelect: 'none', perspective: 900 }}
+            >
+              <div style={{ transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${zoom})`, transformStyle: 'preserve-3d', transition: isDragging ? 'none' : 'transform 0.15s ease' }}>
+                <UnifiedDroneSVG
+                  frameId={safeSelected.frame || 'x_frame'}
+                  motorId={safeSelected.motor}
+                  propId={safeSelected.prop}
+                  frameColor={frame?.color || '#ef4444'}
+                  propColor={prop?.color || '#00d4ff'}
+                  size={isTablet ? 280 : 305}
+                  onClickFrame={() => setSelectedPartType((p) => (p === 'frame' ? null : 'frame'))}
+                  onClickMotor={() => setSelectedPartType((p) => (p === 'motor' ? null : 'motor'))}
+                  onClickProp={() => setSelectedPartType((p) => (p === 'prop' ? null : 'prop'))}
+                  onClickFC={() => setSelectedPartType((p) => (p === 'fc' ? null : 'fc'))}
+                  onClickBattery={() => setSelectedPartType((p) => (p === 'battery' ? null : 'battery'))}
+                  selectedPart={selectedPartType}
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)', fontFamily: 'var(--mono)', fontSize: 13, letterSpacing: 1 }}>
+              Bileşen seçimi bekleniyor...
+            </div>
+          )}
           <div style={{ position: 'absolute', right: 10, bottom: 10, display: 'flex', gap: 6 }}>
             <button onClick={() => setZoom((z) => clamp(z + 0.15, 0.55, 2.2))} style={{ width: 30, height: 30, borderRadius: 6, border: '1px solid var(--border2)', background: 'var(--bg3)', color: 'var(--text)' }}>+</button>
             <button onClick={() => setZoom((z) => clamp(z - 0.15, 0.55, 2.2))} style={{ width: 30, height: 30, borderRadius: 6, border: '1px solid var(--border2)', background: 'var(--bg3)', color: 'var(--text)' }}>-</button>
