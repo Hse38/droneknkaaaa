@@ -10,7 +10,7 @@ export default function MissionSelect({ view = 'mode', onSelect, onFreeBuild, on
   return (
     <div style={{
       height:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-      background:'#060810', padding:isMobile?'22px 14px 14px':isTablet?'30px 24px 18px':'44px 40px 26px', gap:isMobile?16:28, position:'relative', overflow:'auto',
+      background:'#060810', padding:isMobile?'22px 14px 14px':isTablet?'30px 24px 18px':'44px 40px 26px', gap:isMobile?16:28, position:'relative', overflow:isModeView?'auto':'hidden',
     }}>
       <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px)',backgroundSize:'46px 46px',pointerEvents:'none'}}/>
       <div style={{position:'absolute',inset:0,background:'radial-gradient(circle at 18% 12%, rgba(0,212,255,0.10), transparent 32%), radial-gradient(circle at 84% 84%, rgba(124,58,237,0.10), transparent 30%)',pointerEvents:'none'}} />
