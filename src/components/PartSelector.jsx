@@ -58,8 +58,8 @@ export default function PartSelector({ selected, onSelect }) {
     <div style={{background:'rgba(12,16,28,0.65)',backdropFilter:'blur(12px)',borderRight:'1px solid var(--border)',display:'flex',flexDirection:'column',height:'100%',overflow:'hidden'}}>
       {/* Header */}
       <div style={{padding:'12px 14px',borderBottom:'1px solid var(--border)',flexShrink:0}}>
-        <div style={{fontFamily:'var(--mono)',fontSize:9,letterSpacing:3,color:'var(--accent)',textTransform:'uppercase'}}>.. BİLEŞEN SEÇİMİ</div>
-        <div style={{fontSize:10,color:'var(--text2)',marginTop:2}}>Drone'un parçalarını seç ve tasarımını oluştur.</div>
+        <div style={{fontFamily:'var(--mono)',fontSize:11,letterSpacing:3,color:'var(--accent)',textTransform:'uppercase'}}>.. BİLEŞEN SEÇİMİ</div>
+        <div style={{fontSize:13,color:'var(--text2)',marginTop:2}}>Drone'un parçalarını seç ve tasarımını oluştur.</div>
       </div>
 
       {/* Sections */}
@@ -69,8 +69,8 @@ export default function PartSelector({ selected, onSelect }) {
             <div key={section.key} style={{borderBottom:'1px solid var(--border)'}}>
               {/* Section label */}
               <div style={{padding:'8px 14px 6px',display:'flex',alignItems:'center',gap:8,background:'rgba(8,12,22,0.92)',backdropFilter:'blur(8px)',borderBottom:'1px solid var(--border)'}}>
-                <div style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--text3)',letterSpacing:1}}>{section.num}</div>
-                <div style={{fontFamily:'var(--display)',fontSize:11,fontWeight:700,color:'var(--text2)',textTransform:'uppercase',letterSpacing:2}}>{section.label}</div>
+                <div style={{fontFamily:'var(--mono)',fontSize:11,color:'var(--text3)',letterSpacing:1}}>{section.num}</div>
+                <div style={{fontFamily:'var(--display)',fontSize:13,fontWeight:700,color:'var(--text2)',textTransform:'uppercase',letterSpacing:2}}>{section.label}</div>
               </div>
 
               {/* Items */}
@@ -94,12 +94,12 @@ export default function PartSelector({ selected, onSelect }) {
                   >
                     <PartImage part={part} size={60} />
                     <div style={{flex:1,minWidth:0}}>
-                      <div style={{fontFamily:'var(--display)',fontSize:12,fontWeight:isSel?700:500,color:isSel?'var(--text)':'var(--text2)',marginBottom:1,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+                      <div style={{fontFamily:'var(--display)',fontSize:14,fontWeight:isSel?700:500,color:isSel?'var(--text)':'var(--text2)',marginBottom:1,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
                         {part.name}
                       </div>
-                      <div style={{fontSize:10,color:'var(--text3)',marginBottom:3}}>{part.subtitle}</div>
+                      <div style={{fontSize:12,color:'var(--text3)',marginBottom:3}}>{part.subtitle}</div>
                       {best && (
-                        <div style={{fontSize:10,color:'var(--text2)',display:'flex',alignItems:'center',gap:5}}>
+                        <div style={{fontSize:12,color:'var(--text2)',display:'flex',alignItems:'center',gap:5}}>
                           <span style={{color:statColor,fontFamily:'var(--mono)'}}>{statValue > 0 ? `+${statValue}` : statValue}</span>
                           <span>{statLabel(statKey)}</span>
                           <span>{statValue > 0 ? '🔴' : '🟡'}</span>
@@ -107,11 +107,11 @@ export default function PartSelector({ selected, onSelect }) {
                       )}
                       {isSel && (
                         <div style={{display:'inline-flex',alignItems:'center',gap:4,background:'var(--success)',borderRadius:3,padding:'1px 6px',animation:'pulse 1.2s ease-in-out infinite'}}>
-                          <span style={{fontSize:8,color:'#000',fontFamily:'var(--mono)',fontWeight:700,letterSpacing:1}}>SEÇİLDİ</span>
+                          <span style={{fontSize:10,color:'#000',fontFamily:'var(--mono)',fontWeight:700,letterSpacing:1}}>SEÇİLDİ</span>
                         </div>
                       )}
                     </div>
-                    <div style={{color:'var(--text3)',fontSize:11,flexShrink:0}}>›</div>
+                    <div style={{color:'var(--text3)',fontSize:14,flexShrink:0}}>›</div>
                   </div>
                 )
               })}
@@ -122,7 +122,7 @@ export default function PartSelector({ selected, onSelect }) {
 
       {/* Save button */}
       <div style={{padding:12,borderTop:'1px solid var(--border)',flexShrink:0}}>
-        <button style={{width:'100%',padding:'10px',borderRadius:6,background:'var(--bg4)',border:'1px solid var(--border2)',color:'var(--text2)',fontFamily:'var(--display)',fontSize:12,fontWeight:600,cursor:'pointer',letterSpacing:1}}>
+        <button style={{width:'100%',padding:'10px',borderRadius:6,background:'var(--bg4)',border:'1px solid var(--border2)',color:'var(--text2)',fontFamily:'var(--display)',fontSize:14,fontWeight:600,cursor:'pointer',letterSpacing:1}}>
           TASARIMI KAYDET
         </button>
       </div>

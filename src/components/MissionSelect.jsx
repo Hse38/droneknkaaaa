@@ -23,13 +23,13 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
           </div>
         </div>
         <h1 style={{fontFamily:'var(--display)',fontSize:isMobile?34:52,fontWeight:700,letterSpacing:2,color:'var(--text)',lineHeight:1}}>V2 OPERASYON MENÜSÜ</h1>
-        <p style={{color:'var(--text2)',fontSize:isMobile?13:15,marginTop:8}}>Challenge görevleri veya özgür tasarım modu arasında seçim yap.</p>
+        <p style={{color:'var(--text2)',fontSize:isMobile?15:17,marginTop:8}}>Challenge görevleri veya özgür tasarım modu arasında seçim yap.</p>
       </div>
 
       <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1.3fr 1fr',gap:18,width:'100%',maxWidth:1200,justifyContent:'center',zIndex:1}}>
         <div>
           <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'var(--accent)'}}>CHALLENGE MODE</div>
-          <div style={{fontSize:13,color:'var(--text2)',marginBottom:10}}>Göreve uygun drone tasarla, karakterini keşfet</div>
+          <div style={{fontSize:15,color:'var(--text2)',marginBottom:10}}>Göreve uygun drone tasarla, karakterini keşfet</div>
           <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':isTablet?'repeat(2, minmax(240px, 1fr))':'repeat(2, minmax(280px, 1fr))',gap:12}}>
         {MISSIONS.map((m,i) => {
           const prev = scores?.[m.id]
@@ -48,21 +48,21 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
               <div style={{padding:'18px 18px 16px'}}>
                 <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
                   <div style={{fontSize:32}}>{m.icon}</div>
-                  <div style={{fontFamily:'var(--mono)',fontSize:10,color:m.color,letterSpacing:2}}>GÖREV {i+1}</div>
+                  <div style={{fontFamily:'var(--mono)',fontSize:12,color:m.color,letterSpacing:2}}>GÖREV {i+1}</div>
                 </div>
                 <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,color:'var(--text)',marginBottom:6,lineHeight:1}}>{m.title}</div>
-                <div style={{fontSize:13,color:'var(--text2)',lineHeight:1.6,marginBottom:12,minHeight:60}}>{m.desc}</div>
+                <div style={{fontSize:15,color:'var(--text2)',lineHeight:1.6,marginBottom:12,minHeight:60}}>{m.desc}</div>
                 <div style={{display:'flex',flexDirection:'column',gap:5,marginBottom:12}}>
                 {m.hedefler.slice(0,3).map((h,j) => (
-                  <div key={j} style={{display:'flex',alignItems:'center',gap:7,fontSize:12,color:'var(--text2)'}}>
+                  <div key={j} style={{display:'flex',alignItems:'center',gap:7,fontSize:14,color:'var(--text2)'}}>
                     <span style={{color:m.color,fontWeight:700}}>✓</span>{h}
                   </div>
                 ))}
                 </div>
                 <div style={{display:'flex',gap:12,alignItems:'center'}}>
-                  <span style={{fontFamily:'var(--mono)',fontSize:11,color:'#f59e0b'}}>⭐ {m.odul.puan}</span>
-                  <span style={{fontFamily:'var(--mono)',fontSize:11,color:'var(--accent)'}}>XP {m.odul.xp}</span>
-                  <span style={{marginLeft:'auto',fontSize:11,padding:'3px 9px',borderRadius:999,border:`1px solid ${m.color}66`,color:m.color,background:`${m.color}1a`}}>ÖDÜL</span>
+                  <span style={{fontFamily:'var(--mono)',fontSize:12,color:'#f59e0b'}}>⭐ {m.odul.puan}</span>
+                  <span style={{fontFamily:'var(--mono)',fontSize:12,color:'var(--accent)'}}>XP {m.odul.xp}</span>
+                  <span style={{marginLeft:'auto',fontSize:12,padding:'3px 9px',borderRadius:999,border:`1px solid ${m.color}66`,color:m.color,background:`${m.color}1a`}}>ÖDÜL</span>
                 </div>
               </div>
               {prev && (
@@ -77,12 +77,12 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
         </div>
         <div>
           <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'#a855f7'}}>FREE BUILD MODE</div>
-          <div style={{fontSize:13,color:'var(--text2)',marginBottom:10}}>Tüm parçaları özgürce dene, build karakterini keşfet</div>
+          <div style={{fontSize:15,color:'var(--text2)',marginBottom:10}}>Tüm parçaları özgürce dene, build karakterini keşfet</div>
           <div style={{border:'1px solid rgba(168,85,247,0.4)',borderRadius:16,background:'linear-gradient(135deg, rgba(99,102,241,0.22), rgba(168,85,247,0.12))',padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
             <div>
               <div style={{fontSize:42,marginBottom:8}}>🔓</div>
               <div style={{fontFamily:'var(--display)',fontSize:30,fontWeight:700,lineHeight:1.05}}>FREE BUILD</div>
-              <div style={{marginTop:8,color:'var(--text2)',lineHeight:1.5,fontSize:14}}>Görev baskısı olmadan parçaları birleştir, sistem karakterini canlı analiz et ve en iyi hibrit kombinasyonu keşfet.</div>
+              <div style={{marginTop:8,color:'var(--text2)',lineHeight:1.6,fontSize:16}}>Görev baskısı olmadan parçaları birleştir, sistem karakterini canlı analiz et ve en iyi hibrit kombinasyonu keşfet.</div>
             </div>
             <button onClick={onFreeBuild} style={{marginTop:20,padding:'12px 16px',borderRadius:10,border:'none',background:'#a855f7',color:'#fff',fontFamily:'var(--display)',fontSize:16,fontWeight:700,cursor:'pointer',boxShadow:'0 0 22px rgba(168,85,247,0.35)'}}>
               BAŞLA
@@ -90,7 +90,7 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
           </div>
         </div>
       </div>
-      <div style={{zIndex:1,fontFamily:'var(--mono)',fontSize:10,color:'var(--text3)',letterSpacing:2,marginTop:6}}>DRONEFORGE EDU v2.0</div>
+      <div style={{zIndex:1,fontFamily:'var(--mono)',fontSize:12,color:'var(--text3)',letterSpacing:2,marginTop:6}}>DRONEFORGE EDU v2.0</div>
     </div>
   )
 }

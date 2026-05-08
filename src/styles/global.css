@@ -12,16 +12,16 @@
   --success: #22c55e;
   --danger:  #ef4444;
   --warn:    #f59e0b;
-  --text:    #e8edf8;
-  --text2:   #7a8aaa;
-  --text3:   #3a4a6a;
+  --text:    #f3f7ff;
+  --text2:   #b9c6df;
+  --text3:   #8fa3c6;
   --mono:    'Share Tech Mono', monospace;
   --sans:    'Rajdhani', sans-serif;
   --display: 'Rajdhani', sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body, #root { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); overflow: hidden; }
+html, body, #root { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); overflow: hidden; font-size: 16px; line-height: 1.45; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 
 body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;

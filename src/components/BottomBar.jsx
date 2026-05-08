@@ -18,14 +18,14 @@ export default function BottomBar({ compatAlerts, stats }) {
     }}>
       {/* Left: alerts */}
       <div style={{padding:'6px 14px',borderRight:'1px solid var(--border)',display:'flex',flexDirection:'column',gap:4,justifyContent:'center'}}>
-        <div style={{fontFamily:'var(--mono)',fontSize:8,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase',marginBottom:2}}>SİSTEM UYARILARI</div>
+        <div style={{fontFamily:'var(--mono)',fontSize:10,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase',marginBottom:2}}>SİSTEM UYARILARI</div>
         {visible.length === 0 ? (
-          <div style={{fontSize:11,color:'var(--success)',display:'flex',gap:6,alignItems:'center'}}>
+          <div style={{fontSize:13,color:'var(--success)',display:'flex',gap:6,alignItems:'center'}}>
             <span>✓</span> Tüm bileşenler uyumlu
           </div>
         ) : visible.map((a,i) => (
-          <div key={i} style={{display:'flex',gap:6,alignItems:'flex-start',fontSize:11,color:colors[a.type]||'var(--text2)'}}>
-            <span style={{flexShrink:0,fontSize:10}}>{icons[a.type]}</span>
+          <div key={i} style={{display:'flex',gap:6,alignItems:'flex-start',fontSize:13,color:colors[a.type]||'var(--text2)'}}>
+            <span style={{flexShrink:0,fontSize:12}}>{icons[a.type]}</span>
             <span style={{lineHeight:1.4,color:'var(--text2)'}}>{a.msg}</span>
           </div>
         ))}
@@ -34,7 +34,7 @@ export default function BottomBar({ compatAlerts, stats }) {
       {/* Right: quick stats */}
       {stats && (
         <div style={{padding:'6px 14px',display:'flex',alignItems:'center',gap:isMobile?10:20,flexWrap:isMobile?'wrap':'nowrap'}}>
-          <div style={{fontFamily:'var(--mono)',fontSize:8,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase',marginRight:4}}>HIZLI ÖZET</div>
+          <div style={{fontFamily:'var(--mono)',fontSize:10,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase',marginRight:4}}>HIZLI ÖZET</div>
           {[
             {l:'Hız',v:`${stats.maxHiz} km/s`},
             {l:'Süre',v:`${stats.ucusDakika} dk`},
@@ -42,8 +42,8 @@ export default function BottomBar({ compatAlerts, stats }) {
             {l:'İtiş/Ağırlık',v:`${stats.itisOrani}:1`},
           ].map(item => (
             <div key={item.l} style={{textAlign:'center'}}>
-              <div style={{fontFamily:'var(--mono)',fontSize:8,color:'var(--text3)'}}>{item.l}</div>
-              <div style={{fontFamily:'var(--display)',fontSize:15,fontWeight:700,color:'var(--text)'}}>{item.v}</div>
+              <div style={{fontFamily:'var(--mono)',fontSize:10,color:'var(--text3)'}}>{item.l}</div>
+              <div style={{fontFamily:'var(--display)',fontSize:16,fontWeight:700,color:'var(--text)'}}>{item.v}</div>
             </div>
           ))}
         </div>

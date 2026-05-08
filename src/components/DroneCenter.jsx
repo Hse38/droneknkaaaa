@@ -98,20 +98,20 @@ export default function DroneCenter({ selected, mission }) {
         <div style={{padding:'8px 16px',background:`${mission.color}12`,borderBottom:`1px solid ${mission.color}33`,display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
           <span style={{fontSize:14}}>{mission.icon}</span>
           <div>
-            <div style={{fontFamily:'var(--mono)',fontSize:9,color:mission.color,letterSpacing:2}}>GÖREV</div>
-            <div style={{fontSize:12,color:'var(--text)',fontWeight:500}}>{mission.desc}</div>
+            <div style={{fontFamily:'var(--mono)',fontSize:11,color:mission.color,letterSpacing:2}}>GÖREV</div>
+            <div style={{fontSize:14,color:'var(--text)',fontWeight:500}}>{mission.desc}</div>
           </div>
           <div style={{marginLeft:'auto',display:'flex',flexDirection:'column',gap:2}}>
             {mission.hedefler.slice(0,3).map((h,i) => (
-              <div key={i} style={{display:'flex',alignItems:'center',gap:5,fontSize:10,color:'var(--text2)'}}>
-                <span style={{color:mission.color,fontSize:8}}>✓</span>{h}
+              <div key={i} style={{display:'flex',alignItems:'center',gap:5,fontSize:12,color:'var(--text2)'}}>
+                <span style={{color:mission.color,fontSize:10}}>✓</span>{h}
               </div>
             ))}
           </div>
           <div style={{marginLeft:16,background:`${mission.color}22`,border:`1px solid ${mission.color}44`,borderRadius:8,padding:'6px 14px',textAlign:'center'}}>
-            <div style={{fontFamily:'var(--mono)',fontSize:9,color:mission.color,letterSpacing:1}}>ÖDÜL</div>
+            <div style={{fontFamily:'var(--mono)',fontSize:11,color:mission.color,letterSpacing:1}}>ÖDÜL</div>
             <div style={{fontFamily:'var(--display)',fontSize:16,fontWeight:700,color:'#f59e0b'}}>⭐ {mission.odul.puan}</div>
-            <div style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--accent)'}}>XP {mission.odul.xp}</div>
+            <div style={{fontFamily:'var(--mono)',fontSize:11,color:'var(--accent)'}}>XP {mission.odul.xp}</div>
           </div>
         </div>
       )}
@@ -125,7 +125,7 @@ export default function DroneCenter({ selected, mission }) {
 
         <div style={{position:'relative',zIndex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
           {/* Label */}
-          <div style={{fontFamily:'var(--mono)',fontSize:9,letterSpacing:3,color:'var(--text3)',border:'1px solid var(--border)',borderRadius:4,padding:'3px 10px',display:'flex',gap:12}}>
+          <div style={{fontFamily:'var(--mono)',fontSize:11,letterSpacing:2,color:'var(--text3)',border:'1px solid var(--border)',borderRadius:4,padding:'4px 10px',display:'flex',gap:12}}>
             <span>↩ Modeli döndürmek için sürükle</span>
             <span>•</span>
             <span>Yakınlaştır/Uzaklaştır: Kaydır</span>
@@ -255,34 +255,34 @@ export default function DroneCenter({ selected, mission }) {
       {/* Selected part info - bottom strip */}
       <div style={{borderTop:'1px solid var(--border)',background:'var(--bg2)',flexShrink:0}}>
         <div style={{padding:'6px 14px',borderBottom:'1px solid var(--border)'}}>
-          <div style={{fontFamily:'var(--mono)',fontSize:9,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase'}}>SEÇİLİ BİLEŞEN BİLGİLERİ</div>
+          <div style={{fontFamily:'var(--mono)',fontSize:11,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase'}}>SEÇİLİ BİLEŞEN BİLGİLERİ</div>
         </div>
         <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':isTablet?'repeat(2,1fr)':'repeat(5,1fr)',gap:0}}>
           {parts.map(({label, part}, i) => (
             <div key={label} style={{padding:'10px 12px',borderRight:(!isMobile && !isTablet && i<4)?'1px solid var(--border)':'none',borderBottom:(isMobile || isTablet) && i < parts.length-1 ? '1px solid var(--border)' : 'none'}}>
-              <div style={{fontFamily:'var(--mono)',fontSize:8,color:'var(--text3)',letterSpacing:1,marginBottom:4,textTransform:'uppercase'}}>{label}</div>
+              <div style={{fontFamily:'var(--mono)',fontSize:10,color:'var(--text3)',letterSpacing:1,marginBottom:4,textTransform:'uppercase'}}>{label}</div>
               {part ? (
                 <>
                   <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:6}}>
                     <PartImg part={part} size={32}/>
-                    <div style={{fontFamily:'var(--display)',fontSize:11,fontWeight:600,color:'var(--text)',lineHeight:1.2}}>{part.name}</div>
+                    <div style={{fontFamily:'var(--display)',fontSize:13,fontWeight:600,color:'var(--text)',lineHeight:1.2}}>{part.name}</div>
                   </div>
                   <div style={{display:'flex',flexDirection:'column',gap:2}}>
                     {part.bullets?.slice(0,3).map((b,j) => (
-                      <div key={j} style={{fontSize:10,color:'var(--text2)',display:'flex',gap:4}}>
+                      <div key={j} style={{fontSize:12,color:'var(--text2)',display:'flex',gap:4}}>
                         <span style={{color:'var(--text3)'}}>•</span>{b}
                       </div>
                     ))}
                   </div>
                   <div style={{marginTop:6,display:'flex',gap:8}}>
-                    <span style={{fontSize:10,color:'var(--success)'}}>Avantaj: {part.avantaj}</span>
+                    <span style={{fontSize:12,color:'var(--success)'}}>Avantaj: {part.avantaj}</span>
                   </div>
                   <div style={{display:'flex',gap:8}}>
-                    <span style={{fontSize:10,color:'var(--danger)'}}>Dezavantaj: {part.dezavantaj}</span>
+                    <span style={{fontSize:12,color:'var(--danger)'}}>Dezavantaj: {part.dezavantaj}</span>
                   </div>
                 </>
               ) : (
-                <div style={{fontSize:11,color:'var(--text3)',marginTop:4}}>Seçilmedi</div>
+                <div style={{fontSize:13,color:'var(--text3)',marginTop:4}}>Seçilmedi</div>
               )}
             </div>
           ))}

@@ -102,8 +102,8 @@ export default function App() {
         <div style={{display:'flex',alignItems:'center',gap:8,marginRight:8}}>
           <div style={{width:36,height:36,borderRadius:'50%',background:'rgba(0,212,255,0.1)',border:'1px solid rgba(0,212,255,0.3)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,boxShadow:'0 0 16px rgba(0,212,255,0.3)'}}>🚁</div>
           <div>
-            <div style={{fontFamily:'var(--display)',fontSize:13,fontWeight:700,letterSpacing:2,color:'var(--accent)',lineHeight:1}}>FPV DRONE</div>
-            <div style={{fontFamily:'var(--mono)',fontSize:8,letterSpacing:2,color:'var(--text2)'}}>PARAMETRİK TASARIM</div>
+            <div style={{fontFamily:'var(--display)',fontSize:15,fontWeight:700,letterSpacing:2,color:'var(--accent)',lineHeight:1}}>FPV DRONE</div>
+            <div style={{fontFamily:'var(--mono)',fontSize:10,letterSpacing:2,color:'var(--text2)'}}>PARAMETRİK TASARIM</div>
           </div>
         </div>
 
@@ -115,7 +115,7 @@ export default function App() {
                 padding:'10px 18px', borderRadius:8, border:'none', cursor:'pointer',
                 background: tab===t ? (mission?.color||'var(--accent)') : 'var(--bg3)',
                 color: tab===t ? '#000' : 'var(--text2)',
-                fontFamily:'var(--display)', fontSize:12, fontWeight:700, letterSpacing:1,
+                fontFamily:'var(--display)', fontSize:14, fontWeight:700, letterSpacing:1,
                 transition:'all 0.15s',
               }}
             >
@@ -126,18 +126,18 @@ export default function App() {
 
         {/* Right: user + score */}
         <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:12}}>
-          <div style={{padding:'6px 10px',borderRadius:999,border:'1px solid var(--border2)',background:mode==='challenge'?'rgba(239,68,68,0.15)':'rgba(168,85,247,0.15)',fontFamily:'var(--mono)',fontSize:10,color:mode==='challenge'?'#ef4444':'#a855f7'}}>
+          <div style={{padding:'7px 12px',borderRadius:999,border:'1px solid var(--border2)',background:mode==='challenge'?'rgba(239,68,68,0.15)':'rgba(168,85,247,0.15)',fontFamily:'var(--mono)',fontSize:12,color:mode==='challenge'?'#ef4444':'#a855f7'}}>
             {mode === 'challenge' ? `⚡ CHALLENGE — ${mission?.title || 'Görev'}` : '🔓 FREE BUILD'}
           </div>
           <div style={{background:'var(--bg3)',border:'1px solid var(--border)',borderRadius:8,padding:'4px 12px',display:'flex',alignItems:'center',gap:8}}>
             <div style={{width:24,height:24,borderRadius:'50%',background:'rgba(0,212,255,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12}}>👤</div>
             <div>
-              <div style={{fontFamily:'var(--mono)',fontSize:8,color:'var(--accent)',letterSpacing:1}}>EĞİTİM MODU</div>
-              <div style={{fontSize:10,color:'var(--text2)'}}>Seviye 3</div>
+              <div style={{fontFamily:'var(--mono)',fontSize:10,color:'var(--accent)',letterSpacing:1}}>EĞİTİM MODU</div>
+              <div style={{fontSize:12,color:'var(--text2)'}}>Seviye 3</div>
             </div>
           </div>
           <div style={{background:'var(--bg3)',border:'1px solid var(--border)',borderRadius:8,padding:'4px 12px',textAlign:'center'}}>
-            <div style={{fontFamily:'var(--mono)',fontSize:8,color:'var(--text3)',letterSpacing:1}}>PUAN</div>
+            <div style={{fontFamily:'var(--mono)',fontSize:10,color:'var(--text3)',letterSpacing:1}}>PUAN</div>
             <div style={{fontFamily:'var(--display)',fontSize:16,fontWeight:700,color:'#f59e0b'}}>
               {Object.values(scores).reduce((s,sc)=>s+(sc?.total||0),0)} ⭐
             </div>

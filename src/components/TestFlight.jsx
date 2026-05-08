@@ -80,7 +80,7 @@ function FlightAnim({ mission, stats, selected, onDone }) {
   return (
     <div style={{height:'100vh',background:mission.bgGradient,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:32,position:'relative',overflow:'hidden'}}>
       <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(0,212,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.04) 1px,transparent 1px)',backgroundSize:'60px 60px',pointerEvents:'none'}}/>
-      <div style={{fontFamily:'var(--mono)',fontSize:11,color:mission?.color || 'var(--accent)',letterSpacing:3,textTransform:'uppercase'}}>TEST UÇUŞU — {(mission?.title || primary).toUpperCase()}</div>
+      <div style={{fontFamily:'var(--mono)',fontSize:13,color:mission?.color || 'var(--accent)',letterSpacing:3,textTransform:'uppercase'}}>TEST UÇUŞU — {(mission?.title || primary).toUpperCase()}</div>
       <div style={{
         width:200,height:200,transition: mission.id==='freestyle'?'transform 0.5s cubic-bezier(0.4,0,0.2,1)':'transform 0.8s ease',
         transform:`translate(${x}px,${y}px) rotate(${rot}deg) rotateX(${tiltX}deg)`,
@@ -91,7 +91,7 @@ function FlightAnim({ mission, stats, selected, onDone }) {
           ? <img src={frame.image} alt={frame.name} style={{width:'100%',height:'100%',objectFit:'contain'}} />
           : <div style={{fontSize:72}}>🚁</div>}
       </div>
-      <div style={{fontFamily:'var(--display)',fontSize:20,fontWeight:600,color:'var(--text)',minHeight:32}}>{msg}</div>
+      <div style={{fontFamily:'var(--display)',fontSize:22,fontWeight:600,color:'var(--text)',minHeight:32}}>{msg}</div>
       <div style={{width:280,height:3,background:'var(--border)',borderRadius:2,overflow:'hidden'}}>
         <div style={{height:'100%',background:mission?.color || 'var(--accent)',borderRadius:2,animation:'progressFill 4.5s linear forwards'}}/>
       </div>
