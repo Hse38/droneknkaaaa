@@ -3,31 +3,8 @@
 import React, { useState } from 'react'
 import { getPart } from '../../data/parts'
 import {
-  FrameSVGByID, MotorSVGByID, PropSVGByID,
-  BatterySVGByID, SoftwareSVGByID
+  UnifiedDroneSVG
 } from './DroneSVGs'
-
-// Motor + Pervane pozisyonları frame tipine göre
-const MOTOR_POSITIONS = {
-  tinywhoop:  [{ x:75,  y:75  }, { x:205, y:75  }, { x:75,  y:205 }, { x:205, y:205 }],
-  toothpick:  [{ x:55,  y:55  }, { x:225, y:55  }, { x:55,  y:225 }, { x:225, y:225 }],
-  ducted:     [{ x:80,  y:80  }, { x:200, y:80  }, { x:80,  y:200 }, { x:200, y:200 }],
-  x_frame:    [{ x:55,  y:55  }, { x:225, y:55  }, { x:55,  y:225 }, { x:225, y:225 }],
-  stretched:  [{ x:45,  y:65  }, { x:235, y:65  }, { x:65,  y:215 }, { x:215, y:215 }],
-  lr_frame:   [{ x:38,  y:38  }, { x:242, y:38  }, { x:38,  y:242 }, { x:242, y:242 }],
-}
-
-// Motor boyutları frame tipine göre
-const MOTOR_SIZES = {
-  tinywhoop: 36, toothpick: 38, ducted: 40,
-  x_frame: 44, stretched: 44, lr_frame: 50,
-}
-
-// Pervane boyutları
-const PROP_SIZES = {
-  tinywhoop: 44, toothpick: 46, ducted: 50,
-  x_frame: 56, stretched: 56, lr_frame: 66,
-}
 
 function PartInfoCard({ label, part }) {
   return (
@@ -93,11 +70,6 @@ export default function DroneCenter({ selected, mission }) {
   const prop     = getPart('props',     selected.prop)
   const battery  = getPart('batteries', selected.battery)
   const software = getPart('software',  selected.software)
-
-  const frameId = selected.frame || 'x_frame'
-  const motorPositions = MOTOR_POSITIONS[frameId] || MOTOR_POSITIONS.x_frame
-  const motorSize = MOTOR_SIZES[frameId] || 44
-  const propSize = PROP_SIZES[frameId] || 56
 
   return (
     <div style={{
@@ -179,119 +151,18 @@ export default function DroneCenter({ selected, mission }) {
           pointerEvents: 'none',
         }}/>
 
-        {/* DRONE COMPOSITE — SVG layers */}
-        <div style={{ position: 'relative', width: 280, height: 280 }}>
-
-          {/* FRAME LAYER — bottom */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            animation: 'float 3s ease-in-out infinite',
-          }}>
-            <FrameSVGByID
-              frameId={selected.frame}
-              color={frame?.color || '#00d4ff'}
-              size={280}
-            />
-          </div>
-
-          {/* MOTOR + PROP LAYERS */}
-          {motorPositions.map((pos, i) => {
-            // Normalize positions from 280 viewBox to actual container
-            const px = (pos.x / 280) * 280
-            const py = (pos.y / 280) * 280
-            const isCW = i === 0 || i === 3
-
-            return (
-              <div key={i} style={{
-                position: 'absolute',
-                left: px - propSize / 2,
-                top: py - propSize / 2,
-                width: propSize,
-                height: propSize,
-                animation: 'float 3s ease-in-out infinite',
-              }}>
-                {/* Thrust glow */}
-                <div style={{
-                  position: 'absolute', inset: -4, borderRadius: '50%',
-                  background: `radial-gradient(circle, ${prop?.color || '#00d4ff'}25 0%, transparent 70%)`,
-                  animation: 'glowPulse 0.3s ease-in-out infinite alternate',
-                }}/>
-
-                {/* Prop */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  animation: `${isCW ? 'spinCW' : 'spinCCW'} 0.25s linear infinite`,
-                }}>
-                  <PropSVGByID
-                    propId={selected.prop}
-                    color={prop?.color || '#00d4ff'}
-                    size={propSize}
-                  />
-                </div>
-
-                {/* Motor (static, on top of prop hub) */}
-                <div style={{
-                  position: 'absolute',
-                  left: '50%', top: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  pointerEvents: 'none',
-                  zIndex: 2,
-                }}>
-                  <MotorSVGByID
-                    motorId={selected.motor}
-                    color={motor?.color || '#f59e0b'}
-                    size={motorSize}
-                  />
-                </div>
-              </div>
-            )
-          })}
-
-          {/* BATTERY — below center */}
-          {battery && (
-            <div style={{
-              position: 'absolute',
-              left: '50%', top: '65%',
-              transform: 'translate(-50%, -50%)',
-              opacity: 0.85,
-              animation: 'float 3s ease-in-out infinite',
-              animationDelay: '0.5s',
-              zIndex: 3,
-            }}>
-              <BatterySVGByID
-                batteryId={selected.battery}
-                color={battery.color}
-                size={55}
-              />
-            </div>
-          )}
-
-          {/* SOFTWARE — above center */}
-          {software && (
-            <div style={{
-              position: 'absolute',
-              left: '50%', top: '22%',
-              transform: 'translate(-50%, -50%)',
-              opacity: 0.75,
-              animation: 'float 3s ease-in-out infinite',
-              animationDelay: '1s',
-              zIndex: 3,
-            }}>
-              <SoftwareSVGByID
-                softwareId={selected.software}
-                color={software.color}
-                size={42}
-              />
-            </div>
-          )}
+        <div style={{ position: 'relative', width: 300, height: 300, animation: 'float 3s ease-in-out infinite' }}>
+          <UnifiedDroneSVG
+            frameId={selected.frame}
+            frameColor={frame?.color || '#00d4ff'}
+            motorColor={motor?.color || '#f59e0b'}
+            propColor={prop?.color || '#00d4ff'}
+            size={300}
+          />
         </div>
 
         <style>{`
-          @keyframes glowPulse { from{opacity:0.3} to{opacity:0.8} }
           @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-          @keyframes spinCW { to{transform:rotate(360deg)} }
-          @keyframes spinCCW { to{transform:rotate(-360deg)} }
         `}</style>
       </div>
 

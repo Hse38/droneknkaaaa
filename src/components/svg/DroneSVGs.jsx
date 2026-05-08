@@ -989,3 +989,149 @@ export function BatterySVGByID({ batteryId, color, size = 80 }) {
 export function SoftwareSVGByID({ softwareId, color, size = 80 }) {
   return <SoftwareSVG type={softwareId} color={color} size={size}/>
 }
+
+export function UnifiedDroneSVG({
+  frameId = 'x_frame',
+  frameColor = '#00d4ff',
+  motorColor = '#f59e0b',
+  propColor = '#00d4ff',
+  size = 300,
+}) {
+  const motorPosMap = {
+    tinywhoop: [{ cx: 75, cy: 75 }, { cx: 205, cy: 75 }, { cx: 75, cy: 205 }, { cx: 205, cy: 205 }],
+    toothpick: [{ cx: 65, cy: 65 }, { cx: 215, cy: 65 }, { cx: 65, cy: 215 }, { cx: 215, cy: 215 }],
+    ducted: [{ cx: 78, cy: 78 }, { cx: 242, cy: 78 }, { cx: 78, cy: 242 }, { cx: 242, cy: 242 }],
+    x_frame: [{ cx: 75, cy: 75 }, { cx: 245, cy: 75 }, { cx: 75, cy: 245 }, { cx: 245, cy: 245 }],
+    stretched: [{ cx: 60, cy: 70 }, { cx: 260, cy: 70 }, { cx: 80, cy: 250 }, { cx: 240, cy: 250 }],
+    lr_frame: [{ cx: 48, cy: 48 }, { cx: 272, cy: 48 }, { cx: 48, cy: 272 }, { cx: 272, cy: 272 }],
+  }
+  const propRxMap = {
+    tinywhoop: 28,
+    ducted: 32,
+    x_frame: 36,
+    stretched: 36,
+    toothpick: 36,
+    lr_frame: 44,
+  }
+
+  const motors = motorPosMap[frameId] || motorPosMap.x_frame
+  const propRx = propRxMap[frameId] || 36
+  const propRy = Math.max(6, Math.round(propRx * 0.2))
+  const propStroke = propRx > 40 ? 2.2 : 2
+
+  return (
+    <svg viewBox="0 0 320 320" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="ud-glow">
+          <feGaussianBlur stdDeviation="4" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <radialGradient id="ud-center" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor={`${frameColor}66`} />
+          <stop offset="100%" stopColor={`${frameColor}00`} />
+        </radialGradient>
+      </defs>
+
+      {/* 1) Thrust glows */}
+      {motors.map((m, i) => (
+        <ellipse
+          key={`glow-${i}`}
+          cx={m.cx}
+          cy={m.cy + 8}
+          rx="38"
+          ry="10"
+          fill={i === 0 || i === 3 ? '#00d4ff33' : `${frameColor}33`}
+        />
+      ))}
+
+      {/* 2) Arms */}
+      {motors.map((m, i) => (
+        <line
+          key={`arm-${i}`}
+          x1="160"
+          y1="160"
+          x2={m.cx}
+          y2={m.cy}
+          stroke="#1a2232"
+          strokeWidth="14"
+          strokeLinecap="round"
+        />
+      ))}
+
+      {/* 3) Arm highlights */}
+      {motors.map((m, i) => (
+        <line
+          key={`arm-h-${i}`}
+          x1="160"
+          y1="160"
+          x2={m.cx}
+          y2={m.cy}
+          stroke="rgba(255,255,255,0.22)"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeDasharray="7 6"
+        />
+      ))}
+
+      {/* Center underglow */}
+      <circle cx="160" cy="160" r="88" fill="url(#ud-center)" />
+
+      {/* 4) Props */}
+      {motors.map((m, i) => {
+        const isCW = i === 0 || i === 3
+        const color = isCW ? '#00d4ff' : frameColor
+        return (
+          <g key={`prop-${i}`} style={{ transformOrigin: `${m.cx}px ${m.cy}px`, animation: `${isCW ? 'spinCW' : 'spinCCW'} 0.27s linear infinite` }}>
+            <ellipse
+              cx={m.cx}
+              cy={m.cy}
+              rx={propRx}
+              ry={propRy}
+              fill={`${color}1f`}
+              stroke={color}
+              strokeWidth={propStroke}
+              strokeDasharray="9 5"
+            />
+            <ellipse
+              cx={m.cx}
+              cy={m.cy}
+              rx={Math.max(12, propRx * 0.44)}
+              ry={Math.max(3, propRy * 0.6)}
+              fill="none"
+              stroke={`${color}99`}
+              strokeWidth="1.3"
+              strokeDasharray="4 3"
+            />
+          </g>
+        )
+      })}
+
+      {/* 5) Motor mounts */}
+      {motors.map((m, i) => (
+        <g key={`motor-${i}`}>
+          <circle cx={m.cx} cy={m.cy} r="16" fill="#0b0f18" stroke="#2a3550" strokeWidth="2" />
+          <circle cx={m.cx} cy={m.cy} r="10" fill="#111827" stroke={motorColor} strokeWidth="1.8" />
+          <circle cx={m.cx} cy={m.cy} r="6" fill="#1f2937" stroke={frameColor} strokeWidth="1.1" />
+          <circle cx={m.cx} cy={m.cy} r="2.5" fill={motorColor} filter="url(#ud-glow)" />
+        </g>
+      ))}
+
+      {/* 6) Center FC board */}
+      <rect x="136" y="136" width="48" height="48" rx="7" fill="#0d1220" stroke="#2a3550" strokeWidth="2" />
+      <rect x="142" y="142" width="36" height="36" rx="5" fill="none" stroke={frameColor} strokeWidth="1.1" opacity="0.65" />
+      <rect x="149" y="149" width="22" height="22" rx="3" fill="#0b1220" stroke={motorColor} strokeWidth="1" opacity="0.8" />
+      <line x1="148" y1="160" x2="172" y2="160" stroke={frameColor} strokeWidth="0.9" opacity="0.6" />
+      <line x1="160" y1="148" x2="160" y2="172" stroke={frameColor} strokeWidth="0.9" opacity="0.6" />
+      <circle cx="160" cy="160" r="4" fill={propColor} filter="url(#ud-glow)" />
+      <circle cx="146" cy="146" r="2" fill="#00d4ff" opacity="0.85" />
+      <circle cx="174" cy="146" r="2" fill={frameColor} opacity="0.85" />
+      <circle cx="146" cy="174" r="2" fill={frameColor} opacity="0.85" />
+      <circle cx="174" cy="174" r="2" fill="#00d4ff" opacity="0.85" />
+
+      <style>{`
+        @keyframes spinCW { to { transform: rotate(360deg); } }
+        @keyframes spinCCW { to { transform: rotate(-360deg); } }
+      `}</style>
+    </svg>
+  )
+}
