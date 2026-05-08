@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { getPart } from '../../data/parts'
 import { UnifiedDroneSVG } from './DroneSVGsV3'
 import { useViewport } from '../../hooks/useViewport'
@@ -22,6 +22,9 @@ export default function DroneCenter({ selected, mission }) {
 
   const [selectedPartType, setSelectedPartType] = useState(null)
   const [zoom, setZoom] = useState(1)
+  const [rotation, setRotation] = useState({ x: -8, y: 10 })
+  const [isDragging, setIsDragging] = useState(false)
+  const dragRef = useRef({ x: 0, y: 0, rotX: 0, rotY: 0 })
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
 
   const detail = useMemo(() => {
@@ -40,6 +43,30 @@ export default function DroneCenter({ selected, mission }) {
     return null
   }, [selectedPartType, frame, motor, prop, battery])
 
+  const handleMouseDown = (event) => {
+    setIsDragging(true)
+    dragRef.current = { x: event.clientX, y: event.clientY, rotX: rotation.x, rotY: rotation.y }
+  }
+
+  useEffect(() => {
+    if (!isDragging) return undefined
+    const onMove = (event) => {
+      const dx = event.clientX - dragRef.current.x
+      const dy = event.clientY - dragRef.current.y
+      setRotation({
+        x: clamp(dragRef.current.rotX - dy * 0.18, -35, 35),
+        y: clamp(dragRef.current.rotY + dx * 0.18, -35, 35),
+      })
+    }
+    const onUp = () => setIsDragging(false)
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+    }
+  }, [isDragging])
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--bg)', overflow: 'hidden' }}>
       {mission && (
@@ -52,8 +79,11 @@ export default function DroneCenter({ selected, mission }) {
       <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: isMobile ? 'column' : 'row', overflow: 'hidden' }}>
         <div style={{ flex: 1, minHeight: isMobile ? 320 : 0, position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ transform: `scale(${zoom})`, transition: 'transform 0.15s ease' }}>
+          <div
+            onMouseDown={handleMouseDown}
+            style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: isDragging ? 'grabbing' : 'grab', userSelect: 'none', perspective: 900 }}
+          >
+            <div style={{ transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${zoom})`, transformStyle: 'preserve-3d', transition: isDragging ? 'none' : 'transform 0.15s ease' }}>
               <UnifiedDroneSVG
                 frameId={selected.frame}
                 motorId={selected.motor}

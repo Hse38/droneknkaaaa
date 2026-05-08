@@ -62,7 +62,13 @@ const prop = (id, name, subtitle, color, stats, specs, price, ducted = false) =>
   color,
   image: `/images/props/${id}.png`,
   fallbackEmoji: '🌀',
-  propSizeInch: Number(String(specs.Boyut).replace(/[^0-9.]/g, '')) || 1.2,
+  propSizeInch: (() => {
+    const raw = String(specs.Boyut || '').trim().toLowerCase()
+    const numeric = Number(raw.replace(/[^0-9.]/g, ''))
+    if (!numeric) return 1.2
+    if (raw.includes('mm')) return Number((numeric / 25.4).toFixed(2))
+    return numeric
+  })(),
   blades: Number(String(specs.Kanat).replace(/[^0-9]/g, '')) || 3,
   ducted,
   bullets: [`Pitch: ${specs.Pitch}`, `${specs.Kanat} kanat`, `${specs.Delik} hub`],
