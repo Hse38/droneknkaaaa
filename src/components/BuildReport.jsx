@@ -144,7 +144,7 @@ export default function BuildReport({ mission, stats, result, mode, selected, on
         <div style={{ display:'flex', justifyContent:'center', gap:10, flexWrap:'wrap' }}>
           <button onClick={onRetry} style={{ padding:'10px 16px', borderRadius:8, border:'1px solid var(--border2)', background:'transparent', color:'var(--text)' }}>TEKRAR TASARLA</button>
           <button onClick={onMissions} style={{ padding:'10px 16px', borderRadius:8, border:'1px solid var(--border2)', background:'transparent', color:'var(--text)' }}>GÖREV SEÇİMİ</button>
-          <button onClick={() => onNewMission?.()} style={{ padding:'10px 16px', borderRadius:8, border:'none', background: mission?.color || 'var(--accent)', color:'#000', fontWeight:700 }}>YENİ GÖREV</button>
+          <button onClick={() => onNewMission?.()} style={{ padding:'10px 16px', borderRadius:8, border:'none', background: mission?.color || 'var(--accent)', color:'#000', fontWeight:700 }}>DETAYLI <TASARLA></TASARLA></button>
         </div>
       </div>
     </div>
