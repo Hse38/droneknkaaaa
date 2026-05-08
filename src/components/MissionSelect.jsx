@@ -58,7 +58,16 @@ export default function MissionSelect({ view = 'mode', onSelect, onFreeBuild, on
                 GÖREV SEÇ
               </button>
             </div>
-            <div style={{border:'1px solid rgba(168,85,247,0.4)',borderRadius:16,background:'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), linear-gradient(135deg, rgba(99,102,241,0.22), rgba(168,85,247,0.12))',padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between',minWidth:modeCardMin,maxWidth:440}}>
+            <div
+              onClick={onFreeBuild}
+              style={{
+                border:'1px solid rgba(168,85,247,0.4)',borderRadius:16,background:'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), linear-gradient(135deg, rgba(99,102,241,0.22), rgba(168,85,247,0.12))',
+                padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between',minWidth:modeCardMin,maxWidth:440,cursor:'pointer',
+                transition:'all 0.2s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform='translateY(-7px)'; e.currentTarget.style.boxShadow='0 18px 36px rgba(168,85,247,0.28)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}
+            >
               <div style={{height:7,background:'linear-gradient(90deg, #a855f7, transparent)',margin:'-22px -22px 16px',borderTopLeftRadius:16,borderTopRightRadius:16}} />
               <div>
                 <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
@@ -68,7 +77,7 @@ export default function MissionSelect({ view = 'mode', onSelect, onFreeBuild, on
                 <div style={{fontFamily:'var(--display)',fontSize:28,fontWeight:700,lineHeight:1.05}}>FREE BUILD</div>
                 <div style={{marginTop:8,color:'var(--text2)',lineHeight:1.6,fontSize:16}}>Görev baskısı olmadan parçaları birleştir, sistem karakterini canlı analiz et ve en iyi hibrit kombinasyonu keşfet.</div>
               </div>
-              <button onClick={onFreeBuild} style={{marginTop:20,padding:'12px 16px',borderRadius:10,border:'none',background:'#a855f7',color:'#fff',fontFamily:'var(--display)',fontSize:16,fontWeight:700,cursor:'pointer',boxShadow:'0 0 22px rgba(168,85,247,0.35)'}}>
+              <button style={{marginTop:20,padding:'12px 16px',borderRadius:10,border:'none',background:'#a855f7',color:'#fff',fontFamily:'var(--display)',fontSize:16,fontWeight:700,cursor:'pointer',boxShadow:'0 0 22px rgba(168,85,247,0.35)'}}>
                 BAŞLA
               </button>
             </div>

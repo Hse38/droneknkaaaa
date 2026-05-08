@@ -32,6 +32,7 @@ function PartImage({ sectionKey, part, size = 48 }) {
 }
 
 export default function PartSelector({ selected, onSelect }) {
+  const safeSelected = selected || {}
   const [openSection, setOpenSection] = React.useState('frame')
   const [queries, setQueries] = React.useState({
     frame: '',
@@ -42,16 +43,23 @@ export default function PartSelector({ selected, onSelect }) {
   })
 
   const selectedFrame = React.useMemo(
-    () => PARTS.frames.find((f) => f.id === selected.frame),
-    [selected.frame],
+    () => PARTS.frames.find((f) => f.id === safeSelected.frame),
+    [safeSelected.frame],
   )
   const selectedMap = React.useMemo(() => ({
-    frame: PARTS.frames.find((x) => x.id === selected?.frame),
-    motor: PARTS.motors.find((x) => x.id === selected?.motor),
-    prop: PARTS.props.find((x) => x.id === selected?.prop),
-    battery: PARTS.batteries.find((x) => x.id === selected?.battery),
-    software: PARTS.software.find((x) => x.id === selected?.software),
-  }), [selected])
+    frame: PARTS.frames.find((x) => x.id === safeSelected.frame),
+    motor: PARTS.motors.find((x) => x.id === safeSelected.motor),
+    prop: PARTS.props.find((x) => x.id === safeSelected.prop),
+    battery: PARTS.batteries.find((x) => x.id === safeSelected.battery),
+    software: PARTS.software.find((x) => x.id === safeSelected.software),
+  }), [safeSelected.frame, safeSelected.motor, safeSelected.prop, safeSelected.battery, safeSelected.software])
+
+  React.useEffect(() => {
+    const hasSelection = Boolean(
+      safeSelected.frame || safeSelected.motor || safeSelected.prop || safeSelected.battery || safeSelected.software,
+    )
+    if (!hasSelection && !openSection) setOpenSection('frame')
+  }, [safeSelected.frame, safeSelected.motor, safeSelected.prop, safeSelected.battery, safeSelected.software, openSection])
 
   const sections = React.useMemo(() => {
     return BASE_SECTIONS.map((section) => {
@@ -145,7 +153,7 @@ export default function PartSelector({ selected, onSelect }) {
 
               <div style={{ maxHeight: 300, overflowY: 'auto' }}>
                 {section.items.map((part) => {
-                  const isSel = selected[section.key] === part.id
+                  const isSel = safeSelected[section.key] === part.id
                   const best = highlightStat(part.stats)
                   const statValue = best?.[1] || 0
                   const statKey = best?.[0]

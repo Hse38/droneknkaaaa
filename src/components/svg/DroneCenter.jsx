@@ -13,12 +13,13 @@ function DetailRow({ k, v }) {
 }
 
 export default function DroneCenter({ selected, mission }) {
+  const safeSelected = selected || {}
   const { isMobile, isTablet } = useViewport()
-  const frame = getPart('frames', selected.frame)
-  const motor = getPart('motors', selected.motor)
-  const prop = getPart('props', selected.prop)
-  const battery = getPart('batteries', selected.battery)
-  const software = getPart('software', selected.software)
+  const frame = getPart('frames', safeSelected.frame)
+  const motor = getPart('motors', safeSelected.motor)
+  const prop = getPart('props', safeSelected.prop)
+  const battery = getPart('batteries', safeSelected.battery)
+  const software = getPart('software', safeSelected.software)
 
   const [selectedPartType, setSelectedPartType] = useState(null)
   const [zoom, setZoom] = useState(1)
@@ -73,6 +74,13 @@ export default function DroneCenter({ selected, mission }) {
     }
   }, [isDragging])
 
+  useEffect(() => {
+    if (selectedPartType === 'frame' && !frame) setSelectedPartType(null)
+    if (selectedPartType === 'motor' && !motor) setSelectedPartType(null)
+    if (selectedPartType === 'prop' && !prop) setSelectedPartType(null)
+    if (selectedPartType === 'battery' && !battery) setSelectedPartType(null)
+  }, [selectedPartType, frame, motor, prop, battery])
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--bg)', overflow: 'hidden' }}>
       {mission && (
@@ -91,9 +99,9 @@ export default function DroneCenter({ selected, mission }) {
           >
             <div style={{ transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${zoom})`, transformStyle: 'preserve-3d', transition: isDragging ? 'none' : 'transform 0.15s ease' }}>
               <UnifiedDroneSVG
-                frameId={selected.frame}
-                motorId={selected.motor}
-                propId={selected.prop}
+                frameId={safeSelected.frame || 'x_frame'}
+                motorId={safeSelected.motor}
+                propId={safeSelected.prop}
                 frameColor={frame?.color || '#ef4444'}
                 propColor={prop?.color || '#00d4ff'}
                 size={isTablet ? 280 : 305}

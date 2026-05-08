@@ -12,6 +12,13 @@ import BuildYourDrone from './components/BuildYourDrone'
 import { useViewport } from './hooks/useViewport'
 
 const TABS = ['TASARIM','GÖREVLER','TEST UÇUŞU','RAPOR']
+const EMPTY_SELECTION = {
+  frame: null,
+  motor: null,
+  prop: null,
+  battery: null,
+  software: null,
+}
 
 export default function App() {
   const { isMobile, isTablet } = useViewport()
@@ -73,13 +80,11 @@ export default function App() {
   const handleTestFlight = () => setScreen('flight')
   const handleRetry = () => { setSelected(DEFAULT_BUILD); setScreen('design') }
   const handleMissions = () => setScreen('mode')
-  const handleReset = () => setSelected({
-    frame: null,
-    motor: null,
-    prop: null,
-    battery: null,
-    software: null,
-  })
+  const handleReset = () => {
+    setSelected({ ...EMPTY_SELECTION })
+    setScreen('design')
+    setTab('TASARIM')
+  }
   const handleBuildGuide = () => setScreen('buildguide')
 
   if (screen === 'mode') return <MissionSelect view='mode' onChallengeMode={handleChallengeMode} onFreeBuild={handleFreeBuild} />
