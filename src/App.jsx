@@ -8,6 +8,7 @@ import DroneCenter from './components/svg/DroneCenter'
 import StatPanel from './components/StatPanel'
 import BottomBar from './components/BottomBar'
 import TestFlight from './components/TestFlight'
+import BuildYourDrone from './components/BuildYourDrone'
 import { useViewport } from './hooks/useViewport'
 
 const TABS = ['TASARIM','GÖREVLER','TEST UÇUŞU','RAPOR']
@@ -20,6 +21,7 @@ export default function App() {
   const [selected, setSelected] = useState(DEFAULT_BUILD)
   const [scores, setScores]   = useState({})
   const [tab, setTab]         = useState('TASARIM')
+  const [buildGuideMission, setBuildGuideMission] = useState(null)
 
   const build = useMemo(() => ({
     frame:    getPart('frames',    selected.frame),
@@ -73,10 +75,16 @@ export default function App() {
   const handleRetry = () => { setSelected(DEFAULT_BUILD); setScreen('design') }
   const handleMissions = () => setScreen('mode')
   const handleReset = () => setSelected(DEFAULT_BUILD)
+  const handleBuildGuide = () => {
+    setBuildGuideMission(mission)
+    setScreen('buildguide')
+  }
+  const handleBuildGuideBack = () => setScreen('design')
 
   if (screen === 'mode') return <MissionSelect view='mode' onChallengeMode={handleChallengeMode} onFreeBuild={handleFreeBuild} />
   if (screen === 'mission') return <MissionSelect view='mission' onSelect={handleMissionSelect} onBack={handleMissions} scores={scores}/>
-  if (screen === 'flight')  return <TestFlight mission={mission} mode={mode} stats={stats} selected={selected} compatAlerts={compatAlerts} onRetry={handleRetry} onMissions={handleMissions} onNewMission={handleMissions}/>
+  if (screen === 'flight')  return <TestFlight mission={mission} mode={mode} stats={stats} selected={selected} compatAlerts={compatAlerts} onRetry={handleRetry} onMissions={handleMissions} onNewMission={handleBuildGuide}/>
+  if (screen === 'buildguide') return <BuildYourDrone selected={selected} mission={buildGuideMission || mission} onBack={handleBuildGuideBack} />
 
   const designGrid = isMobile
     ? { gridTemplateColumns:'1fr', gridTemplateRows:'78px auto auto auto auto' }

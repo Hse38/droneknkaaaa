@@ -4,6 +4,7 @@ import { getPart } from '../data/parts'
 import { analyzeArchetype } from '../engine/archetypeEngine'
 import BuildReport from './BuildReport'
 import { useViewport } from '../hooks/useViewport'
+import { UnifiedDroneSVG } from './svg/DroneSVGs'
 
 function FlightAnim({ mission, stats, selected, onDone }) {
   const { isMobile } = useViewport()
@@ -14,6 +15,7 @@ function FlightAnim({ mission, stats, selected, onDone }) {
   const [tiltX, setTiltX] = useState(0)
   const unstable = stats.sistemRiski > 75
   const frame = getPart('frames', selected?.frame)
+  const prop = getPart('props', selected?.prop)
   const primary = analyzeArchetype(stats).primary?.name
 
   useEffect(() => {
@@ -84,14 +86,22 @@ function FlightAnim({ mission, stats, selected, onDone }) {
       <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(0,212,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.04) 1px,transparent 1px)',backgroundSize:'60px 60px',pointerEvents:'none'}}/>
       <div style={{fontFamily:'var(--mono)',fontSize:isMobile?11:13,color:mission?.color || 'var(--accent)',letterSpacing:2,textTransform:'uppercase',textAlign:'center',maxWidth:600}}>TEST UÇUŞU — {(mission?.title || primary).toUpperCase()}</div>
       <div style={{
-        width:isMobile?160:200,height:isMobile?160:200,transition: mission.id==='freestyle'?'transform 0.5s cubic-bezier(0.4,0,0.2,1)':'transform 0.8s ease',
-        transform:`translate(${x}px,${y}px) rotate(${rot}deg) rotateX(${tiltX}deg)`,
-        filter:`drop-shadow(0 0 24px ${mission?.color || '#00d4ff'})`,
+        transform:`translate(${x}px, ${y}px) rotate(${rot}deg)`,
+        transition:'transform 0.5s ease',
+        filter:`drop-shadow(0 0 30px ${mission?.color || '#00d4ff'})`,
         animation: unstable ? 'shake 0.1s infinite' : undefined,
       }}>
-        {frame?.image
-          ? <img src={frame.image} alt={frame.name} style={{width:'100%',height:'100%',objectFit:'contain'}} />
-          : <div style={{fontSize:72}}>🚁</div>}
+        <div style={{ transform:`rotateX(${tiltX}deg)` }}>
+          <UnifiedDroneSVG
+            frameId={selected.frame}
+            motorId={selected.motor}
+            propId={selected.prop}
+            frameColor={frame?.color || '#00d4ff'}
+            propColor={prop?.color || '#00d4ff'}
+            motorColor={getPart('motors', selected?.motor)?.color || '#f59e0b'}
+            size={isMobile ? 170 : 200}
+          />
+        </div>
       </div>
       <div style={{fontFamily:'var(--display)',fontSize:isMobile?18:22,fontWeight:600,color:'var(--text)',minHeight:32,textAlign:'center'}}>{msg}</div>
       <div style={{width:isMobile?220:280,height:3,background:'var(--border)',borderRadius:2,overflow:'hidden'}}>

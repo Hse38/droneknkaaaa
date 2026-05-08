@@ -992,10 +992,13 @@ export function SoftwareSVGByID({ softwareId, color, size = 80 }) {
 
 export function UnifiedDroneSVG({
   frameId = 'x_frame',
+  motorId = '2207_2450',
+  propId = '5052',
   frameColor = '#00d4ff',
   motorColor = '#f59e0b',
   propColor = '#00d4ff',
   size = 300,
+  onSelectPart,
 }) {
   const motorPosMap = {
     tinywhoop: [{ cx: 75, cy: 75 }, { cx: 205, cy: 75 }, { cx: 75, cy: 205 }, { cx: 205, cy: 205 }],
@@ -1015,9 +1018,13 @@ export function UnifiedDroneSVG({
   }
 
   const motors = motorPosMap[frameId] || motorPosMap.x_frame
-  const propRx = propRxMap[frameId] || 36
+  const propRxFromId = propId === '31mm_3b' ? 28 : propId === '2521' ? 30 : propId === '3520' ? 32 : propId === '7035' ? 44 : null
+  const propRx = propRxFromId || propRxMap[frameId] || 36
   const propRy = Math.max(6, Math.round(propRx * 0.2))
   const propStroke = propRx > 40 ? 2.2 : 2
+  const motorOuter = motorId === '1106_6000' ? 13 : motorId === '1404_4600' ? 14 : motorId === '2806_1300' ? 18 : 16
+  const motorMid = Math.max(8, motorOuter - 6)
+  const motorInner = Math.max(5, motorOuter - 10)
 
   return (
     <svg viewBox="0 0 320 320" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
@@ -1076,6 +1083,22 @@ export function UnifiedDroneSVG({
       {/* Center underglow */}
       <circle cx="160" cy="160" r="88" fill="url(#ud-center)" />
 
+      {/* Frame click area */}
+      {motors.map((m, i) => (
+        <line
+          key={`frame-hit-${i}`}
+          x1="160"
+          y1="160"
+          x2={m.cx}
+          y2={m.cy}
+          stroke="transparent"
+          strokeWidth="26"
+          strokeLinecap="round"
+          style={{ cursor: 'pointer' }}
+          onClick={() => onSelectPart?.('frame')}
+        />
+      ))}
+
       {/* 4) Props */}
       {motors.map((m, i) => {
         const isCW = i === 0 || i === 3
@@ -1102,22 +1125,30 @@ export function UnifiedDroneSVG({
               strokeWidth="1.3"
               strokeDasharray="4 3"
             />
+            <circle
+              cx={m.cx}
+              cy={m.cy}
+              r={Math.max(22, propRx)}
+              fill="transparent"
+              style={{ cursor: 'pointer' }}
+              onClick={() => onSelectPart?.('prop')}
+            />
           </g>
         )
       })}
 
       {/* 5) Motor mounts */}
       {motors.map((m, i) => (
-        <g key={`motor-${i}`}>
-          <circle cx={m.cx} cy={m.cy} r="16" fill="#0b0f18" stroke="#2a3550" strokeWidth="2" />
-          <circle cx={m.cx} cy={m.cy} r="10" fill="#111827" stroke={motorColor} strokeWidth="1.8" />
-          <circle cx={m.cx} cy={m.cy} r="6" fill="#1f2937" stroke={frameColor} strokeWidth="1.1" />
+        <g key={`motor-${i}`} style={{ cursor: 'pointer' }} onClick={() => onSelectPart?.('motor')}>
+          <circle cx={m.cx} cy={m.cy} r={motorOuter} fill="#0b0f18" stroke="#2a3550" strokeWidth="2" />
+          <circle cx={m.cx} cy={m.cy} r={motorMid} fill="#111827" stroke={motorColor} strokeWidth="1.8" />
+          <circle cx={m.cx} cy={m.cy} r={motorInner} fill="#1f2937" stroke={frameColor} strokeWidth="1.1" />
           <circle cx={m.cx} cy={m.cy} r="2.5" fill={motorColor} filter="url(#ud-glow)" />
         </g>
       ))}
 
       {/* 6) Center FC board */}
-      <rect x="136" y="136" width="48" height="48" rx="7" fill="#0d1220" stroke="#2a3550" strokeWidth="2" />
+      <rect x="136" y="136" width="48" height="48" rx="7" fill="#0d1220" stroke="#2a3550" strokeWidth="2" style={{ cursor: 'pointer' }} onClick={() => onSelectPart?.('fc')} />
       <rect x="142" y="142" width="36" height="36" rx="5" fill="none" stroke={frameColor} strokeWidth="1.1" opacity="0.65" />
       <rect x="149" y="149" width="22" height="22" rx="3" fill="#0b1220" stroke={motorColor} strokeWidth="1" opacity="0.8" />
       <line x1="148" y1="160" x2="172" y2="160" stroke={frameColor} strokeWidth="0.9" opacity="0.6" />
@@ -1127,6 +1158,11 @@ export function UnifiedDroneSVG({
       <circle cx="174" cy="146" r="2" fill={frameColor} opacity="0.85" />
       <circle cx="146" cy="174" r="2" fill={frameColor} opacity="0.85" />
       <circle cx="174" cy="174" r="2" fill="#00d4ff" opacity="0.85" />
+
+      {/* Battery indicator */}
+      <rect x="136" y="210" width="48" height="20" rx="5" fill="#0f1824" stroke="#2a3550" strokeWidth="1.6" style={{ cursor: 'pointer' }} onClick={() => onSelectPart?.('battery')} />
+      <rect x="141" y="215" width="38" height="10" rx="3" fill={frameColor} opacity="0.25" />
+      <rect x="184" y="216" width="5" height="8" rx="1" fill="#2a3550" />
 
       <style>{`
         @keyframes spinCW { to { transform: rotate(360deg); } }
