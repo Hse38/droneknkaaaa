@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import { PARTS, DEFAULT_BUILD, getPart } from './data/parts'
-import { calculateStats } from './engine/statEngine'
+import { calculateStats, STAT_KEYS } from './engine/statEngine'
 import { getCompatAlerts } from './engine/compat'
 import MissionSelect from './components/MissionSelect'
 import PartSelector from './components/PartSelector'
@@ -37,9 +37,19 @@ export default function App() {
     software: getPart('software',  selected.software),
   }), [selected])
 
+  const hasAnySelection = !!(selected.frame || selected.motor || selected.prop || selected.battery || selected.software)
+
   const stats = useMemo(() =>
-    calculateStats(build.frame, build.motor, build.prop, build.battery, build.software),
-    [build]
+    hasAnySelection
+      ? calculateStats(build.frame, build.motor, build.prop, build.battery, build.software)
+      : {
+          ...STAT_KEYS.reduce((acc, key) => ({ ...acc, [key]: 0 }), {}),
+          maxHiz: 0,
+          ucusDakika: 0,
+          agirlik: 0,
+          itisOrani: 0,
+        },
+    [build, hasAnySelection]
   )
 
   const compatAlerts = useMemo(() =>
