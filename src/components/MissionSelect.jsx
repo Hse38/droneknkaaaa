@@ -4,6 +4,7 @@ import { useViewport } from '../hooks/useViewport'
 
 export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
   const { isMobile, isTablet } = useViewport()
+  const cardMinWidth = isMobile ? 280 : isTablet ? 320 : 340
 
   return (
     <div style={{
@@ -26,11 +27,19 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
         <p style={{color:'var(--text2)',fontSize:isMobile?15:17,marginTop:8}}>Challenge görevleri veya özgür tasarım modu arasında seçim yap.</p>
       </div>
 
-      <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1.3fr 1fr',gap:18,width:'100%',maxWidth:1200,justifyContent:'center',zIndex:1}}>
-        <div>
-          <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'var(--accent)'}}>CHALLENGE MODE</div>
-          <div style={{fontSize:15,color:'var(--text2)',marginBottom:10}}>Göreve uygun drone tasarla, karakterini keşfet</div>
-          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':isTablet?'repeat(2, minmax(240px, 1fr))':'repeat(2, minmax(280px, 1fr))',gap:12}}>
+      <div style={{width:'100%',maxWidth:1240,zIndex:1}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,marginBottom:10,flexWrap:'wrap'}}>
+          <div>
+            <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'var(--accent)'}}>CHALLENGE MODE</div>
+            <div style={{fontSize:15,color:'var(--text2)'}}>Göreve uygun drone tasarla, karakterini keşfet</div>
+          </div>
+          <div style={{textAlign:isMobile?'left':'right'}}>
+            <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'#a855f7'}}>FREE BUILD MODE</div>
+            <div style={{fontSize:15,color:'var(--text2)'}}>Tüm parçaları özgürce dene, build karakterini keşfet</div>
+          </div>
+        </div>
+
+        <div style={{display:'flex',gap:12,overflowX:'auto',paddingBottom:10,scrollSnapType:'x mandatory',WebkitOverflowScrolling:'touch'}}>
         {MISSIONS.map((m,i) => {
           const prev = scores?.[m.id]
           return (
@@ -38,7 +47,7 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
               style={{
                 background:'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))',
                 border:`1px solid ${m.color}3d`, borderRadius:16, backdropFilter:'blur(11px)',
-                padding:0, cursor:'pointer', position:'relative', overflow:'hidden',
+                padding:0, cursor:'pointer', position:'relative', overflow:'hidden', minWidth:cardMinWidth, flex:'0 0 auto', scrollSnapAlign:'start',
                 transition:'all 0.22s', animation:`fadeIn 0.45s ease ${i*0.09}s both`,
               }}
               onMouseEnter={e => { e.currentTarget.style.border=`1px solid ${m.color}85`; e.currentTarget.style.transform='translateY(-8px)'; e.currentTarget.style.boxShadow=`0 20px 44px ${m.color}33` }}
@@ -73,15 +82,14 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
             </div>
           )
         })}
-          </div>
-        </div>
-        <div>
-          <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'#a855f7'}}>FREE BUILD MODE</div>
-          <div style={{fontSize:15,color:'var(--text2)',marginBottom:10}}>Tüm parçaları özgürce dene, build karakterini keşfet</div>
-          <div style={{border:'1px solid rgba(168,85,247,0.4)',borderRadius:16,background:'linear-gradient(135deg, rgba(99,102,241,0.22), rgba(168,85,247,0.12))',padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+          <div style={{border:'1px solid rgba(168,85,247,0.4)',borderRadius:16,background:'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), linear-gradient(135deg, rgba(99,102,241,0.22), rgba(168,85,247,0.12))',padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between',minWidth:cardMinWidth,flex:'0 0 auto',scrollSnapAlign:'start'}}>
+            <div style={{height:7,background:'linear-gradient(90deg, #a855f7, transparent)',margin:'-22px -22px 16px',borderTopLeftRadius:16,borderTopRightRadius:16}} />
             <div>
-              <div style={{fontSize:42,marginBottom:8}}>🔓</div>
-              <div style={{fontFamily:'var(--display)',fontSize:30,fontWeight:700,lineHeight:1.05}}>FREE BUILD</div>
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                <div style={{fontSize:32}}>🔓</div>
+                <div style={{fontFamily:'var(--mono)',fontSize:12,color:'#d8b4fe',letterSpacing:2}}>MODE</div>
+              </div>
+              <div style={{fontFamily:'var(--display)',fontSize:28,fontWeight:700,lineHeight:1.05}}>FREE BUILD</div>
               <div style={{marginTop:8,color:'var(--text2)',lineHeight:1.6,fontSize:16}}>Görev baskısı olmadan parçaları birleştir, sistem karakterini canlı analiz et ve en iyi hibrit kombinasyonu keşfet.</div>
             </div>
             <button onClick={onFreeBuild} style={{marginTop:20,padding:'12px 16px',borderRadius:10,border:'none',background:'#a855f7',color:'#fff',fontFamily:'var(--display)',fontSize:16,fontWeight:700,cursor:'pointer',boxShadow:'0 0 22px rgba(168,85,247,0.35)'}}>
