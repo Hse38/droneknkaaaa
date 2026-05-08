@@ -31,6 +31,8 @@ export default function DroneCenter({ selected, mission }) {
   const hasAnySelection = Boolean(
     safeSelected.frame || safeSelected.motor || safeSelected.prop || safeSelected.battery || safeSelected.software,
   )
+  const selectedCount = [safeSelected.frame, safeSelected.motor, safeSelected.prop, safeSelected.battery, safeSelected.software]
+    .filter(Boolean).length
 
   const detail = useMemo(() => {
     if (selectedPartType === 'frame') return frame
@@ -176,7 +178,7 @@ export default function DroneCenter({ selected, mission }) {
       </div>
 
       <div style={{ borderTop: '1px solid var(--border)', background: 'var(--bg2)', padding: '6px 12px', fontSize: 11, color: 'var(--text3)' }}>
-        Parca secimi: {selectedPartType ? selectedPartType.toUpperCase() : 'YOK'} | Yazilim: {software?.name || '-'}
+        Parca secimi: {selectedPartType ? selectedPartType.toUpperCase() : selectedCount > 0 ? `${selectedCount} BILESEN` : 'YOK'} | Yazilim: {software?.name || '-'}
       </div>
     </div>
   )
