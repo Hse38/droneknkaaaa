@@ -107,6 +107,11 @@ export default function DroneCenter({ selected, mission }) {
     if (selectedPartType === 'fc') return FC_DETAILS
     return null
   }, [selectedPartType, frame, motor, prop, battery])
+  const panelOpen = !!detail
+
+  const handleSelectPart = (type) => {
+    setSelectedPartType((prev) => (prev === type ? null : type))
+  }
 
   const handleWheel = (event) => {
     event.preventDefault()
@@ -190,7 +195,7 @@ export default function DroneCenter({ selected, mission }) {
                 motorColor={motor?.color || '#f59e0b'}
                 propColor={prop?.color || '#00d4ff'}
                 size={isTablet ? 270 : 300}
-                onSelectPart={setSelectedPartType}
+                onSelectPart={handleSelectPart}
               />
             </div>
           </div>
@@ -205,11 +210,36 @@ export default function DroneCenter({ selected, mission }) {
           </div>
         </div>
 
-        <aside style={{ width: isMobile ? '100%' : 280, minWidth: isMobile ? 'auto' : 280, borderLeft: isMobile ? 'none' : `3px solid ${detail?.color || 'var(--border)'}`, borderTop: isMobile ? `3px solid ${detail?.color || 'var(--border)'}` : 'none', background: 'var(--bg2)', display: 'flex', flexDirection: 'column', minHeight: 0, animation: 'fadeInPanel 0.2s ease' }}>
+        <aside
+          style={{
+            width: isMobile ? '100%' : 280,
+            minWidth: isMobile ? 'auto' : 280,
+            borderLeft: isMobile ? 'none' : `3px solid ${detail?.color || 'var(--border)'}`,
+            borderTop: isMobile ? `3px solid ${detail?.color || 'var(--border)'}` : 'none',
+            background: 'var(--bg2)',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 0,
+            transform: panelOpen ? 'translateX(0)' : 'translateX(100%)',
+            opacity: panelOpen ? 1 : 0,
+            pointerEvents: panelOpen ? 'auto' : 'none',
+            transition: 'transform 0.25s ease, opacity 0.25s ease',
+            marginRight: panelOpen ? 0 : (isMobile ? 0 : -280),
+          }}
+        >
           <div style={{ padding: '10px 12px', borderBottom: '1px solid var(--border)' }}>
             {detail ? (
               <>
-                <div style={{ fontFamily: 'var(--display)', fontSize: 16, fontWeight: 700, color: detail.color }}>{detail.name}</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                  <div style={{ fontFamily: 'var(--display)', fontSize: 16, fontWeight: 700, color: detail.color }}>{detail.name}</div>
+                  <button
+                    onClick={() => setSelectedPartType(null)}
+                    style={{ width: 24, height: 24, borderRadius: 6, border: '1px solid var(--border2)', background: 'var(--bg3)', color: 'var(--text2)', cursor: 'pointer', fontSize: 14, lineHeight: 1 }}
+                    title='Kapat'
+                  >
+                    ×
+                  </button>
+                </div>
                 <div style={{ display: 'flex', gap: 6, marginTop: 6, flexWrap: 'wrap' }}>
                   {detail.badges?.map((b) => (
                     <span key={b} style={{ fontFamily: 'var(--mono)', fontSize: 9, color: detail.color, border: `1px solid ${detail.color}66`, borderRadius: 999, padding: '2px 7px' }}>{b}</span>
@@ -266,7 +296,6 @@ export default function DroneCenter({ selected, mission }) {
       </div>
 
       <style>{`
-        @keyframes fadeInPanel { from { opacity: 0; } to { opacity: 1; } }
       `}</style>
     </div>
   )

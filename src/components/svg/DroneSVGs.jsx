@@ -1000,6 +1000,7 @@ export function UnifiedDroneSVG({
   size = 300,
   onSelectPart,
 }) {
+  const [hovered, setHovered] = React.useState(null)
   const motorPosMap = {
     tinywhoop: [{ cx: 75, cy: 75 }, { cx: 205, cy: 75 }, { cx: 75, cy: 205 }, { cx: 205, cy: 205 }],
     toothpick: [{ cx: 65, cy: 65 }, { cx: 215, cy: 65 }, { cx: 65, cy: 215 }, { cx: 215, cy: 215 }],
@@ -1062,6 +1063,7 @@ export function UnifiedDroneSVG({
           stroke="#1a2232"
           strokeWidth="14"
           strokeLinecap="round"
+          style={{ transition: 'stroke-opacity 0.2s ease', strokeOpacity: hovered?.type === 'frame' ? 0.95 : 0.78 }}
         />
       ))}
 
@@ -1073,10 +1075,11 @@ export function UnifiedDroneSVG({
           y1="160"
           x2={m.cx}
           y2={m.cy}
-          stroke="rgba(255,255,255,0.22)"
+          stroke="rgba(255,255,255,0.24)"
           strokeWidth="5"
           strokeLinecap="round"
           strokeDasharray="7 6"
+          style={{ transition: 'opacity 0.2s ease', opacity: hovered?.type === 'frame' ? 0.9 : 0.52 }}
         />
       ))}
 
@@ -1096,6 +1099,8 @@ export function UnifiedDroneSVG({
           strokeLinecap="round"
           style={{ cursor: 'pointer' }}
           onClick={() => onSelectPart?.('frame')}
+          onMouseEnter={() => setHovered({ type: 'frame', index: i })}
+          onMouseLeave={() => setHovered(null)}
         />
       ))}
 
@@ -1132,6 +1137,8 @@ export function UnifiedDroneSVG({
               fill="transparent"
               style={{ cursor: 'pointer' }}
               onClick={() => onSelectPart?.('prop')}
+              onMouseEnter={() => setHovered({ type: 'prop', index: i })}
+              onMouseLeave={() => setHovered(null)}
             />
           </g>
         )
@@ -1139,16 +1146,35 @@ export function UnifiedDroneSVG({
 
       {/* 5) Motor mounts */}
       {motors.map((m, i) => (
-        <g key={`motor-${i}`} style={{ cursor: 'pointer' }} onClick={() => onSelectPart?.('motor')}>
-          <circle cx={m.cx} cy={m.cy} r={motorOuter} fill="#0b0f18" stroke="#2a3550" strokeWidth="2" />
-          <circle cx={m.cx} cy={m.cy} r={motorMid} fill="#111827" stroke={motorColor} strokeWidth="1.8" />
+        <g
+          key={`motor-${i}`}
+          style={{ cursor: 'pointer' }}
+          onClick={() => onSelectPart?.('motor')}
+          onMouseEnter={() => setHovered({ type: 'motor', index: i })}
+          onMouseLeave={() => setHovered(null)}
+        >
+          <circle cx={m.cx} cy={m.cy} r={motorOuter} fill="#0b0f18" stroke={hovered?.type === 'motor' && hovered?.index === i ? '#5b6f95' : '#2a3550'} strokeWidth="2" style={{ transition: 'stroke 0.2s ease' }} />
+          <circle cx={m.cx} cy={m.cy} r={motorMid} fill="#111827" stroke={hovered?.type === 'motor' && hovered?.index === i ? '#ffd166' : motorColor} strokeWidth="1.8" style={{ transition: 'stroke 0.2s ease, filter 0.2s ease', filter: hovered?.type === 'motor' && hovered?.index === i ? 'drop-shadow(0 0 5px rgba(255,209,102,0.8))' : 'none' }} />
           <circle cx={m.cx} cy={m.cy} r={motorInner} fill="#1f2937" stroke={frameColor} strokeWidth="1.1" />
           <circle cx={m.cx} cy={m.cy} r="2.5" fill={motorColor} filter="url(#ud-glow)" />
         </g>
       ))}
 
       {/* 6) Center FC board */}
-      <rect x="136" y="136" width="48" height="48" rx="7" fill="#0d1220" stroke="#2a3550" strokeWidth="2" style={{ cursor: 'pointer' }} onClick={() => onSelectPart?.('fc')} />
+      <rect
+        x="136"
+        y="136"
+        width="48"
+        height="48"
+        rx="7"
+        fill="#0d1220"
+        stroke={hovered?.type === 'fc' ? '#7ed8ff' : '#2a3550'}
+        strokeWidth="2"
+        style={{ cursor: 'pointer', transition: 'stroke 0.2s ease, filter 0.2s ease', filter: hovered?.type === 'fc' ? 'drop-shadow(0 0 8px rgba(126,216,255,0.75))' : 'none' }}
+        onClick={() => onSelectPart?.('fc')}
+        onMouseEnter={() => setHovered({ type: 'fc' })}
+        onMouseLeave={() => setHovered(null)}
+      />
       <rect x="142" y="142" width="36" height="36" rx="5" fill="none" stroke={frameColor} strokeWidth="1.1" opacity="0.65" />
       <rect x="149" y="149" width="22" height="22" rx="3" fill="#0b1220" stroke={motorColor} strokeWidth="1" opacity="0.8" />
       <line x1="148" y1="160" x2="172" y2="160" stroke={frameColor} strokeWidth="0.9" opacity="0.6" />
@@ -1160,8 +1186,22 @@ export function UnifiedDroneSVG({
       <circle cx="174" cy="174" r="2" fill="#00d4ff" opacity="0.85" />
 
       {/* Battery indicator */}
-      <rect x="136" y="210" width="48" height="20" rx="5" fill="#0f1824" stroke="#2a3550" strokeWidth="1.6" style={{ cursor: 'pointer' }} onClick={() => onSelectPart?.('battery')} />
-      <rect x="141" y="215" width="38" height="10" rx="3" fill={frameColor} opacity="0.25" />
+      <rect
+        x="136"
+        y="210"
+        width="48"
+        height="20"
+        rx="5"
+        fill="#0f1824"
+        stroke="#2a3550"
+        strokeWidth="1.6"
+        style={{ cursor: 'pointer', transition: 'opacity 0.2s ease' }}
+        opacity={hovered?.type === 'battery' ? 1 : 0.84}
+        onClick={() => onSelectPart?.('battery')}
+        onMouseEnter={() => setHovered({ type: 'battery' })}
+        onMouseLeave={() => setHovered(null)}
+      />
+      <rect x="141" y="215" width="38" height="10" rx="3" fill={frameColor} opacity={hovered?.type === 'battery' ? 0.45 : 0.25} style={{ transition: 'opacity 0.2s ease' }} />
       <rect x="184" y="216" width="5" height="8" rx="1" fill="#2a3550" />
 
       <style>{`
