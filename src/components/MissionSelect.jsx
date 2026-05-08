@@ -2,9 +2,11 @@ import React from 'react'
 import { MISSIONS } from '../data/missions'
 import { useViewport } from '../hooks/useViewport'
 
-export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
+export default function MissionSelect({ view = 'mode', onSelect, onFreeBuild, onChallengeMode, onBack, scores }) {
   const { isMobile, isTablet } = useViewport()
   const cardMinWidth = isMobile ? 280 : isTablet ? 320 : 340
+  const modeCardMin = isMobile ? 280 : 360
+  const isModeView = view === 'mode'
 
   return (
     <div style={{
@@ -23,23 +25,67 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
             <div style={{fontFamily:'var(--mono)',fontSize:12,letterSpacing:3,color:'var(--text2)',textTransform:'uppercase',marginTop:4}}>PARAMETRİK TASARIM</div>
           </div>
         </div>
-        <h1 style={{fontFamily:'var(--display)',fontSize:isMobile?34:52,fontWeight:700,letterSpacing:2,color:'var(--text)',lineHeight:1}}>V2 OPERASYON MENÜSÜ</h1>
-        <p style={{color:'var(--text2)',fontSize:isMobile?15:17,marginTop:8}}>Challenge görevleri veya özgür tasarım modu arasında seçim yap.</p>
+        <h1 style={{fontFamily:'var(--display)',fontSize:isMobile?34:52,fontWeight:700,letterSpacing:2,color:'var(--text)',lineHeight:1}}>
+          {isModeView ? 'MOD SEÇİMİ' : 'CHALLENGE GÖREVLERİ'}
+        </h1>
+        <p style={{color:'var(--text2)',fontSize:isMobile?15:17,marginTop:8}}>
+          {isModeView ? 'Önce oyun modunu seç.' : 'Hangi challenge görevini oynayacağını seç.'}
+        </p>
       </div>
 
       <div style={{width:'100%',maxWidth:1240,zIndex:1}}>
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,marginBottom:10,flexWrap:'wrap'}}>
-          <div>
-            <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'var(--accent)'}}>CHALLENGE MODE</div>
-            <div style={{fontSize:15,color:'var(--text2)'}}>Göreve uygun drone tasarla, karakterini keşfet</div>
+        {isModeView ? (
+          <div style={{display:'flex',gap:14,justifyContent:'center',flexWrap:isMobile?'wrap':'nowrap'}}>
+            <div
+              onClick={onChallengeMode}
+              style={{
+                border:'1px solid rgba(0,212,255,0.42)',borderRadius:16,background:'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between',minWidth:modeCardMin,maxWidth:440,cursor:'pointer',
+                transition:'all 0.2s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform='translateY(-7px)'; e.currentTarget.style.boxShadow='0 18px 36px rgba(0,212,255,0.24)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}
+            >
+              <div style={{height:7,background:'linear-gradient(90deg, #00d4ff, transparent)',margin:'-22px -22px 16px',borderTopLeftRadius:16,borderTopRightRadius:16}} />
+              <div>
+                <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                  <div style={{fontSize:32}}>⚡</div>
+                  <div style={{fontFamily:'var(--mono)',fontSize:12,color:'#7dd3fc',letterSpacing:2}}>MODE</div>
+                </div>
+                <div style={{fontFamily:'var(--display)',fontSize:28,fontWeight:700,lineHeight:1.05}}>CHALLENGE</div>
+                <div style={{marginTop:8,color:'var(--text2)',lineHeight:1.6,fontSize:16}}>Görev seçip hedeflere göre drone tasarla, puan topla ve yıldız kazan.</div>
+              </div>
+              <button style={{marginTop:20,padding:'12px 16px',borderRadius:10,border:'none',background:'#00d4ff',color:'#001018',fontFamily:'var(--display)',fontSize:16,fontWeight:700,cursor:'pointer'}}>
+                GÖREV SEÇ
+              </button>
+            </div>
+            <div style={{border:'1px solid rgba(168,85,247,0.4)',borderRadius:16,background:'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), linear-gradient(135deg, rgba(99,102,241,0.22), rgba(168,85,247,0.12))',padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between',minWidth:modeCardMin,maxWidth:440}}>
+              <div style={{height:7,background:'linear-gradient(90deg, #a855f7, transparent)',margin:'-22px -22px 16px',borderTopLeftRadius:16,borderTopRightRadius:16}} />
+              <div>
+                <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                  <div style={{fontSize:32}}>🔓</div>
+                  <div style={{fontFamily:'var(--mono)',fontSize:12,color:'#d8b4fe',letterSpacing:2}}>MODE</div>
+                </div>
+                <div style={{fontFamily:'var(--display)',fontSize:28,fontWeight:700,lineHeight:1.05}}>FREE BUILD</div>
+                <div style={{marginTop:8,color:'var(--text2)',lineHeight:1.6,fontSize:16}}>Görev baskısı olmadan parçaları birleştir, sistem karakterini canlı analiz et ve en iyi hibrit kombinasyonu keşfet.</div>
+              </div>
+              <button onClick={onFreeBuild} style={{marginTop:20,padding:'12px 16px',borderRadius:10,border:'none',background:'#a855f7',color:'#fff',fontFamily:'var(--display)',fontSize:16,fontWeight:700,cursor:'pointer',boxShadow:'0 0 22px rgba(168,85,247,0.35)'}}>
+                BAŞLA
+              </button>
+            </div>
           </div>
-          <div style={{textAlign:isMobile?'left':'right'}}>
-            <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'#a855f7'}}>FREE BUILD MODE</div>
-            <div style={{fontSize:15,color:'var(--text2)'}}>Tüm parçaları özgürce dene, build karakterini keşfet</div>
-          </div>
-        </div>
-
-        <div style={{display:'flex',gap:12,overflowX:'auto',paddingBottom:10,scrollSnapType:'x mandatory',WebkitOverflowScrolling:'touch'}}>
+        ) : (
+          <>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,marginBottom:10,flexWrap:'wrap'}}>
+              <div>
+                <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'var(--accent)'}}>CHALLENGE MODE</div>
+                <div style={{fontSize:15,color:'var(--text2)'}}>Bir görevi seç ve hedefe uygun build kur.</div>
+              </div>
+              <button onClick={onBack} style={{padding:'10px 14px',borderRadius:9,border:'1px solid var(--border2)',background:'var(--bg3)',color:'var(--text2)',fontFamily:'var(--display)',fontSize:14,fontWeight:600,cursor:'pointer'}}>
+                ← MODLARA DÖN
+              </button>
+            </div>
+            <div style={{display:'flex',gap:12,overflowX:'auto',paddingBottom:10,scrollSnapType:'x mandatory',WebkitOverflowScrolling:'touch'}}>
         {MISSIONS.map((m,i) => {
           const prev = scores?.[m.id]
           return (
@@ -82,21 +128,9 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
             </div>
           )
         })}
-          <div style={{border:'1px solid rgba(168,85,247,0.4)',borderRadius:16,background:'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), linear-gradient(135deg, rgba(99,102,241,0.22), rgba(168,85,247,0.12))',padding:22,minHeight:290,display:'flex',flexDirection:'column',justifyContent:'space-between',minWidth:cardMinWidth,flex:'0 0 auto',scrollSnapAlign:'start'}}>
-            <div style={{height:7,background:'linear-gradient(90deg, #a855f7, transparent)',margin:'-22px -22px 16px',borderTopLeftRadius:16,borderTopRightRadius:16}} />
-            <div>
-              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
-                <div style={{fontSize:32}}>🔓</div>
-                <div style={{fontFamily:'var(--mono)',fontSize:12,color:'#d8b4fe',letterSpacing:2}}>MODE</div>
-              </div>
-              <div style={{fontFamily:'var(--display)',fontSize:28,fontWeight:700,lineHeight:1.05}}>FREE BUILD</div>
-              <div style={{marginTop:8,color:'var(--text2)',lineHeight:1.6,fontSize:16}}>Görev baskısı olmadan parçaları birleştir, sistem karakterini canlı analiz et ve en iyi hibrit kombinasyonu keşfet.</div>
             </div>
-            <button onClick={onFreeBuild} style={{marginTop:20,padding:'12px 16px',borderRadius:10,border:'none',background:'#a855f7',color:'#fff',fontFamily:'var(--display)',fontSize:16,fontWeight:700,cursor:'pointer',boxShadow:'0 0 22px rgba(168,85,247,0.35)'}}>
-              BAŞLA
-            </button>
-          </div>
-        </div>
+          </>
+        )}
       </div>
       <div style={{zIndex:1,fontFamily:'var(--mono)',fontSize:12,color:'var(--text3)',letterSpacing:2,marginTop:6}}>DRONEFORGE EDU v2.0</div>
     </div>

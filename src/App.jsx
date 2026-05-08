@@ -14,7 +14,7 @@ const TABS = ['TASARIM','GÖREVLER','TEST UÇUŞU','RAPOR']
 
 export default function App() {
   const { isMobile, isTablet } = useViewport()
-  const [screen, setScreen]   = useState('mission')
+  const [screen, setScreen]   = useState('mode')
   const [mission, setMission] = useState(null)
   const [mode, setMode] = useState('challenge')
   const [selected, setSelected] = useState(DEFAULT_BUILD)
@@ -65,6 +65,13 @@ export default function App() {
     setScreen('design')
     setTab('TASARIM')
   }
+  const handleChallengeMode = () => {
+    setMode('challenge')
+    setMission(null)
+    setSelected(DEFAULT_BUILD)
+    setScreen('mission')
+    setTab('GÖREVLER')
+  }
   const handleFreeBuild = () => {
     setMode('free')
     setMission(null)
@@ -75,10 +82,11 @@ export default function App() {
 
   const handleTestFlight = () => setScreen('flight')
   const handleRetry = () => { setSelected(DEFAULT_BUILD); setScreen('design') }
-  const handleMissions = () => setScreen('mission')
+  const handleMissions = () => setScreen('mode')
   const handleReset = () => setSelected(DEFAULT_BUILD)
 
-  if (screen === 'mission') return <MissionSelect onSelect={handleMissionSelect} onFreeBuild={handleFreeBuild} scores={scores}/>
+  if (screen === 'mode') return <MissionSelect view='mode' onChallengeMode={handleChallengeMode} onFreeBuild={handleFreeBuild} />
+  if (screen === 'mission') return <MissionSelect view='mission' onSelect={handleMissionSelect} onBack={handleMissions} scores={scores}/>
   if (screen === 'flight')  return <TestFlight mission={mission} mode={mode} stats={stats} selected={selected} compatAlerts={compatAlerts} onRetry={handleRetry} onMissions={handleMissions} onNewMission={handleMissions}/>
 
   const designGrid = isMobile

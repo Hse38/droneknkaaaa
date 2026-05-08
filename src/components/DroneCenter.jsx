@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { getPart } from '../data/parts'
 import { useViewport } from '../hooks/useViewport'
 
@@ -66,6 +66,9 @@ function LayerItem({ src, alt, width, height, fallback, animationName, tint, rou
 
 export default function DroneCenter({ selected, mission }) {
   const { width, isMobile, isTablet } = useViewport()
+  const [showMissionBanner, setShowMissionBanner] = useState(true)
+  const [isResizingInfo, setIsResizingInfo] = useState(false)
+  const resizeStateRef = useRef({ startY: 0, startHeight: 0 })
   const frame    = getPart('frames',   selected.frame)
   const motor    = getPart('motors',   selected.motor)
   const prop     = getPart('props',    selected.prop)
@@ -77,11 +80,45 @@ export default function DroneCenter({ selected, mission }) {
     { x: 120, y: 280 },
     { x: 280, y: 280 },
   ]
-  const maxByViewport = Math.max(240, Math.min(width - (isMobile ? 36 : isTablet ? 80 : 120), isTablet ? 360 : 420))
-  const sceneSize = isMobile ? Math.max(240, Math.min(300, maxByViewport)) : isTablet ? Math.max(280, Math.min(360, maxByViewport)) : 400
+  const maxByViewport = Math.max(240, Math.min(width - (isMobile ? 36 : isTablet ? 80 : 120), isTablet ? 340 : 380))
+  const sceneSize = isMobile ? Math.max(230, Math.min(300, maxByViewport)) : isTablet ? Math.max(260, Math.min(340, maxByViewport)) : Math.max(300, Math.min(360, maxByViewport))
   const center = sceneSize / 2
   const scale = sceneSize / 400
   const scaledPoints = motorPoints.map((p) => ({ x: p.x * scale, y: p.y * scale }))
+  const infoMinHeight = isMobile ? 150 : 130
+  const infoMaxHeight = isMobile ? 360 : isTablet ? 300 : 260
+  const [infoContentHeight, setInfoContentHeight] = useState(isMobile ? 190 : 170)
+
+  useEffect(() => {
+    setShowMissionBanner(true)
+  }, [mission?.id])
+
+  useEffect(() => {
+    setInfoContentHeight((prev) => Math.max(infoMinHeight, Math.min(infoMaxHeight, prev)))
+  }, [infoMinHeight, infoMaxHeight])
+
+  useEffect(() => {
+    if (!isResizingInfo) return undefined
+
+    const handlePointerMove = (event) => {
+      const deltaY = event.clientY - resizeStateRef.current.startY
+      const next = resizeStateRef.current.startHeight - deltaY
+      setInfoContentHeight(Math.max(infoMinHeight, Math.min(infoMaxHeight, next)))
+    }
+    const handlePointerUp = () => setIsResizingInfo(false)
+
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', handlePointerUp)
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+    }
+  }, [isResizingInfo, infoMaxHeight, infoMinHeight])
+
+  const startResizingInfo = (event) => {
+    resizeStateRef.current = { startY: event.clientY, startHeight: infoContentHeight }
+    setIsResizingInfo(true)
+  }
 
   const parts = [
     { label:'FRAME',          part:frame },
@@ -95,7 +132,7 @@ export default function DroneCenter({ selected, mission }) {
     <div style={{display:'flex',flexDirection:'column',height:'100%',minHeight:0,background:'var(--bg)',overflow:'hidden'}}>
 
       {/* Mission banner */}
-      {mission && (
+      {mission && showMissionBanner && (
         <div style={{padding:'8px 16px',background:`${mission.color}12`,borderBottom:`1px solid ${mission.color}33`,display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
           <span style={{fontSize:14}}>{mission.icon}</span>
           <div>
@@ -114,11 +151,27 @@ export default function DroneCenter({ selected, mission }) {
             <div style={{fontFamily:'var(--display)',fontSize:16,fontWeight:700,color:'#f59e0b'}}>⭐ {mission.odul.puan}</div>
             <div style={{fontFamily:'var(--mono)',fontSize:11,color:'var(--accent)'}}>XP {mission.odul.xp}</div>
           </div>
+          <button
+            onClick={() => setShowMissionBanner(false)}
+            style={{marginLeft:10,padding:'6px 10px',borderRadius:8,border:'1px solid var(--border2)',background:'var(--bg3)',color:'var(--text2)',fontFamily:'var(--mono)',fontSize:11,cursor:'pointer'}}
+          >
+            GİZLE
+          </button>
+        </div>
+      )}
+      {mission && !showMissionBanner && (
+        <div style={{padding:'6px 16px',borderBottom:`1px solid ${mission.color}33`,background:'rgba(8,12,22,0.8)',display:'flex',justifyContent:'flex-end',flexShrink:0}}>
+          <button
+            onClick={() => setShowMissionBanner(true)}
+            style={{padding:'6px 10px',borderRadius:8,border:'1px solid var(--border2)',background:'var(--bg3)',color:'var(--text2)',fontFamily:'var(--mono)',fontSize:11,cursor:'pointer'}}
+          >
+            GÖREVİ GÖSTER
+          </button>
         </div>
       )}
 
       {/* Drone viewer */}
-      <div style={{flex:1,minHeight:0,display:'flex',alignItems:'center',justifyContent:'center',position:'relative',overflowY:isMobile?'auto':'hidden',overflowX:'hidden'}}>
+      <div style={{flex:1,minHeight:isMobile?250:220,display:'flex',alignItems:'center',justifyContent:'center',position:'relative',overflowY:'auto',overflowX:'hidden'}}>
         {/* Grid bg */}
         <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px)',backgroundSize:'50px 50px',pointerEvents:'none'}}/>
         {/* Glow circle */}
@@ -254,11 +307,19 @@ export default function DroneCenter({ selected, mission }) {
       </div>
 
       {/* Selected part info - bottom strip */}
-      <div style={{borderTop:'1px solid var(--border)',background:'var(--bg2)',flexShrink:0}}>
+      <div style={{borderTop:'1px solid var(--border)',background:'var(--bg2)',flexShrink:0,display:'flex',flexDirection:'column',minHeight:0}}>
         <div style={{padding:'6px 14px',borderBottom:'1px solid var(--border)'}}>
           <div style={{fontFamily:'var(--mono)',fontSize:11,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase'}}>SEÇİLİ BİLEŞEN BİLGİLERİ</div>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':isTablet?'repeat(2,1fr)':'repeat(5,1fr)',gap:0}}>
+        <div
+          onPointerDown={startResizingInfo}
+          style={{height:10,cursor:'row-resize',display:'flex',alignItems:'center',justifyContent:'center',touchAction:'none'}}
+          title='Yüksekliği değiştirmek için sürükle'
+        >
+          <div style={{width:56,height:3,borderRadius:999,background:'var(--border2)'}} />
+        </div>
+        <div style={{height:infoContentHeight,overflowY:'auto',overflowX:'hidden'}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':isTablet?'repeat(2,1fr)':'repeat(5,1fr)',gap:0}}>
           {parts.map(({label, part}, i) => (
             <div key={label} style={{padding:'10px 12px',borderRight:(!isMobile && !isTablet && i<4)?'1px solid var(--border)':'none',borderBottom:(isMobile || isTablet) && i < parts.length-1 ? '1px solid var(--border)' : 'none'}}>
               <div style={{fontFamily:'var(--mono)',fontSize:10,color:'var(--text3)',letterSpacing:1,marginBottom:4,textTransform:'uppercase'}}>{label}</div>
@@ -287,6 +348,7 @@ export default function DroneCenter({ selected, mission }) {
               )}
             </div>
           ))}
+          </div>
         </div>
       </div>
       <style>{`
