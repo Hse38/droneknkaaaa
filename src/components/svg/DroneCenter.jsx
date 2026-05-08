@@ -22,6 +22,7 @@ export default function DroneCenter({ selected, mission }) {
   const software = getPart('software', safeSelected.software)
 
   const [selectedPartType, setSelectedPartType] = useState(null)
+  const [showMissionBanner, setShowMissionBanner] = useState(true)
   const [zoom, setZoom] = useState(1)
   const [rotation, setRotation] = useState({ x: -8, y: 10 })
   const [isDragging, setIsDragging] = useState(false)
@@ -87,9 +88,19 @@ export default function DroneCenter({ selected, mission }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--bg)', overflow: 'hidden' }}>
       {mission && (
-        <div style={{ padding: '8px 14px', borderBottom: `1px solid ${mission.color}44`, background: `${mission.color}11`, flexShrink: 0 }}>
-          <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: 1, color: mission.color }}>{mission.icon} GOREV</div>
-          <div style={{ fontSize: 12, color: 'var(--text)' }}>{mission.desc}</div>
+        <div style={{ borderBottom: `1px solid ${mission.color}44`, background: `${mission.color}11`, flexShrink: 0 }}>
+          <div style={{ padding: '8px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: 1, color: mission.color }}>{mission.icon} GOREV</div>
+            <button
+              onClick={() => setShowMissionBanner((prev) => !prev)}
+              style={{ border: '1px solid var(--border2)', background: 'var(--bg3)', color: 'var(--text2)', borderRadius: 6, fontSize: 11, padding: '2px 8px', cursor: 'pointer' }}
+            >
+              {showMissionBanner ? 'Gizle' : 'Ac'}
+            </button>
+          </div>
+          {showMissionBanner && (
+            <div style={{ padding: '0 14px 8px', fontSize: 12, color: 'var(--text)' }}>{mission.desc}</div>
+          )}
         </div>
       )}
 
