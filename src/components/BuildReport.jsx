@@ -45,7 +45,7 @@ export default function BuildReport({ mission, stats, result, mode, onRetry, onM
   ]
 
   return (
-    <div style={{ height:'100vh', overflow:'auto', background: mission?.bgGradient || 'linear-gradient(135deg,#060810,#0f172a)', padding:24 }}>
+    <div style={{ height:'100vh', overflow:'auto', background: mission?.bgGradient || 'linear-gradient(135deg,#060810,#0f172a)', padding:isMobile?12:24 }}>
       <div style={{ maxWidth:1180, margin:'0 auto', display:'flex', flexDirection:'column', gap:16 }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:isMobile?'flex-start':'center', flexDirection:isMobile?'column':'row', gap:isMobile?8:0 }}>
           <div>
