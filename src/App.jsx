@@ -4,7 +4,7 @@ import { calculateStats } from './engine/statEngine'
 import { getCompatAlerts } from './engine/compat'
 import MissionSelect from './components/MissionSelect'
 import PartSelector from './components/PartSelector'
-import DroneCenter from './components/DroneCenter'
+import DroneCenter from './components/svg/DroneCenter'
 import StatPanel from './components/StatPanel'
 import BottomBar from './components/BottomBar'
 import TestFlight from './components/TestFlight'
@@ -43,18 +43,7 @@ export default function App() {
 
   const handleSelect = useCallback((group, id) => {
     setSelected((prev) => {
-      const next = { ...prev, [group]: id }
-      const nextBuild = {
-        frame: getPart('frames', next.frame),
-        motor: getPart('motors', next.motor),
-        prop: getPart('props', next.prop),
-        battery: getPart('batteries', next.battery),
-        software: getPart('software', next.software),
-      }
-      const nextStats = calculateStats(nextBuild.frame, nextBuild.motor, nextBuild.prop, nextBuild.battery, nextBuild.software)
-      const nextAlerts = getCompatAlerts(nextBuild.frame, nextBuild.motor, nextBuild.prop, nextBuild.battery, nextBuild.software, nextStats)
-      const hasCritical = nextAlerts.some((a) => a.type === 'critical')
-      return hasCritical ? prev : next
+      return { ...prev, [group]: id }
     })
   }, [])
 
@@ -176,7 +165,14 @@ export default function App() {
       </div>
 
       {/* BOTTOM */}
-      <BottomBar compatAlerts={compatAlerts} stats={stats}/>
+      <BottomBar
+        compatAlerts={compatAlerts}
+        stats={stats}
+        onTestFlight={handleTestFlight}
+        onReset={handleReset}
+        allSelected={allSelected}
+        mission={mission}
+      />
     </div>
   )
 }

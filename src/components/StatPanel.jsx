@@ -28,7 +28,7 @@ function RadarChart({ stats, size=160 }) {
   return <canvas ref={ref} width={size} height={size}/>
 }
 
-export default function StatPanel({ stats, compatAlerts, mission, onTestFlight, onReset, allSelected }) {
+export default function StatPanel({ stats, compatAlerts }) {
   if (!stats) return null
   const compatStatus = getCompatStatus(compatAlerts||[])
   const warnings = (compatAlerts||[]).filter(a=>a.type!=='info')
@@ -97,26 +97,6 @@ export default function StatPanel({ stats, compatAlerts, mission, onTestFlight, 
         </div>
       </div>
 
-      {/* Bottom buttons */}
-      <div style={{padding:10,borderTop:'1px solid var(--border)',flexShrink:0,display:'flex',flexDirection:'column',gap:6}}>
-        <button onClick={onTestFlight} disabled={!allSelected}
-          style={{
-            width:'100%', padding:'12px', borderRadius:8, cursor:allSelected?'pointer':'not-allowed',
-            background: allSelected ? (mission?.color||'#22c55e') : 'var(--bg4)',
-            border:'none', color: allSelected ? '#000' : 'var(--text3)',
-            fontFamily:'var(--display)', fontSize:14, fontWeight:700,
-            letterSpacing:1, textTransform:'uppercase', display:'flex', alignItems:'center', justifyContent:'center', gap:8,
-            boxShadow: allSelected ? `0 0 20px ${mission?.color||'#22c55e'}44` : 'none',
-            transition:'all 0.2s',
-          }}
-        >
-          <span style={{fontSize:16}}>▶</span>
-          TEST UÇUŞUNA GÖNDER
-        </button>
-        <button onClick={onReset} style={{width:'100%',padding:'8px',borderRadius:6,background:'transparent',border:'1px solid var(--border2)',color:'var(--text2)',fontFamily:'var(--display)',fontSize:13,fontWeight:600,cursor:'pointer',letterSpacing:1,textTransform:'uppercase'}}>
-          ↺ TASARIMI SIFIRLA
-        </button>
-      </div>
     </div>
   )
 }

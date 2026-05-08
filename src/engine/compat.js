@@ -15,7 +15,7 @@ export function getCompatAlerts(frame, motor, prop, battery, software, stats) {
   if (cells === 1 && ['2207', '2806'].includes(motorClass)) {
     alerts.push({ type:'critical', msg:`1S batarya bu motor sınıfı için yetersiz kalır.${pidNote}` })
   }
-  if (prop?.id === 'prop_31mm_3blade' && ['x', 'stretched', 'lr'].includes(frameType)) {
+  if (prop?.id === '31mm_3b' && ['x', 'stretched', 'lr'].includes(frameType)) {
     alerts.push({ type:'critical', msg:`31mm pervane bu büyük frame ile kullanılamaz.${pidNote}` })
   }
 
