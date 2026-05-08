@@ -34,13 +34,13 @@ export default function StatPanel({ stats, compatAlerts, mission, onTestFlight, 
   const warnings = (compatAlerts||[]).filter(a=>a.type!=='info')
 
   return (
-    <div style={{background:'rgba(12,16,28,0.65)',backdropFilter:'blur(12px)',borderLeft:'1px solid var(--border)',display:'flex',flexDirection:'column',height:'100%',overflow:'hidden'}}>
+    <div style={{background:'rgba(12,16,28,0.65)',backdropFilter:'blur(12px)',borderLeft:'1px solid var(--border)',display:'flex',flexDirection:'column',height:'100%',minHeight:0,overflow:'hidden'}}>
       {/* Title */}
       <div style={{padding:'10px 14px',borderBottom:'1px solid var(--border)',flexShrink:0}}>
         <div style={{fontFamily:'var(--mono)',fontSize:11,letterSpacing:3,color:'var(--text3)',textTransform:'uppercase'}}>PERFORMANS GÖSTERGELERİ</div>
       </div>
 
-      <div style={{flex:1,overflowY:'auto',padding:'12px 14px',display:'flex',flexDirection:'column',gap:8}}>
+      <div style={{flex:1,minHeight:0,overflowY:'auto',padding:'12px 14px',display:'flex',flexDirection:'column',gap:8}}>
         {/* Stat bars */}
         {STAT_KEYS.map(k => {
           const val = stats[k]||0

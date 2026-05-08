@@ -88,7 +88,7 @@ export default function App() {
       : { gridTemplateColumns:'320px 1fr 340px', gridTemplateRows:'64px 1fr auto' }
 
   return (
-    <div style={{display:'grid',...designGrid,height:'100vh',background:'radial-gradient(circle at 50% -20%, #101e34 0%, #060810 60%)',overflow:isMobile?'auto':'hidden'}}>
+    <div style={{display:'grid',...designGrid,height:'100dvh',background:'radial-gradient(circle at 50% -20%, #101e34 0%, #060810 60%)',overflowY:isMobile?'auto':'hidden',overflowX:'hidden'}}>
 
       {/* HEADER */}
       <header style={{
@@ -146,17 +146,17 @@ export default function App() {
       </header>
 
       {/* LEFT */}
-      <div style={{minHeight:isMobile?300:'auto'}}>
+      <div style={{minHeight:isMobile?300:0,overflow:isMobile?'visible':'hidden'}}>
         <PartSelector selected={selected} onSelect={handleSelect}/>
       </div>
 
       {/* CENTER */}
-      <div style={{minHeight:isMobile?420:'auto'}}>
+      <div style={{minHeight:isMobile?420:0,overflow:isMobile?'visible':'hidden'}}>
         <DroneCenter selected={selected} mission={mode === 'challenge' ? mission : null}/>
       </div>
 
       {/* RIGHT */}
-      <div style={{minHeight:isMobile?440:'auto'}}>
+      <div style={{minHeight:isMobile?440:0,overflow:isMobile?'visible':'hidden'}}>
         <StatPanel
           stats={stats}
           compatAlerts={compatAlerts}

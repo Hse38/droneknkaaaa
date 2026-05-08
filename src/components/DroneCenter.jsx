@@ -65,7 +65,7 @@ function LayerItem({ src, alt, width, height, fallback, animationName, tint, rou
 }
 
 export default function DroneCenter({ selected, mission }) {
-  const { isMobile, isTablet } = useViewport()
+  const { width, isMobile, isTablet } = useViewport()
   const frame    = getPart('frames',   selected.frame)
   const motor    = getPart('motors',   selected.motor)
   const prop     = getPart('props',    selected.prop)
@@ -77,7 +77,8 @@ export default function DroneCenter({ selected, mission }) {
     { x: 120, y: 280 },
     { x: 280, y: 280 },
   ]
-  const sceneSize = isMobile ? 280 : isTablet ? 340 : 400
+  const maxByViewport = Math.max(240, Math.min(width - (isMobile ? 36 : isTablet ? 80 : 120), isTablet ? 360 : 420))
+  const sceneSize = isMobile ? Math.max(240, Math.min(300, maxByViewport)) : isTablet ? Math.max(280, Math.min(360, maxByViewport)) : 400
   const center = sceneSize / 2
   const scale = sceneSize / 400
   const scaledPoints = motorPoints.map((p) => ({ x: p.x * scale, y: p.y * scale }))
@@ -91,7 +92,7 @@ export default function DroneCenter({ selected, mission }) {
   ]
 
   return (
-    <div style={{display:'flex',flexDirection:'column',height:'100%',background:'var(--bg)',overflow:'hidden'}}>
+    <div style={{display:'flex',flexDirection:'column',height:'100%',minHeight:0,background:'var(--bg)',overflow:'hidden'}}>
 
       {/* Mission banner */}
       {mission && (
@@ -117,15 +118,15 @@ export default function DroneCenter({ selected, mission }) {
       )}
 
       {/* Drone viewer */}
-      <div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',position:'relative',overflow:'hidden'}}>
+      <div style={{flex:1,minHeight:0,display:'flex',alignItems:'center',justifyContent:'center',position:'relative',overflowY:isMobile?'auto':'hidden',overflowX:'hidden'}}>
         {/* Grid bg */}
         <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px)',backgroundSize:'50px 50px',pointerEvents:'none'}}/>
         {/* Glow circle */}
         <div style={{position:'absolute',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%)',pointerEvents:'none'}}/>
 
-        <div style={{position:'relative',zIndex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
+        <div style={{position:'relative',zIndex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:8,padding:isMobile?'12px 0':'0'}}>
           {/* Label */}
-          <div style={{fontFamily:'var(--mono)',fontSize:11,letterSpacing:2,color:'var(--text3)',border:'1px solid var(--border)',borderRadius:4,padding:'4px 10px',display:'flex',gap:12}}>
+          <div style={{fontFamily:'var(--mono)',fontSize:isMobile?10:11,letterSpacing:2,color:'var(--text3)',border:'1px solid var(--border)',borderRadius:4,padding:'4px 10px',display:'flex',gap:12,flexWrap:'wrap',justifyContent:'center',textAlign:'center',maxWidth:isMobile?Math.max(220, sceneSize):'none'}}>
             <span>↩ Modeli döndürmek için sürükle</span>
             <span>•</span>
             <span>Yakınlaştır/Uzaklaştır: Kaydır</span>

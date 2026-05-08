@@ -55,7 +55,7 @@ export default function PartSelector({ selected, onSelect }) {
   }[key] || key)
 
   return (
-    <div style={{background:'rgba(12,16,28,0.65)',backdropFilter:'blur(12px)',borderRight:'1px solid var(--border)',display:'flex',flexDirection:'column',height:'100%',overflow:'hidden'}}>
+    <div style={{background:'rgba(12,16,28,0.65)',backdropFilter:'blur(12px)',borderRight:'1px solid var(--border)',display:'flex',flexDirection:'column',height:'100%',minHeight:0,overflow:'hidden'}}>
       {/* Header */}
       <div style={{padding:'12px 14px',borderBottom:'1px solid var(--border)',flexShrink:0}}>
         <div style={{fontFamily:'var(--mono)',fontSize:11,letterSpacing:3,color:'var(--accent)',textTransform:'uppercase'}}>.. BİLEŞEN SEÇİMİ</div>
@@ -63,7 +63,7 @@ export default function PartSelector({ selected, onSelect }) {
       </div>
 
       {/* Sections */}
-      <div ref={listRef} style={{flex:1,overflowY:'auto'}}>
+      <div ref={listRef} style={{flex:1,minHeight:0,overflowY:'auto'}}>
         {SECTIONS.map(section => {
           return (
             <div key={section.key} style={{borderBottom:'1px solid var(--border)'}}>
