@@ -73,7 +73,13 @@ export default function App() {
   const handleTestFlight = () => setScreen('flight')
   const handleRetry = () => { setSelected(DEFAULT_BUILD); setScreen('design') }
   const handleMissions = () => setScreen('mode')
-  const handleReset = () => setSelected(DEFAULT_BUILD)
+  const handleReset = () => setSelected({
+    frame: null,
+    motor: null,
+    prop: null,
+    battery: null,
+    software: null,
+  })
   const handleBuildGuide = () => setScreen('buildguide')
 
   if (screen === 'mode') return <MissionSelect view='mode' onChallengeMode={handleChallengeMode} onFreeBuild={handleFreeBuild} />

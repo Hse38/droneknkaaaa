@@ -48,6 +48,12 @@ export default function DroneCenter({ selected, mission }) {
     dragRef.current = { x: event.clientX, y: event.clientY, rotX: rotation.x, rotY: rotation.y }
   }
 
+  const handleWheel = (event) => {
+    event.preventDefault()
+    const dir = event.deltaY < 0 ? 1 : -1
+    setZoom((prev) => clamp(prev + dir * 0.12, 0.55, 2.2))
+  }
+
   useEffect(() => {
     if (!isDragging) return undefined
     const onMove = (event) => {
@@ -77,7 +83,7 @@ export default function DroneCenter({ selected, mission }) {
       )}
 
       <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: isMobile ? 'column' : 'row', overflow: 'hidden' }}>
-        <div style={{ flex: 1, minHeight: isMobile ? 320 : 0, position: 'relative', overflow: 'hidden' }}>
+        <div style={{ flex: 1, minHeight: isMobile ? 320 : 0, position: 'relative', overflow: 'hidden' }} onWheel={handleWheel}>
           <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none' }} />
           <div
             onMouseDown={handleMouseDown}
