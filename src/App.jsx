@@ -11,7 +11,7 @@ import TestFlight from './components/TestFlight'
 import BuildYourDrone from './components/BuildYourDrone'
 import { useViewport } from './hooks/useViewport'
 
-const TABS = ['TASARIM','GÖREVLER','TEST UÇUŞU','RAPOR']
+const TABS = ['TASARIM','GÖREVLER']
 const EMPTY_SELECTION = {
   frame: null,
   motor: null,
@@ -129,7 +129,7 @@ export default function App() {
         {/* Tabs */}
         <div style={{display:'flex',gap:2,overflowX:isMobile?'auto':'visible',maxWidth:isMobile?'100%':'none'}}>
           {TABS.map(t => (
-            <button key={t} onClick={()=>{ if(t==='GÖREVLER') handleMissions(); else if(t==='TEST UÇUŞU') handleTestFlight(); else setTab(t) }}
+            <button key={t} onClick={()=>{ if(t==='GÖREVLER') handleMissions(); else setTab(t) }}
               style={{
                 padding:isMobile?'8px 12px':'10px 18px', borderRadius:8, border:'none', cursor:'pointer',
                 background: tab===t ? (mission?.color||'var(--accent)') : 'var(--bg3)',
@@ -138,7 +138,7 @@ export default function App() {
                 transition:'all 0.15s',
               }}
             >
-              {t==='TASARIM'?'✂ ':t==='GÖREVLER'?'⏰ ':t==='TEST UÇUŞU'?'🎮 ':'📋 '}{t}
+              {t==='TASARIM'?'✂ ':'⏰ '}{t}
             </button>
           ))}
         </div>
