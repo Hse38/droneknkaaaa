@@ -10,12 +10,6 @@ const BASE_SECTIONS = [
   { key: 'software', label: 'YAZILIM PROFİLİ', num: 5, total: 6, icon: '💻', items: PARTS.software },
 ]
 
-const ORDER = ['frame', 'motor', 'prop', 'battery', 'software']
-
-function getFirstIncompleteSection(selected) {
-  return ORDER.find((k) => !selected?.[k]) || null
-}
-
 function PartImage({ sectionKey, part, size = 48 }) {
   const boxStyle = {
     width: size,
@@ -38,7 +32,7 @@ function PartImage({ sectionKey, part, size = 48 }) {
 }
 
 export default function PartSelector({ selected, onSelect }) {
-  const [openSection, setOpenSection] = React.useState(() => getFirstIncompleteSection(selected) || 'frame')
+  const [openSection, setOpenSection] = React.useState('frame')
   const [queries, setQueries] = React.useState({
     frame: '',
     motor: '',
@@ -88,17 +82,6 @@ export default function PartSelector({ selected, onSelect }) {
     dayaniklilik: 'Dayanim',
     sistemRiski: 'Risk',
   }[key] || key)
-
-  React.useEffect(() => {
-    const firstIncomplete = getFirstIncompleteSection(selected)
-    if (!firstIncomplete) {
-      setOpenSection(null)
-      return
-    }
-    if (!openSection || (selected?.[openSection] && openSection !== firstIncomplete)) {
-      setOpenSection(firstIncomplete)
-    }
-  }, [selected?.frame, selected?.motor, selected?.prop, selected?.battery, selected?.software])
 
   const handleToggleSection = (key) => {
     setOpenSection((prev) => (prev === key ? null : key))
@@ -178,13 +161,6 @@ export default function PartSelector({ selected, onSelect }) {
                       onClick={() => {
                         if (disabled) return
                         onSelect(section.key, part.id)
-                        const currentIdx = ORDER.indexOf(section.key)
-                        const nextEmpty = ORDER.slice(currentIdx + 1).find((g) => {
-                          if (g === section.key) return false
-                          return g === section.key ? false : !selected?.[g]
-                        })
-                        if (nextEmpty) setOpenSection(nextEmpty)
-                        else setOpenSection(null)
                       }}
                       style={{
                         padding: '10px 14px',
