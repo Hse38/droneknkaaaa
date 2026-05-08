@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getPart } from '../data/parts'
+import { useViewport } from '../hooks/useViewport'
 
 // Part image with fallback
 function PartImg({ part, size=56 }) {
@@ -64,6 +65,7 @@ function LayerItem({ src, alt, width, height, fallback, animationName, tint, rou
 }
 
 export default function DroneCenter({ selected, mission }) {
+  const { isMobile, isTablet } = useViewport()
   const frame    = getPart('frames',   selected.frame)
   const motor    = getPart('motors',   selected.motor)
   const prop     = getPart('props',    selected.prop)
@@ -75,6 +77,10 @@ export default function DroneCenter({ selected, mission }) {
     { x: 120, y: 280 },
     { x: 280, y: 280 },
   ]
+  const sceneSize = isMobile ? 280 : isTablet ? 340 : 400
+  const center = sceneSize / 2
+  const scale = sceneSize / 400
+  const scaledPoints = motorPoints.map((p) => ({ x: p.x * scale, y: p.y * scale }))
 
   const parts = [
     { label:'FRAME',          part:frame },
@@ -129,8 +135,8 @@ export default function DroneCenter({ selected, mission }) {
           <div
             style={{
               position: 'relative',
-              width: 400,
-              height: 400,
+              width: sceneSize,
+              height: sceneSize,
               animation: 'float 3s ease-in-out infinite',
               filter: `drop-shadow(0 0 36px ${frame?.color || '#00d4ff'}66)`,
             }}
@@ -140,8 +146,8 @@ export default function DroneCenter({ selected, mission }) {
                 position: 'absolute',
                 left: '50%',
                 top: '50%',
-                width: 330,
-                height: 330,
+                width: 330 * scale,
+                height: 330 * scale,
                 transform: 'translate(-50%, -50%)',
                 borderRadius: '50%',
                 background: `radial-gradient(circle, ${frame?.color || '#00d4ff'}33 0%, transparent 70%)`,
@@ -150,12 +156,12 @@ export default function DroneCenter({ selected, mission }) {
             />
 
             {/* 1) Frame center */}
-            <div style={{ position: 'absolute', left: 200, top: 200, width: 200, height: 200, transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>
+            <div style={{ position: 'absolute', left: center, top: center, width: 200 * scale, height: 200 * scale, transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>
               <LayerItem
                 src={frame?.image}
                 alt={frame?.name || 'frame'}
-                width={200}
-                height={200}
+                width={200 * scale}
+                height={200 * scale}
                 fallback={frame?.fallbackEmoji || '🛸'}
                 tint={frame?.color}
                 rounded={false}
@@ -163,15 +169,15 @@ export default function DroneCenter({ selected, mission }) {
             </div>
 
             {/* 2) Motor and 3) Prop at corners */}
-            {motorPoints.map((point, i) => (
+            {scaledPoints.map((point, i) => (
               <React.Fragment key={i}>
                 <div
                   style={{
                     position: 'absolute',
                     left: point.x,
                     top: point.y,
-                    width: 70,
-                    height: 70,
+                    width: 70 * scale,
+                    height: 70 * scale,
                     transform: 'translate(-50%, -50%)',
                     display: 'flex',
                     alignItems: 'center',
@@ -182,8 +188,8 @@ export default function DroneCenter({ selected, mission }) {
                   <LayerItem
                     src={motor?.image}
                     alt={motor?.name || 'motor'}
-                    width={70}
-                    height={70}
+                    width={70 * scale}
+                    height={70 * scale}
                     fallback={motor?.fallbackEmoji || '⚙️'}
                     animationName='spinMotor 0.45s linear infinite'
                     tint={motor?.color}
@@ -194,8 +200,8 @@ export default function DroneCenter({ selected, mission }) {
                     position: 'absolute',
                     left: point.x,
                     top: point.y,
-                    width: 80,
-                    height: 80,
+                    width: 80 * scale,
+                    height: 80 * scale,
                     transform: 'translate(-50%, -50%)',
                     display: 'flex',
                     alignItems: 'center',
@@ -206,8 +212,8 @@ export default function DroneCenter({ selected, mission }) {
                   <LayerItem
                     src={prop?.image}
                     alt={prop?.name || 'prop'}
-                    width={80}
-                    height={80}
+                    width={80 * scale}
+                    height={80 * scale}
                     fallback={prop?.fallbackEmoji || '🌀'}
                     animationName='spinProp 0.2s linear infinite'
                     tint={prop?.color}
@@ -217,12 +223,12 @@ export default function DroneCenter({ selected, mission }) {
             ))}
 
             {/* 4) Battery bottom center */}
-            <div style={{ position: 'absolute', left: 200, top: 340, width: 90, height: 60, transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
+            <div style={{ position: 'absolute', left: center, top: 340 * scale, width: 90 * scale, height: 60 * scale, transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
               <LayerItem
                 src={battery?.image}
                 alt={battery?.name || 'battery'}
-                width={90}
-                height={60}
+                width={90 * scale}
+                height={60 * scale}
                 fallback={battery?.fallbackEmoji || '🔋'}
                 animationName='softPulse 1.4s ease-in-out infinite'
                 tint={battery?.color}
@@ -231,12 +237,12 @@ export default function DroneCenter({ selected, mission }) {
             </div>
 
             {/* 5) Software top center */}
-            <div style={{ position: 'absolute', left: 200, top: 52, width: 70, height: 70, transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
+            <div style={{ position: 'absolute', left: center, top: 52 * scale, width: 70 * scale, height: 70 * scale, transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
               <LayerItem
                 src={software?.image}
                 alt={software?.name || 'software'}
-                width={70}
-                height={70}
+                width={70 * scale}
+                height={70 * scale}
                 fallback={software?.fallbackEmoji || '💻'}
                 animationName='softPulse 1.1s ease-in-out infinite'
                 tint={software?.color}
@@ -251,9 +257,9 @@ export default function DroneCenter({ selected, mission }) {
         <div style={{padding:'6px 14px',borderBottom:'1px solid var(--border)'}}>
           <div style={{fontFamily:'var(--mono)',fontSize:9,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase'}}>SEÇİLİ BİLEŞEN BİLGİLERİ</div>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:0}}>
+        <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':isTablet?'repeat(2,1fr)':'repeat(5,1fr)',gap:0}}>
           {parts.map(({label, part}, i) => (
-            <div key={label} style={{padding:'10px 12px',borderRight:i<4?'1px solid var(--border)':'none'}}>
+            <div key={label} style={{padding:'10px 12px',borderRight:(!isMobile && !isTablet && i<4)?'1px solid var(--border)':'none',borderBottom:(isMobile || isTablet) && i < parts.length-1 ? '1px solid var(--border)' : 'none'}}>
               <div style={{fontFamily:'var(--mono)',fontSize:8,color:'var(--text3)',letterSpacing:1,marginBottom:4,textTransform:'uppercase'}}>{label}</div>
               {part ? (
                 <>

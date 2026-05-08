@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { STAT_KEYS, STAT_DISPLAY, STAT_COLORS, STAT_ICONS } from '../engine/statEngine'
 import { analyzeArchetype } from '../engine/archetypeEngine'
 import { recommendSims } from '../engine/simRecommender'
+import { useViewport } from '../hooks/useViewport'
 
 function metricColor(v) {
   if (v >= 75) return '#22c55e'
@@ -10,6 +11,7 @@ function metricColor(v) {
 }
 
 export default function BuildReport({ mission, stats, result, mode, onRetry, onMissions, onNewMission }) {
+  const { isMobile, isTablet } = useViewport()
   const archetype = useMemo(() => analyzeArchetype(stats), [stats])
   const sims = useMemo(() => recommendSims(stats), [stats])
   const [fill, setFill] = useState(false)
@@ -45,12 +47,12 @@ export default function BuildReport({ mission, stats, result, mode, onRetry, onM
   return (
     <div style={{ height:'100vh', overflow:'auto', background: mission?.bgGradient || 'linear-gradient(135deg,#060810,#0f172a)', padding:24 }}>
       <div style={{ maxWidth:1180, margin:'0 auto', display:'flex', flexDirection:'column', gap:16 }}>
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:isMobile?'flex-start':'center', flexDirection:isMobile?'column':'row', gap:isMobile?8:0 }}>
           <div>
             <div style={{ fontFamily:'var(--mono)', color: mission?.color || 'var(--accent)', letterSpacing:2, fontSize:11 }}>BUILD ANALYSIS REPORT</div>
-            <div style={{ fontFamily:'var(--display)', fontSize:34, fontWeight:700 }}>{mission?.title || 'Free Build Raporu'}</div>
+            <div style={{ fontFamily:'var(--display)', fontSize:isMobile?26:34, fontWeight:700 }}>{mission?.title || 'Free Build Raporu'}</div>
           </div>
-          <div style={{ fontFamily:'var(--display)', fontSize:54, fontWeight:800, color: metricColor(result.total) }}>{showScore}</div>
+          <div style={{ fontFamily:'var(--display)', fontSize:isMobile?42:54, fontWeight:800, color: metricColor(result.total) }}>{showScore}</div>
         </div>
 
         <div style={{ background:'rgba(255,255,255,0.03)', border:'1px solid var(--border)', borderRadius:12, padding:14 }}>
@@ -68,7 +70,7 @@ export default function BuildReport({ mission, stats, result, mode, onRetry, onM
           ))}
         </div>
 
-        <div style={{ display:'grid', gridTemplateColumns:'1.1fr 0.9fr', gap:14 }}>
+        <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1.1fr 0.9fr', gap:14 }}>
           <div style={{ background:'rgba(255,255,255,0.03)', border:'1px solid var(--border)', borderRadius:12, padding:14 }}>
             <div style={{ fontFamily:'var(--mono)', fontSize:10, letterSpacing:2, marginBottom:10 }}>DRONE CHARACTER ANALYSIS</div>
             <div style={{ border:'1px solid var(--border2)', borderRadius:10, padding:12, background:'rgba(0,0,0,0.15)', marginBottom:10 }}>
@@ -99,7 +101,7 @@ export default function BuildReport({ mission, stats, result, mode, onRetry, onM
           </div>
         </div>
 
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+        <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr', gap:14 }}>
           <div style={{ background:'rgba(20,120,70,0.15)', border:'1px solid rgba(34,197,94,0.35)', borderRadius:12, padding:14 }}>
             <div style={{ fontFamily:'var(--mono)', fontSize:10, marginBottom:8 }}>GÜÇLÜ YÖNLER</div>
             {strengths.map((k) => <div key={k} style={{ fontSize:13, marginBottom:5 }}>✓ {STAT_DISPLAY[k]} ({stats[k]})</div>)}
@@ -112,7 +114,7 @@ export default function BuildReport({ mission, stats, result, mode, onRetry, onM
 
         <div style={{ background:'rgba(255,255,255,0.03)', border:'1px solid var(--border)', borderRadius:12, padding:14 }}>
           <div style={{ fontFamily:'var(--mono)', fontSize:10, letterSpacing:2, marginBottom:10 }}>SİMÜLASYON ARAÇ ÖNERİLERİ</div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:10 }}>
+          <div style={{ display:'grid', gridTemplateColumns:isMobile?'1fr':isTablet?'repeat(2,1fr)':'repeat(3, 1fr)', gap:10 }}>
             {sims.map((s) => (
               <div key={s.id} style={{ border:'1px solid var(--border2)', borderRadius:10, padding:10, background:'rgba(0,0,0,0.15)' }}>
                 <div style={{ fontFamily:'var(--display)', fontSize:18, fontWeight:700 }}>{s.name}</div>
@@ -131,7 +133,7 @@ export default function BuildReport({ mission, stats, result, mode, onRetry, onM
           {notes.slice(0, 3).map((n, i) => <div key={i} style={{ marginBottom:6, fontSize:13 }}>📚 {n}</div>)}
         </div>
 
-        <div style={{ display:'flex', justifyContent:'center', gap:10 }}>
+        <div style={{ display:'flex', justifyContent:'center', gap:10, flexWrap:'wrap' }}>
           <button onClick={onRetry} style={{ padding:'10px 16px', borderRadius:8, border:'1px solid var(--border2)', background:'transparent', color:'var(--text)' }}>TEKRAR TASARLA</button>
           <button onClick={onMissions} style={{ padding:'10px 16px', borderRadius:8, border:'1px solid var(--border2)', background:'transparent', color:'var(--text)' }}>GÖREV SEÇİMİ</button>
           <button onClick={onNewMission} style={{ padding:'10px 16px', borderRadius:8, border:'none', background: mission?.color || 'var(--accent)', color:'#000', fontWeight:700 }}>YENİ GÖREV</button>

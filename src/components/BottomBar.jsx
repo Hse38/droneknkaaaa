@@ -1,6 +1,8 @@
 import React from 'react'
+import { useViewport } from '../hooks/useViewport'
 
 export default function BottomBar({ compatAlerts, stats }) {
+  const { isMobile } = useViewport()
   const visible = (compatAlerts||[]).filter(a => a.type !== 'info').slice(0,3)
   if (!visible.length && !stats) return null
 
@@ -10,9 +12,9 @@ export default function BottomBar({ compatAlerts, stats }) {
   return (
     <div style={{
       gridColumn:'1 / -1',
-      display:'grid', gridTemplateColumns:'1fr 1fr',
+      display:'grid', gridTemplateColumns:isMobile?'1fr':'1fr 1fr',
       borderTop:'1px solid var(--border)', background:'rgba(10,14,24,0.78)', backdropFilter:'blur(10px)',
-      maxHeight:70, flexShrink:0,
+      maxHeight:isMobile?120:70, flexShrink:0,
     }}>
       {/* Left: alerts */}
       <div style={{padding:'6px 14px',borderRight:'1px solid var(--border)',display:'flex',flexDirection:'column',gap:4,justifyContent:'center'}}>
@@ -31,7 +33,7 @@ export default function BottomBar({ compatAlerts, stats }) {
 
       {/* Right: quick stats */}
       {stats && (
-        <div style={{padding:'6px 14px',display:'flex',alignItems:'center',gap:20}}>
+        <div style={{padding:'6px 14px',display:'flex',alignItems:'center',gap:isMobile?10:20,flexWrap:isMobile?'wrap':'nowrap'}}>
           <div style={{fontFamily:'var(--mono)',fontSize:8,letterSpacing:2,color:'var(--text3)',textTransform:'uppercase',marginRight:4}}>HIZLI ÖZET</div>
           {[
             {l:'Hız',v:`${stats.maxHiz} km/s`},

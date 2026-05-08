@@ -8,10 +8,12 @@ import DroneCenter from './components/DroneCenter'
 import StatPanel from './components/StatPanel'
 import BottomBar from './components/BottomBar'
 import TestFlight from './components/TestFlight'
+import { useViewport } from './hooks/useViewport'
 
 const TABS = ['TASARIM','GÖREVLER','TEST UÇUŞU','RAPOR']
 
 export default function App() {
+  const { isMobile, isTablet } = useViewport()
   const [screen, setScreen]   = useState('mission')
   const [mission, setMission] = useState(null)
   const [mode, setMode] = useState('challenge')
@@ -79,8 +81,14 @@ export default function App() {
   if (screen === 'mission') return <MissionSelect onSelect={handleMissionSelect} onFreeBuild={handleFreeBuild} scores={scores}/>
   if (screen === 'flight')  return <TestFlight mission={mission} mode={mode} stats={stats} selected={selected} compatAlerts={compatAlerts} onRetry={handleRetry} onMissions={handleMissions} onNewMission={handleMissions}/>
 
+  const designGrid = isMobile
+    ? { gridTemplateColumns:'1fr', gridTemplateRows:'64px auto auto auto auto' }
+    : isTablet
+      ? { gridTemplateColumns:'270px 1fr 300px', gridTemplateRows:'64px 1fr auto' }
+      : { gridTemplateColumns:'320px 1fr 340px', gridTemplateRows:'64px 1fr auto' }
+
   return (
-    <div style={{display:'grid',gridTemplateColumns:'320px 1fr 340px',gridTemplateRows:'64px 1fr auto',height:'100vh',background:'radial-gradient(circle at 50% -20%, #101e34 0%, #060810 60%)'}}>
+    <div style={{display:'grid',...designGrid,height:'100vh',background:'radial-gradient(circle at 50% -20%, #101e34 0%, #060810 60%)',overflow:'hidden'}}>
 
       {/* HEADER */}
       <header style={{
@@ -138,20 +146,26 @@ export default function App() {
       </header>
 
       {/* LEFT */}
-      <PartSelector selected={selected} onSelect={handleSelect}/>
+      <div style={{minHeight:isMobile?300:'auto'}}>
+        <PartSelector selected={selected} onSelect={handleSelect}/>
+      </div>
 
       {/* CENTER */}
-      <DroneCenter selected={selected} mission={mode === 'challenge' ? mission : null}/>
+      <div style={{minHeight:isMobile?420:'auto'}}>
+        <DroneCenter selected={selected} mission={mode === 'challenge' ? mission : null}/>
+      </div>
 
       {/* RIGHT */}
-      <StatPanel
-        stats={stats}
-        compatAlerts={compatAlerts}
-        mission={mission}
-        onTestFlight={handleTestFlight}
-        onReset={handleReset}
-        allSelected={allSelected}
-      />
+      <div style={{minHeight:isMobile?440:'auto'}}>
+        <StatPanel
+          stats={stats}
+          compatAlerts={compatAlerts}
+          mission={mission}
+          onTestFlight={handleTestFlight}
+          onReset={handleReset}
+          allSelected={allSelected}
+        />
+      </div>
 
       {/* BOTTOM */}
       <BottomBar compatAlerts={compatAlerts} stats={stats}/>

@@ -1,11 +1,14 @@
 import React from 'react'
 import { MISSIONS } from '../data/missions'
+import { useViewport } from '../hooks/useViewport'
 
 export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
+  const { isMobile, isTablet } = useViewport()
+
   return (
     <div style={{
       height:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-      background:'#060810', padding:'44px 40px 26px', gap:28, position:'relative', overflow:'hidden',
+      background:'#060810', padding:isMobile?'22px 14px 14px':isTablet?'30px 24px 18px':'44px 40px 26px', gap:isMobile?16:28, position:'relative', overflow:'auto',
     }}>
       <div style={{position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px)',backgroundSize:'46px 46px',pointerEvents:'none'}}/>
       <div style={{position:'absolute',inset:0,background:'radial-gradient(circle at 18% 12%, rgba(0,212,255,0.10), transparent 32%), radial-gradient(circle at 84% 84%, rgba(124,58,237,0.10), transparent 30%)',pointerEvents:'none'}} />
@@ -19,15 +22,15 @@ export default function MissionSelect({ onSelect, onFreeBuild, scores }) {
             <div style={{fontFamily:'var(--mono)',fontSize:12,letterSpacing:3,color:'var(--text2)',textTransform:'uppercase',marginTop:4}}>PARAMETRİK TASARIM</div>
           </div>
         </div>
-        <h1 style={{fontFamily:'var(--display)',fontSize:52,fontWeight:700,letterSpacing:2,color:'var(--text)',lineHeight:1}}>V2 OPERASYON MENÜSÜ</h1>
-        <p style={{color:'var(--text2)',fontSize:15,marginTop:8}}>Challenge görevleri veya özgür tasarım modu arasında seçim yap.</p>
+        <h1 style={{fontFamily:'var(--display)',fontSize:isMobile?34:52,fontWeight:700,letterSpacing:2,color:'var(--text)',lineHeight:1}}>V2 OPERASYON MENÜSÜ</h1>
+        <p style={{color:'var(--text2)',fontSize:isMobile?13:15,marginTop:8}}>Challenge görevleri veya özgür tasarım modu arasında seçim yap.</p>
       </div>
 
-      <div style={{display:'grid',gridTemplateColumns:'1.3fr 1fr',gap:18,width:'100%',maxWidth:1200,justifyContent:'center',zIndex:1}}>
+      <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':'1.3fr 1fr',gap:18,width:'100%',maxWidth:1200,justifyContent:'center',zIndex:1}}>
         <div>
           <div style={{fontFamily:'var(--display)',fontSize:24,fontWeight:700,marginBottom:4,color:'var(--accent)'}}>CHALLENGE MODE</div>
           <div style={{fontSize:13,color:'var(--text2)',marginBottom:10}}>Göreve uygun drone tasarla, karakterini keşfet</div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(2, minmax(280px, 1fr))',gap:12}}>
+          <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr':isTablet?'repeat(2, minmax(240px, 1fr))':'repeat(2, minmax(280px, 1fr))',gap:12}}>
         {MISSIONS.map((m,i) => {
           const prev = scores?.[m.id]
           return (
