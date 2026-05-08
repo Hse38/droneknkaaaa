@@ -161,23 +161,21 @@ export default function PartSelector({ selected, onSelect }) {
                   const incompatibleProp = section.key === 'prop'
                     && selectedFrame
                     && (part.propSizeInch || 0) > (selectedFrame.maxPropSize || Number.MAX_SAFE_INTEGER)
-                  const disabled = Boolean(incompatibleProp)
 
                   return (
                     <div
                       key={part.id}
                       onClick={() => {
-                        if (disabled) return
                         onSelect(section.key, part.id)
                       }}
                       style={{
                         padding: '10px 14px',
-                        cursor: disabled ? 'not-allowed' : 'pointer',
+                        cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         gap: 10,
                         minHeight: 78,
-                        opacity: disabled ? 0.4 : 1,
+                        opacity: 1,
                         background: isSel ? `${part.color}18` : 'transparent',
                         borderLeft: isSel ? `3px solid ${part.color}` : '3px solid transparent',
                         transition: 'all 0.2s',
@@ -196,7 +194,7 @@ export default function PartSelector({ selected, onSelect }) {
                             <span>{statLabel(statKey)}</span>
                           </div>
                         )}
-                        {disabled && <div style={{ fontSize: 11, color: '#fca5a5', marginTop: 2 }}>Frame max pervane limitini asiyor</div>}
+                        {incompatibleProp && <div style={{ fontSize: 11, color: '#fca5a5', marginTop: 2 }}>Frame max pervane limitini asiyor</div>}
                         {isSel && (
                           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'var(--success)', borderRadius: 3, padding: '1px 6px', animation: 'pulse 1.2s ease-in-out infinite' }}>
                             <span style={{ fontSize: 10, color: '#000', fontFamily: 'var(--mono)', fontWeight: 700, letterSpacing: 1 }}>SECILDI</span>
