@@ -4,7 +4,7 @@ import { getPart } from '../data/parts'
 import { analyzeArchetype } from '../engine/archetypeEngine'
 import BuildReport from './BuildReport'
 import { useViewport } from '../hooks/useViewport'
-import { UnifiedDroneSVG } from './svg/DroneSVGs'
+import { UnifiedDroneSVG } from './svg/DroneSVGsV3'
 
 function FlightAnim({ mission, stats, selected, onDone }) {
   const { isMobile } = useViewport()
@@ -16,7 +16,13 @@ function FlightAnim({ mission, stats, selected, onDone }) {
   const unstable = stats.sistemRiski > 75
   const frame = getPart('frames', selected?.frame)
   const prop = getPart('props', selected?.prop)
-  const primary = analyzeArchetype(stats).primary?.name
+  const primary = analyzeArchetype(stats, {
+    frame: getPart('frames', selected?.frame),
+    motor: getPart('motors', selected?.motor),
+    prop: getPart('props', selected?.prop),
+    battery: getPart('batteries', selected?.battery),
+    software: getPart('software', selected?.software),
+  }).primary?.name
 
   useEffect(() => {
     const tl = primary === 'Tinywhoop' ? [
@@ -118,5 +124,5 @@ export default function TestFlight({ mission, mode, stats, selected, compatAlert
   const result = scoreBuild(scoringMission, stats, compatAlerts)
   return phase === 'flying'
     ? <FlightAnim mission={scoringMission} stats={stats} selected={selected} onDone={()=>setPhase('result')}/>
-    : <BuildReport mission={scoringMission} mode={mode} stats={stats} result={result} onRetry={onRetry} onMissions={onMissions} onNewMission={onNewMission}/>
+    : <BuildReport mission={scoringMission} mode={mode} stats={stats} result={result} selected={selected} onRetry={onRetry} onMissions={onMissions} onNewMission={onNewMission}/>
 }
